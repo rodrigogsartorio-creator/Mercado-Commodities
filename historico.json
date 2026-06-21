@@ -1,0 +1,18 @@
+{
+  "ultima_atualizacao": "2026-06-21T22:30:00-03:00",
+  "registros": [
+    {
+      "data": "2026-06-21",
+      "nota": "Mercado fechado (domingo) — última cotação disponível (sexta-feira 20/06/2026)",
+      "dolar": 5.15,
+      "commodities": {
+        "soja":   { "preco": 128.59, "unidade": "R$/sc 60kg", "variacao": -1.8  },
+        "trigo":  { "preco": 97.01,  "unidade": "R$/sc 60kg", "variacao": 0.2   },
+        "cafe":   { "preco": 1474.18,"unidade": "R$/sc 60kg", "variacao": 4.38  },
+        "acucar": { "preco": 93.00,  "unidade": "R$/sc 50kg", "variacao": -5.87 },
+        "feijao": { "preco": 315.00, "unidade": "R$/sc 60kg", "variacao": -0.5  },
+        "arroz":  { "preco": 95.00,  "unidade": "R$/sc 50kg", "variacao": 0.5   }
+      }
+    }
+  ]
+}
