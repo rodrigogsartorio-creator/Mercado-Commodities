@@ -1,0 +1,68 @@
+name: Atualizar Dashboard de Commodities
+
+on:
+  schedule:
+    # 18:30 BRT = 21:30 UTC (após publicação CEPEA ~18:00 BRT)
+    - cron: '30 21 * * 1-5'  # seg–sex
+  workflow_dispatch:           # permite rodar manualmente
+
+permissions:
+  contents: write
+
+jobs:
+  gerar-dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 5
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependências
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Gerar dashboard
+        run: python3 scripts/gerar_dashboard.py
+        env:
+          PYTHONUNBUFFERED: '1'
+
+      - name: Verificar arquivos gerados
+        run: |
+          ls -lh index.html commodities_*.html historico.json || true
+          python3 -c "
+          import json, sys
+          with open('historico.json') as f:
+              h = json.load(f)
+          regs = h.get('registros', [])
+          print(f'Histórico: {len(regs)} registros')
+          if regs:
+              ultimo = regs[-1]
+              print(f'Último: {ultimo[\"data\"]}')
+              print(f'  soja: {ultimo.get(\"soja\")} — status: {ultimo.get(\"status\",{}).get(\"soja\")}')
+              print(f'  cafe: {ultimo.get(\"cafe_arabica\")} — status: {ultimo.get(\"status\",{}).get(\"cafe_arabica\")}')
+              print(f'  dolar: {ultimo.get(\"dolar\")}')
+          "
+
+      - name: Commit e push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html commodities_*.html historico.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração detectada — dashboard já atualizado."
+          else
+            DATA=$(date +%Y-%m-%d)
+            git commit -m "Dashboard ${DATA}: atualização automática via agrobr/CEPEA"
+            git push origin main
+          fi

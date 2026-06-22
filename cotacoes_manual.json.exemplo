@@ -1,0 +1,45 @@
+{
+  "_instrucoes": "Renomeie este arquivo para cotacoes_manual.json para fornecer valores manualmente. Os valores aqui sobrepõem o que o agrobr buscou. Remova o arquivo após o uso para que a próxima geração use apenas agrobr.",
+  "_exemplo_completo": {
+    "soja": {
+      "valor": 132.84,
+      "var_pct": -0.41,
+      "status": "confirmado_cepea",
+      "fonte": "CEPEA/ESALQ Paranaguá — verificado manualmente em cepea.org.br"
+    },
+    "trigo": {
+      "valor": 82.64,
+      "var_pct": null,
+      "status": "confirmado_cepea",
+      "fonte": "CEPEA/ESALQ — verificado manualmente em cepea.org.br"
+    },
+    "cafe_arabica": {
+      "valor": 1318.67,
+      "var_pct": null,
+      "status": "confirmado_cepea",
+      "fonte": "CEPEA/ESALQ — verificado manualmente em cepea.org.br"
+    },
+    "acucar_cristal": {
+      "valor": 93.24,
+      "var_pct": null,
+      "status": "confirmado_cepea",
+      "fonte": "CEPEA/ESALQ SP — verificado manualmente em cepea.org.br"
+    },
+    "feijao_carioca": {
+      "valor": 415.00,
+      "var_pct": null,
+      "status": "confirmado_cepea",
+      "fonte": "CEPEA/CNA — verificado manualmente em cepea.org.br/br/indicador/feijao.aspx"
+    },
+    "arroz": {
+      "valor": 102.50,
+      "var_pct": null,
+      "status": "confirmado_cepea",
+      "fonte": "CEPEA/IRGA-RS — verificado manualmente em cepea.org.br/br/indicador/arroz.aspx"
+    },
+    "dolar": {
+      "valor": 5.15,
+      "fonte": "BCB PTAX — verificado manualmente"
+    }
+  }
+}
