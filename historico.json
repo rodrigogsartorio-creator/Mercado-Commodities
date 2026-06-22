@@ -1,7 +1,7 @@
 {
   "descricao": "Histórico de cotações de commodities agrícolas — Dashboard Mercado Commodities",
   "atualizacao": "2026-06-22",
-  "nota_historico": "Histórico em formação. Soja: valores confirmados CEPEA/ESALQ Paranaguá (screenshot 22/06/2026). Dólar: implícito dos valores R$/US$ da tabela CEPEA/Soja. Café: 16/06 confirmado (Portal Mais Agro / CEPEA); 19/06 referenciado, não confirmado diretamente. Trigo, Açúcar, Feijão, Arroz: dado não disponível (CEPEA/Agrolink inacessíveis nesta geração).",
+  "nota_historico": "Histórico em formação. Soja: valores confirmados CEPEA/ESALQ Paranaguá (screenshot 22/06/2026). Dólar: implícito CEPEA/Soja + cotação comercial 22/06. Café: 16/06 confirmado (Portal Mais Agro / CEPEA); 19/06 referenciado. Trigo 22/06: referenciado (Barbacena em Tempo / CEPEA, convertido de R$/t). Açúcar 05/06: referenciado (Novacana / CEPEA). Feijão e Arroz: dado não disponível.",
   "unidades": {
     "soja": "R$/saca 60kg (CIF Paranaguá — CEPEA/ESALQ)",
     "trigo": "R$/saca 60kg (Região Sul — CEPEA/ESALQ)",
@@ -131,22 +131,27 @@
       "soja_var_dia": null,
       "soja_us": 25.77,
       "trigo": null,
+      "trigo_ref": 82.64,
+      "trigo_ref_nota": "R$ 1.377,38/t Paraná — Barbacena em Tempo / CEPEA 22/06. Convertido: 1377.38/16.667 = R$ 82,64/sc 60kg",
       "cafe_arabica": null,
       "cafe_arabica_ref": 1318.67,
+      "cafe_arabica_ref_nota": "referenciado via síntese de busca — consistente com artigo CEPEA 'após forte queda, indicador sobe e supera R$ 1.300/sc'",
       "acucar_cristal": null,
+      "acucar_cristal_ref": 93.24,
+      "acucar_cristal_ref_nota": "Novacana.com 09/06/2026 citando CEPEA/ESALQ SP (ICUMSA 130-180) — indicador de 05/06/2026",
       "feijao_carioca": null,
       "arroz": null,
-      "dolar": 5.16,
-      "dolar_fonte": "implícito CEPEA (ref. Sex. 19/06)",
-      "nota": "Abertura de semana (Seg. 22/06). Soja: ref. última cotação confirmada CEPEA (Sex. 19/06). Demais commodities: dado não disponível.",
+      "dolar": 5.15,
+      "dolar_fonte": "cotação comercial 22/06/2026 (ADVFN/Investing: faixa R$ 5,13–5,16). Implícito CEPEA/Soja: R$ 5,155",
+      "nota": "Abertura de semana (Seg. 22/06). Soja: ref. CEPEA 19/06. Trigo: referenciado R$82,64/sc 60kg (R$1.377,38/t PR). Açúcar: referenciado R$93,24/sc 50kg (05/06). Café: ref. 19/06 R$1.318,67. Feijão e arroz: dado não disponível.",
       "status": {
         "soja": "confirmado_cepea_ref_19jun",
-        "trigo": "nao_disponivel",
-        "cafe_arabica": "nao_disponivel",
-        "acucar_cristal": "nao_disponivel",
+        "trigo": "referenciado_22jun_barbacena_cepea",
+        "cafe_arabica": "referenciado_19jun",
+        "acucar_cristal": "referenciado_05jun_novacana_cepea",
         "feijao_carioca": "nao_disponivel",
         "arroz": "nao_disponivel",
-        "dolar": "implícito_cepea"
+        "dolar": "cotacao_comercial_22jun"
       }
     }
   ]
