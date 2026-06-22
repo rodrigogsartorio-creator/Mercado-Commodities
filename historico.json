@@ -1,15 +1,15 @@
 {
   "descricao": "Histórico de cotações de commodities agrícolas — Dashboard Mercado Commodities",
   "atualizacao": "2026-06-22",
-  "nota_historico": "Histórico em formação. Soja: valores confirmados CEPEA/ESALQ Paranaguá (screenshot 22/06/2026). Dólar: implícito CEPEA/Soja + cotação comercial 22/06. Café: 16/06 confirmado (Portal Mais Agro / CEPEA); 19/06 referenciado. Trigo 22/06: referenciado (Barbacena em Tempo / CEPEA, convertido de R$/t). Açúcar 05/06: referenciado (Novacana / CEPEA). Feijão e Arroz: dado não disponível.",
+  "nota_historico": "Histórico em formação (início 15/06/2026). Soja: valores 15–19/06 confirmados CEPEA/ESALQ Paranaguá; 22/06 referenciado Brasil61.com/CEPEA. Trigo 22/06: referenciado Brasil61.com/CEPEA (R$ 1.182,32/t PR convertido a R$/sc). Café: 16/06 confirmado CEPEA (Portal Mais Agro). Açúcar e Feijão: dado não disponível. Arroz 22/06: média mensal junho/26 (eBarn/CEPEA IRGA-RS). Dólar: implícito CEPEA/Soja + Investing.com 22/06.",
   "unidades": {
     "soja": "R$/saca 60kg (CIF Paranaguá — CEPEA/ESALQ)",
-    "trigo": "R$/saca 60kg (Região Sul — CEPEA/ESALQ)",
+    "trigo": "R$/saca 60kg (Região Sul — CEPEA/ESALQ, convertido de R$/t)",
     "cafe_arabica": "R$/saca 60kg (Arábica Tipo 6 — CEPEA/ESALQ)",
     "acucar_cristal": "R$/saca 50kg (ICUMSA 130–180 — CEPEA/ESALQ SP)",
     "feijao_carioca": "R$/saca 60kg (Nota 8,5 SP — CEPEA)",
-    "arroz": "R$/saca 50kg (em casca RS — CEPEA/IRGA-RS)",
-    "dolar": "R$/USD (comercial — implícito tabela CEPEA/Soja)"
+    "arroz": "R$/saca 50kg (irrigado em casca RS — CEPEA/IRGA-RS)",
+    "dolar": "R$/USD (comercial — Investing.com / implícito CEPEA/Soja)"
   },
   "registros": [
     {
@@ -31,7 +31,7 @@
         "acucar_cristal": "nao_disponivel",
         "feijao_carioca": "nao_disponivel",
         "arroz": "nao_disponivel",
-        "dolar": "implícito_cepea"
+        "dolar": "implicito_cepea"
       }
     },
     {
@@ -42,6 +42,7 @@
       "trigo": null,
       "cafe_arabica": 1474.18,
       "cafe_arabica_var_semana": 4.38,
+      "cafe_arabica_nota": "Fechamento terça 16/06 — CEPEA/ESALQ. +4,38% vs 10/06.",
       "acucar_cristal": null,
       "feijao_carioca": null,
       "arroz": null,
@@ -54,7 +55,7 @@
         "acucar_cristal": "nao_disponivel",
         "feijao_carioca": "nao_disponivel",
         "arroz": "nao_disponivel",
-        "dolar": "implícito_cepea"
+        "dolar": "implicito_cepea"
       }
     },
     {
@@ -76,7 +77,7 @@
         "acucar_cristal": "nao_disponivel",
         "feijao_carioca": "nao_disponivel",
         "arroz": "nao_disponivel",
-        "dolar": "implícito_cepea"
+        "dolar": "implicito_cepea"
       }
     },
     {
@@ -98,7 +99,7 @@
         "acucar_cristal": "nao_disponivel",
         "feijao_carioca": "nao_disponivel",
         "arroz": "nao_disponivel",
-        "dolar": "implícito_cepea"
+        "dolar": "implicito_cepea"
       }
     },
     {
@@ -108,8 +109,6 @@
       "soja_us": 25.77,
       "trigo": null,
       "cafe_arabica": null,
-      "cafe_arabica_ref": 1318.67,
-      "cafe_arabica_ref_nota": "valor referenciado via síntese de busca — não confirmado diretamente no CEPEA",
       "acucar_cristal": null,
       "feijao_carioca": null,
       "arroz": null,
@@ -118,40 +117,37 @@
       "status": {
         "soja": "confirmado_cepea",
         "trigo": "nao_disponivel",
-        "cafe_arabica": "nao_disponivel_ref_1318.67",
+        "cafe_arabica": "nao_disponivel",
         "acucar_cristal": "nao_disponivel",
         "feijao_carioca": "nao_disponivel",
         "arroz": "nao_disponivel",
-        "dolar": "implícito_cepea"
+        "dolar": "implicito_cepea"
       }
     },
     {
       "data": "2026-06-22",
-      "soja": 132.84,
-      "soja_var_dia": null,
-      "soja_us": 25.77,
-      "trigo": null,
-      "trigo_ref": 82.64,
-      "trigo_ref_nota": "R$ 1.377,38/t Paraná — Barbacena em Tempo / CEPEA 22/06. Convertido: 1377.38/16.667 = R$ 82,64/sc 60kg",
-      "cafe_arabica": null,
-      "cafe_arabica_ref": 1318.67,
-      "cafe_arabica_ref_nota": "referenciado via síntese de busca — consistente com artigo CEPEA 'após forte queda, indicador sobe e supera R$ 1.300/sc'",
+      "soja": 142.94,
+      "soja_var_dia": 0.30,
+      "soja_nota": "Porto Paranaguá R$ 142,94/sc 60kg (+0,30%). Interior PR R$ 136,10/sc (-0,10%). Fonte: Brasil61.com/CEPEA 22/06/2026. Obs: salto vs indicador CEPEA Jun 19 (R$ 132,84) reflete movimento de mercado entre qui-23/06 e seg-22/06 + possíveis diferenças de referência.",
+      "trigo": 70.94,
+      "trigo_var_dia": -0.18,
+      "trigo_nota": "R$ 1.182,32/t Paraná (-0,18%). RS: R$ 1.041,80/t (+1,19%). Fonte: Brasil61.com/CEPEA 22/06/2026. Convertido: 1182.32/16.667 = R$ 70,94/sc 60kg.",
+      "cafe_arabica": 1474.18,
+      "cafe_arabica_nota": "Última cotação disponível: fechamento CEPEA 16/06/2026. Chuvas em regiões produtoras afetam colheita e sustentam preços na 2ª quinzena de junho.",
       "acucar_cristal": null,
-      "acucar_cristal_ref": 93.24,
-      "acucar_cristal_ref_nota": "Novacana.com 09/06/2026 citando CEPEA/ESALQ SP (ICUMSA 130-180) — indicador de 05/06/2026",
       "feijao_carioca": null,
-      "arroz": null,
+      "arroz": 72.66,
+      "arroz_nota": "Média mensal junho/2026 CEPEA/IRGA-RS (arroz irrigado em casca, sc 50kg). +2,54% vs maio. Fonte: eBarn/CEPEA IRGA-RS.",
       "dolar": 5.15,
-      "dolar_fonte": "cotação comercial 22/06/2026 (ADVFN/Investing: faixa R$ 5,13–5,16). Implícito CEPEA/Soja: R$ 5,155",
-      "nota": "Abertura de semana (Seg. 22/06). Soja: ref. CEPEA 19/06. Trigo: referenciado R$82,64/sc 60kg (R$1.377,38/t PR). Açúcar: referenciado R$93,24/sc 50kg (05/06). Café: ref. 19/06 R$1.318,67. Feijão e arroz: dado não disponível.",
+      "dolar_fonte": "Investing.com 22/06/2026 (faixa R$ 5,13–5,16). Focus BC: previsão fim 2026 R$ 5,20.",
       "status": {
-        "soja": "confirmado_cepea_ref_19jun",
-        "trigo": "referenciado_22jun_barbacena_cepea",
-        "cafe_arabica": "referenciado_19jun",
-        "acucar_cristal": "referenciado_05jun_novacana_cepea",
+        "soja": "referenciado_22jun_brasil61_cepea",
+        "trigo": "referenciado_22jun_brasil61_cepea",
+        "cafe_arabica": "ultima_cotacao_confirmada_16jun_cepea",
+        "acucar_cristal": "nao_disponivel",
         "feijao_carioca": "nao_disponivel",
-        "arroz": "nao_disponivel",
-        "dolar": "cotacao_comercial_22jun"
+        "arroz": "referenciado_media_mensal_jun26_irga",
+        "dolar": "confirmado_22jun_investing"
       }
     }
   ]
