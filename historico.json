@@ -1,0 +1,83 @@
+{
+  "descricao": "Histórico de cotações de commodities agrícolas — Dashboard Mercado Commodities",
+  "atualizacao": "2026-06-22",
+  "nota_historico": "Histórico em formação. Registros importados do dashboard 21/06/2026 (dados: 16–20/jun) + entrada de 22/06. Coleta sistemática iniciada em 22/06/2026.",
+  "unidades": {
+    "soja": "R$/saca 60kg (CIF Paranaguá)",
+    "trigo": "R$/saca 60kg (Região Sul)",
+    "cafe_arabica": "R$/saca 60kg (CEPEA/Esalq Arábica Tipo 6)",
+    "acucar_cristal": "R$/saca 50kg (CEPEA/Esalq SP, ICUMSA 130–180)",
+    "feijao_carioca": "R$/saca 60kg (Nota 8,5 SP)",
+    "arroz": "R$/saca 60kg (em casca, Rio Grande do Sul)",
+    "dolar": "R$/USD (comercial, fechamento)"
+  },
+  "registros": [
+    {
+      "data": "2026-06-16",
+      "soja": 130.90,
+      "trigo": 96.80,
+      "cafe_arabica": 1474.18,
+      "acucar_cristal": 93.00,
+      "feijao_carioca": 316.50,
+      "arroz": 94.20,
+      "dolar": 5.11,
+      "fonte": "Dashboard 21/06/2026 — importado"
+    },
+    {
+      "data": "2026-06-17",
+      "soja": 130.10,
+      "trigo": 96.90,
+      "cafe_arabica": 1468.00,
+      "acucar_cristal": 92.50,
+      "feijao_carioca": 316.00,
+      "arroz": 94.50,
+      "dolar": 5.09,
+      "fonte": "Dashboard 21/06/2026 — importado"
+    },
+    {
+      "data": "2026-06-18",
+      "soja": 129.50,
+      "trigo": 97.00,
+      "cafe_arabica": 1455.00,
+      "acucar_cristal": 92.80,
+      "feijao_carioca": 315.20,
+      "arroz": 94.80,
+      "dolar": 5.12,
+      "fonte": "Dashboard 21/06/2026 — importado"
+    },
+    {
+      "data": "2026-06-19",
+      "soja": 129.20,
+      "trigo": 96.95,
+      "cafe_arabica": 1461.00,
+      "acucar_cristal": 93.10,
+      "feijao_carioca": 315.00,
+      "arroz": 95.10,
+      "dolar": 5.15,
+      "fonte": "Dashboard 21/06/2026 — importado"
+    },
+    {
+      "data": "2026-06-20",
+      "soja": 128.59,
+      "trigo": 97.01,
+      "cafe_arabica": 1474.18,
+      "acucar_cristal": 93.00,
+      "feijao_carioca": 315.00,
+      "arroz": 95.00,
+      "dolar": 5.13,
+      "fonte": "Dashboard 21/06/2026 — importado (ref. últ. cotação Sex. 19–20/jun)"
+    },
+    {
+      "data": "2026-06-22",
+      "soja": 128.59,
+      "trigo": 97.01,
+      "cafe_arabica": 1474.18,
+      "acucar_cristal": 93.00,
+      "feijao_carioca": 315.00,
+      "arroz": 95.00,
+      "dolar": 5.16,
+      "nota": "Abertura da semana — preços ref. última cotação disponível (Sex. 20/06/2026). Mercado aberto em 22/06.",
+      "fonte": "CEPEA / Agrolink / BCB — coleta automática"
+    }
+  ]
+}
