@@ -1,742 +1,685 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Commodities Agrícolas — 22/06/2026</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-  :root {
-    --verde: #27AE60;
-    --vermelho: #E74C3C;
-    --amarelo: #F39C12;
-    --cinza-escuro: #2C3E50;
-    --cinza-medio: #7F8C8D;
-    --cinza-claro: #ECF0F1;
-    --branco: #FFFFFF;
-    --fundo: #F4F6F7;
-    --card-shadow: 0 2px 12px rgba(0,0,0,0.09);
-    --nd-bg: #F8F9FA;
-    --nd-border: #BDC3C7;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--fundo); color: var(--cinza-escuro); }
-
-  header {
-    background: linear-gradient(135deg, #1a5c35 0%, #27AE60 100%);
-    color: white; padding: 24px 32px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 12px;
-  }
-  header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
-  header h1 span { opacity: 0.75; font-size: 1rem; font-weight: 400; display: block; }
-  .header-meta { text-align: right; }
-  .header-meta .data { font-size: 1.1rem; font-weight: 600; }
-  .header-meta .hora { font-size: 0.85rem; opacity: 0.8; }
-  .dolar-badge {
-    background: rgba(255,255,255,0.2); border-radius: 8px;
-    padding: 8px 16px; font-size: 0.9rem;
-  }
-  .dolar-badge strong { font-size: 1.1rem; }
-  .mercado-badge {
-    background: rgba(255,255,255,0.15); border-radius: 8px;
-    padding: 6px 14px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.3);
-  }
-
-  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
-
-  /* AVISO AUDITORIA */
-  .aviso-auditoria {
-    background: #fef9e7; border-left: 5px solid var(--amarelo);
-    border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;
-    font-size: 0.83rem; color: #6e4c00; line-height: 1.6;
-  }
-  .aviso-auditoria strong { color: #5d3a00; }
-
-  .section-title {
-    font-size: 1.05rem; font-weight: 700; color: var(--cinza-escuro);
-    margin-bottom: 16px; padding-bottom: 8px;
-    border-bottom: 2px solid var(--verde);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .section-title .icon { font-size: 1.2rem; }
-
-  /* CARDS */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px; margin-bottom: 32px;
-  }
-  .card {
-    background: var(--branco); border-radius: 12px;
-    padding: 20px 18px; box-shadow: var(--card-shadow);
-    border-top: 4px solid var(--cinza-claro);
-    transition: transform 0.15s;
-  }
-  .card:hover { transform: translateY(-2px); }
-  .card.alta { border-top-color: var(--verde); }
-  .card.baixa { border-top-color: var(--vermelho); }
-  .card.estavel { border-top-color: var(--amarelo); }
-  .card.nd { border-top-color: var(--nd-border); background: var(--nd-bg); }
-  .card-nome { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--cinza-medio); letter-spacing: 0.5px; margin-bottom: 6px; }
-  .card-preco { font-size: 1.45rem; font-weight: 700; color: var(--cinza-escuro); margin-bottom: 4px; }
-  .card.nd .card-preco { font-size: 1.1rem; color: var(--nd-border); }
-  .card-unidade { font-size: 0.7rem; color: var(--cinza-medio); margin-bottom: 10px; }
-  .card-variacao {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 0.85rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-  }
-  .alta .card-variacao { background: #d4efdf; color: var(--verde); }
-  .baixa .card-variacao { background: #fadbd8; color: var(--vermelho); }
-  .estavel .card-variacao { background: #fdebd0; color: var(--amarelo); }
-  .nd .card-variacao { background: #eaecee; color: var(--cinza-medio); }
-  .card-info { font-size: 0.72rem; color: var(--cinza-medio); margin-top: 10px; line-height: 1.4; }
-  .card-ref { font-size: 0.68rem; color: #b0b8c1; margin-top: 6px; }
-  .badge-confirmado {
-    display: inline-block; font-size: 0.65rem; font-weight: 700;
-    padding: 2px 7px; border-radius: 8px; margin-bottom: 4px;
-  }
-  .b-confirmado { background: #d4efdf; color: var(--verde); }
-  .b-referenciado { background: #fdebd0; color: var(--amarelo); }
-  .b-nd { background: #eaecee; color: var(--cinza-medio); }
-
-  /* CHARTS */
-  .charts-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px; margin-bottom: 32px;
-  }
-  .chart-card {
-    background: var(--branco); border-radius: 12px;
-    padding: 20px; box-shadow: var(--card-shadow);
-  }
-  .chart-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; color: var(--cinza-escuro); }
-  .chart-container { position: relative; height: 160px; }
-  .chart-nd {
-    height: 160px; display: flex; align-items: center; justify-content: center;
-    background: var(--nd-bg); border-radius: 8px; border: 1px dashed var(--nd-border);
-    color: var(--cinza-medio); font-size: 0.8rem;
-  }
-  .chart-nota { font-size: 0.67rem; color: #c0c8d0; margin-top: 8px; }
-
-  /* TABELA */
-  .table-wrap { overflow-x: auto; margin-bottom: 8px; }
-  table {
-    width: 100%; border-collapse: collapse; background: var(--branco);
-    border-radius: 12px; overflow: hidden; box-shadow: var(--card-shadow); font-size: 0.85rem;
-  }
-  th {
-    background: var(--cinza-escuro); color: white; padding: 12px 14px;
-    text-align: center; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.4px;
-  }
-  td { padding: 10px 12px; text-align: center; border-bottom: 1px solid var(--cinza-claro); }
-  tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: #fafbfc; }
-  .td-alta { color: var(--verde); font-weight: 700; }
-  .td-baixa { color: var(--vermelho); font-weight: 700; }
-  .td-nd { color: #c0c8d0; font-size: 0.8rem; }
-  .td-ref { color: var(--amarelo); font-size: 0.78rem; }
-
-  /* FATORES */
-  .fatores-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px; margin-bottom: 32px;
-  }
-  .fator-card {
-    background: var(--branco); border-radius: 12px;
-    padding: 18px; box-shadow: var(--card-shadow);
-  }
-  .fator-titulo { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--cinza-medio); margin-bottom: 8px; }
-  .fator-valor { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-  .fator-desc { font-size: 0.8rem; color: var(--cinza-medio); line-height: 1.5; }
-  .badge-impacto {
-    display: inline-block; font-size: 0.7rem; font-weight: 700;
-    padding: 2px 8px; border-radius: 10px; margin-bottom: 8px;
-  }
-  .imp-alto { background: #fadbd8; color: var(--vermelho); }
-  .imp-medio { background: #fdebd0; color: var(--amarelo); }
-  .imp-baixo { background: #d4efdf; color: var(--verde); }
-
-  /* INSIGHTS */
-  .insights-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px; margin-bottom: 32px;
-  }
-  .insight-card {
-    background: var(--branco); border-radius: 12px;
-    padding: 18px; box-shadow: var(--card-shadow);
-    border-left: 5px solid var(--verde);
-  }
-  .insight-card.alerta { border-left-color: var(--vermelho); }
-  .insight-card.atencao { border-left-color: var(--amarelo); }
-  .insight-card.nd { border-left-color: var(--nd-border); background: var(--nd-bg); }
-  .insight-tipo { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
-  .insight-card .insight-tipo { color: var(--verde); }
-  .insight-card.alerta .insight-tipo { color: var(--vermelho); }
-  .insight-card.atencao .insight-tipo { color: var(--amarelo); }
-  .insight-card.nd .insight-tipo { color: var(--cinza-medio); }
-  .insight-texto { font-size: 0.85rem; line-height: 1.55; }
-
-  /* NOTÍCIAS */
-  .noticias-list { margin-bottom: 32px; }
-  .noticia-item {
-    background: var(--branco); border-radius: 10px; padding: 16px 18px;
-    margin-bottom: 10px; box-shadow: var(--card-shadow);
-    display: flex; gap: 16px; align-items: flex-start;
-  }
-  .noticia-categoria {
-    font-size: 0.7rem; font-weight: 700; padding: 3px 10px;
-    border-radius: 10px; white-space: nowrap; margin-top: 2px;
-  }
-  .nc-soja { background: #d4efdf; color: var(--verde); }
-  .nc-cafe { background: #d5d8dc; color: #34495e; }
-  .nc-acucar { background: #fdebd0; color: var(--amarelo); }
-  .nc-geral { background: #dbe9f9; color: #2980b9; }
-  .nc-clima { background: #e8d5f8; color: #8e44ad; }
-  .noticia-titulo { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
-  .noticia-desc { font-size: 0.8rem; color: var(--cinza-medio); line-height: 1.45; }
-  .noticia-data { font-size: 0.72rem; color: #b0b8c1; margin-top: 6px; }
-
-  /* METODOLOGIA */
-  .metodologia {
-    background: var(--branco); border-radius: 12px;
-    padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 24px;
-    font-size: 0.8rem; line-height: 1.7; color: var(--cinza-medio);
-  }
-  .metodologia strong { color: var(--cinza-escuro); }
-  .metodologia .alerta-cepea {
-    background: #fef9e7; border-left: 4px solid var(--amarelo);
-    padding: 10px 14px; border-radius: 6px; margin: 12px 0; color: #6e4c00;
-  }
-
-  footer {
-    background: var(--cinza-escuro); color: rgba(255,255,255,0.6);
-    text-align: center; padding: 16px; font-size: 0.78rem;
-  }
-
-  @media (max-width: 600px) {
-    header { flex-direction: column; }
-    .header-meta { text-align: left; }
-    .cards-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Mercado Commodities Agrícolas — 22/06/2026</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --verde: #27AE60;
+      --vermelho: #E74C3C;
+      --amarelo: #F39C12;
+      --azul-escuro: #1A2744;
+      --azul-medio: #1E3A5F;
+      --azul-claro: #2D5282;
+      --cinza-fundo: #F4F6F9;
+      --cinza-card: #FFFFFF;
+      --cinza-borda: #DDE3ED;
+      --texto-principal: #1A2744;
+      --texto-secundario: #5A6A85;
+      --texto-claro: #8A98B0;
+      --sombra: 0 2px 12px rgba(26,39,68,0.08);
+      --sombra-hover: 0 6px 24px rgba(26,39,68,0.15);
+      --raio: 12px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--cinza-fundo);
+      color: var(--texto-principal);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .header {
+      background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--azul-claro) 100%);
+      color: #fff;
+      padding: 28px 24px 24px;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 6px; }
+    .header .subtitulo { font-size: 0.92rem; opacity: 0.82; margin-bottom: 4px; }
+    .header .timestamp { font-size: 0.82rem; opacity: 0.65; }
+    .badge-alerta {
+      display: inline-block;
+      background: rgba(243,156,18,0.18);
+      border: 1px solid rgba(243,156,18,0.5);
+      color: #F8C861;
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--azul-escuro);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--azul-claro);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: var(--cinza-card);
+      border-radius: var(--raio);
+      box-shadow: var(--sombra);
+      padding: 20px;
+      border-left: 5px solid var(--cinza-borda);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover { box-shadow: var(--sombra-hover); transform: translateY(-2px); }
+    .card.verde { border-left-color: var(--verde); }
+    .card.vermelho { border-left-color: var(--vermelho); }
+    .card.amarelo { border-left-color: var(--amarelo); }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .card-nome { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--texto-secundario); }
+    .card-unidade { font-size: 0.7rem; color: var(--texto-claro); margin-top: 2px; }
+    .card-var { font-size: 0.82rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+    .card-var.verde { background: rgba(39,174,96,0.12); color: var(--verde); }
+    .card-var.vermelho { background: rgba(231,76,60,0.12); color: var(--vermelho); }
+    .card-var.amarelo { background: rgba(243,156,18,0.12); color: var(--amarelo); }
+    .card-preco { font-size: 1.9rem; font-weight: 800; color: var(--texto-principal); letter-spacing: -0.5px; }
+    .card-preco.nd { font-size: 1.15rem; color: var(--texto-claro); font-style: italic; font-weight: 500; }
+    .card-ref { font-size: 0.7rem; color: var(--texto-claro); margin-top: 8px; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+    .card-ref .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .card-ref .dot.verde { background: var(--verde); }
+    .card-ref .dot.vermelho { background: var(--vermelho); }
+    .card-ref .dot.amarelo { background: var(--amarelo); }
+    .table-wrap {
+      background: var(--cinza-card);
+      border-radius: var(--raio);
+      box-shadow: var(--sombra);
+      padding: 20px;
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead tr { background: var(--azul-escuro); color: #fff; }
+    thead th { padding: 10px 12px; text-align: right; font-weight: 600; font-size: 0.78rem; white-space: nowrap; }
+    thead th:first-child { text-align: left; }
+    tbody tr:nth-child(even) { background: rgba(221,227,237,0.3); }
+    tbody tr:hover { background: rgba(45,82,130,0.07); }
+    tbody td { padding: 9px 12px; text-align: right; white-space: nowrap; }
+    tbody td:first-child { text-align: left; font-weight: 600; color: var(--azul-claro); }
+    .nd-cell { color: var(--texto-claro); font-style: italic; font-size: 0.78rem; }
+    .hoje-row td { font-weight: 700; background: rgba(45,82,130,0.06); }
+    .ref-mark { font-size: 0.65rem; color: var(--amarelo); font-weight: 700; vertical-align: super; }
+    .chart-wrap {
+      background: var(--cinza-card);
+      border-radius: var(--raio);
+      box-shadow: var(--sombra);
+      padding: 20px;
+      margin-bottom: 32px;
+    }
+    .chart-container { position: relative; height: 320px; }
+    .chart-nota { font-size: 0.75rem; color: var(--texto-claro); margin-top: 8px; text-align: center; }
+    .fatores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .fator-card { background: var(--cinza-card); border-radius: var(--raio); box-shadow: var(--sombra); padding: 18px; }
+    .fator-titulo { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--texto-secundario); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .fator-valor-principal { font-size: 1.45rem; font-weight: 800; color: var(--texto-principal); margin-bottom: 6px; }
+    .fator-desc { font-size: 0.82rem; color: var(--texto-secundario); line-height: 1.5; }
+    .fator-desc ul { margin-top: 6px; padding-left: 14px; }
+    .fator-desc li { margin-bottom: 3px; font-size: 0.8rem; }
+    .tendencias-wrap { background: var(--cinza-card); border-radius: var(--raio); box-shadow: var(--sombra); padding: 20px; margin-bottom: 32px; }
+    .tendencia-item { padding: 14px 0; border-bottom: 1px solid var(--cinza-borda); }
+    .tendencia-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .tendencia-nome { font-size: 0.9rem; font-weight: 700; color: var(--azul-escuro); margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+    .tendencia-seta { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 0.7rem; font-weight: 900; flex-shrink: 0; }
+    .tendencia-seta.verde { background: var(--verde); color: #fff; }
+    .tendencia-seta.vermelho { background: var(--vermelho); color: #fff; }
+    .tendencia-seta.amarelo { background: var(--amarelo); color: #fff; }
+    .tendencia-texto { font-size: 0.83rem; color: var(--texto-secundario); line-height: 1.55; }
+    .disclaimer { margin-top: 14px; padding: 10px 14px; background: rgba(243,156,18,0.08); border-radius: 8px; border-left: 3px solid var(--amarelo); font-size: 0.78rem; color: var(--texto-secundario); }
+    .noticias-wrap { background: var(--cinza-card); border-radius: var(--raio); box-shadow: var(--sombra); padding: 20px; margin-bottom: 32px; }
+    .noticia-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--cinza-borda); }
+    .noticia-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .noticia-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+    .noticia-dot.soja { background: #F39C12; }
+    .noticia-dot.cafe { background: #795548; }
+    .noticia-dot.trigo { background: #D4AC0D; }
+    .noticia-dot.mercado { background: #2980B9; }
+    .noticia-dot.clima { background: #27AE60; }
+    .noticia-dot.cambio { background: #8E44AD; }
+    .noticia-titulo { font-size: 0.87rem; font-weight: 600; color: var(--texto-principal); margin-bottom: 3px; }
+    .noticia-meta { font-size: 0.75rem; color: var(--texto-claro); }
+    .noticia-meta .fonte { font-weight: 600; color: var(--azul-claro); }
+    .noticia-resumo { font-size: 0.8rem; color: var(--texto-secundario); margin-top: 4px; line-height: 1.45; }
+    .metodologia-wrap { background: var(--cinza-card); border-radius: var(--raio); box-shadow: var(--sombra); padding: 20px; margin-bottom: 32px; }
+    .metodologia-wrap p { font-size: 0.82rem; color: var(--texto-secundario); margin-bottom: 8px; line-height: 1.55; }
+    .metodologia-wrap ul { padding-left: 16px; margin-bottom: 8px; }
+    .metodologia-wrap li { font-size: 0.82rem; color: var(--texto-secundario); margin-bottom: 4px; }
+    .metodologia-wrap strong { color: var(--texto-principal); }
+    .metodologia-wrap a { color: var(--azul-claro); }
+    .footer { background: var(--azul-escuro); color: rgba(255,255,255,0.55); text-align: center; padding: 20px; font-size: 0.78rem; }
+    .footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    @media (max-width: 640px) {
+      .header h1 { font-size: 1.25rem; }
+      .card-preco { font-size: 1.55rem; }
+      .cards-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .fatores-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 400px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>🌾 Dashboard de Commodities Agrícolas<span>Análise de Mercado — CEPEA / Agrolink / Notícias Agrícolas</span></h1>
-  </div>
-  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
-    <div class="mercado-badge">📅 Seg. — Mercado Aberto</div>
-    <div class="dolar-badge">💵 Dólar: <strong>R$ 5,15</strong><span style="font-size:0.75rem;opacity:0.8;"> comercial 22/06</span></div>
-    <div class="header-meta">
-      <div class="data">22 de junho de 2026</div>
-      <div class="hora">Gerado às 08:00 (Horário de Brasília)</div>
-    </div>
-  </div>
-</header>
+<div class="header">
+  <h1>&#128202; Dashboard Mercado de Commodities Agr&#237;colas</h1>
+  <p class="subtitulo">Segunda-feira, 22 de junho de 2026 &mdash; Abertura de Semana</p>
+  <p class="timestamp">Atualiza&#231;&#227;o gerada em: 22/06/2026 &bull; Fonte prim&#225;ria: CEPEA/ESALQ-USP</p>
+  <span class="badge-alerta">&#9888; Dados marcados como referenciados &mdash; confirmar em cepea.org.br</span>
+</div>
 
 <div class="container">
 
-  <!-- AVISO AUDITORIA -->
-  <div class="aviso-auditoria">
-    <strong>⚠️ Dashboard corrigido e atualizado (22/06/2026).</strong> Soja e café (16/06) confirmados via CEPEA. Após pesquisa em fontes secundárias (22/06): <strong>Trigo</strong> — valor referenciado R$ 82,64/sc 60kg (Barbacena em Tempo / CEPEA, 22/06 — convertido de R$ 1.377,38/t); <strong>Açúcar Cristal</strong> — valor referenciado R$ 93,24/sc 50kg (Novacana / CEPEA, 05/06). Feijão e arroz permanecem como "dado não disponível". Dados com badge amarelo são referenciados — não confirmados diretamente na tabela CEPEA. Para valores exatos: <strong>cepea.org.br</strong>.
-  </div>
-
-  <!-- CARDS -->
-  <div class="section-title"><span class="icon">🍊</span> Cotações — Última Referência Disponível (ref. Sex. 19/06/2026)</div>
+  <h2 class="section-title"><span>&#127806;</span> Cota&#231;&#245;es do Dia &mdash; 22/06/2026</h2>
   <div class="cards-grid">
 
-    <!-- SOJA: CONFIRMADO -->
-    <div class="card baixa">
-      <span class="badge-confirmado b-confirmado">✓ CONFIRMADO CEPEA</span>
-      <div class="card-nome">🌱 Soja</div>
-      <div class="card-preco">R$ 132,84</div>
-      <div class="card-unidade">saca 60 kg | CIF Paranaguá</div>
-      <div class="card-variacao">▼ -0,41%</div>
-      <div class="card-info">Pressão de safra recorde nos EUA. Demanda chinesa aquém do esperado. Variação vs. 18/06 (R$ 133,39).</div>
-      <div class="card-ref">Fonte: CEPEA/ESALQ — Paranaguá · 19/06/2026</div>
+    <div class="card verde">
+      <div class="card-header">
+        <div>
+          <div class="card-nome">Soja</div>
+          <div class="card-unidade">R$/saca 60kg &middot; CIF Paranagu&#225;</div>
+        </div>
+        <span class="card-var verde">&#9650; +0,30%</span>
+      </div>
+      <div class="card-preco">R$ 142,94</div>
+      <div class="card-ref">
+        <span class="dot verde"></span>
+        Referenciado &middot; Brasil61.com/CEPEA &middot; 22/06/2026 &middot; Interior PR: R$ 136,10 (&minus;0,10%)
+      </div>
     </div>
 
-    <!-- TRIGO: REFERENCIADO -->
-    <div class="card alta">
-      <span class="badge-confirmado b-referenciado">† REFERENCIADO</span>
-      <div class="card-nome">🌾 Trigo</div>
-      <div class="card-preco">R$ 82,64</div>
-      <div class="card-unidade">saca 60 kg | CEPEA/ESALQ — Paraná</div>
-      <div class="card-variacao">▲ Tendência de alta</div>
-      <div class="card-info">Convertido de R$ 1.377,38/t (Paraná, CEPEA). Preços seguem em alta com oferta restrita no Sul e atenção a geadas. Não confirmado diretamente na tabela CEPEA.</div>
-      <div class="card-ref">† Fonte: Barbacena em Tempo / CEPEA · 22/06/2026</div>
+    <div class="card vermelho">
+      <div class="card-header">
+        <div>
+          <div class="card-nome">Trigo</div>
+          <div class="card-unidade">R$/saca 60kg &middot; Paran&#225;</div>
+        </div>
+        <span class="card-var vermelho">&#9660; &minus;0,18%</span>
+      </div>
+      <div class="card-preco">R$ 70,94</div>
+      <div class="card-ref">
+        <span class="dot vermelho"></span>
+        Referenciado &middot; Brasil61.com/CEPEA &middot; 22/06 &middot; R$ 1.182,32/t PR &middot; RS: R$ 62,51/sc (+1,19%)
+      </div>
     </div>
 
-    <!-- CAFÉ: ÚLTIMO CONFIRMADO 16/06 -->
-    <div class="card estavel">
-      <span class="badge-confirmado b-confirmado">✓ CONFIRMADO CEPEA (16/06)</span>
-      <div class="card-nome">☕ Café Arábica</div>
+    <div class="card amarelo">
+      <div class="card-header">
+        <div>
+          <div class="card-nome">Caf&#233; Ar&#225;bica</div>
+          <div class="card-unidade">R$/saca 60kg &middot; Tipo 6 &middot; CEPEA/ESALQ</div>
+        </div>
+        <span class="card-var amarelo">&#8776; &#218;lt. 16/06</span>
+      </div>
       <div class="card-preco">R$ 1.474,18</div>
-      <div class="card-unidade">saca 60 kg | CEPEA/Esalq · último confirmado</div>
-      <div class="card-variacao">▲ +4,38% (semana)</div>
-      <div class="card-info">Último valor confirmado: Ter. 16/06. Após 16/06: queda intensa registrada em relatório CEPEA; referência não confirmada para 19/06: R$ 1.318,67.</div>
-      <div class="card-ref">Fonte: CEPEA/ESALQ · Portal Mais Agro · 16/06/2026</div>
+      <div class="card-ref">
+        <span class="dot amarelo"></span>
+        &#218;ltima cota&#231;&#227;o dispon&#237;vel &middot; CEPEA/ESALQ &middot; 16/06/2026 &middot; +4,38% vs 10/06
+      </div>
     </div>
 
-    <!-- AÇÚCAR: REFERENCIADO -->
-    <div class="card estavel">
-      <span class="badge-confirmado b-referenciado">† REFERENCIADO</span>
-      <div class="card-nome">🍬 Açúcar Cristal</div>
-      <div class="card-preco">R$ 93,24</div>
-      <div class="card-unidade">saca 50 kg | CEPEA/Esalq SP (ICUMSA 130–180)</div>
-      <div class="card-variacao">▼ -2,1% vs. mai/26</div>
-      <div class="card-info">Ref. 05/06/2026 (Novacana / CEPEA). Mai/26: média R$ 95,22/sc. Menor preço em 4 anos. Safra 26/27 iniciada — liquidez reduzida nas usinas paulistas.</div>
-      <div class="card-ref">† Fonte: Novacana / CEPEA · 05/06/2026</div>
+    <div class="card amarelo">
+      <div class="card-header">
+        <div>
+          <div class="card-nome">A&#231;&#250;car Cristal</div>
+          <div class="card-unidade">R$/saca 50kg &middot; ICUMSA 130&ndash;180 &middot; SP</div>
+        </div>
+        <span class="card-var amarelo">&mdash; N/D</span>
+      </div>
+      <div class="card-preco nd">Dado n&#227;o dispon&#237;vel</div>
+      <div class="card-ref">
+        <span class="dot amarelo"></span>
+        N&#227;o confirmado para 22/06 &middot; Ref. mai/26: R$ 95,22/sc (CEPEA) &middot; Tend&#234;ncia de alta em junho
+      </div>
     </div>
 
-    <!-- FEIJÃO: N/D -->
-    <div class="card nd">
-      <span class="badge-confirmado b-nd">N/D — CEPEA INACESSÍVEL</span>
-      <div class="card-nome">🫘 Feijão Carioca</div>
-      <div class="card-preco">Dado não disponível</div>
-      <div class="card-unidade">saca 60 kg | São Paulo</div>
-      <div class="card-variacao">— —</div>
-      <div class="card-info">Indicador CEPEA/CNA inacessível nesta geração (HTTP 403). Contexto mai/26: preços atingiram R$ 415–491/sc em praças como Itapeva e Curitiba (pico). Início de junho: recuo após máximas de maio. Acesse: cepea.org.br/br/indicador/feijao.aspx</div>
-      <div class="card-ref">Fonte primária indisponível · 22/06/2026</div>
+    <div class="card amarelo">
+      <div class="card-header">
+        <div>
+          <div class="card-nome">Feij&#227;o Carioca</div>
+          <div class="card-unidade">R$/saca 60kg &middot; Nota 8,5 &middot; SP</div>
+        </div>
+        <span class="card-var amarelo">&mdash; N/D</span>
+      </div>
+      <div class="card-preco nd">Dado n&#227;o dispon&#237;vel</div>
+      <div class="card-ref">
+        <span class="dot amarelo"></span>
+        N&#227;o confirmado para 22/06 &middot; Ref. in&#237;cio 2026: R$ 225&ndash;330/sc &middot; Mercado em compasso de espera
+      </div>
     </div>
 
-    <!-- ARROZ: N/D -->
-    <div class="card nd">
-      <span class="badge-confirmado b-nd">N/D — CEPEA INACESSÍVEL</span>
-      <div class="card-nome">🍚 Arroz</div>
-      <div class="card-preco">Dado não disponível</div>
-      <div class="card-unidade">saca 50 kg | CEPEA/IRGA-RS</div>
-      <div class="card-variacao">— —</div>
-      <div class="card-info">Indicador CEPEA/IRGA-RS inacessível nesta geração (HTTP 403). Acesse: cepea.org.br/br/indicador/arroz.aspx</div>
-      <div class="card-ref">Fonte primária indisponível · 22/06/2026</div>
+    <div class="card amarelo">
+      <div class="card-header">
+        <div>
+          <div class="card-nome">Arroz em Casca</div>
+          <div class="card-unidade">R$/saca 50kg &middot; Irrigado RS</div>
+        </div>
+        <span class="card-var amarelo">&#8776; M&#233;dia Jun/26</span>
+      </div>
+      <div class="card-preco">R$ 72,66</div>
+      <div class="card-ref">
+        <span class="dot amarelo"></span>
+        Referenciado &middot; eBarn/CEPEA IRGA-RS &middot; M&#233;dia mensal jun/26 &middot; +2,54% vs mai/26
+      </div>
     </div>
 
   </div>
 
-  <!-- TABELA HISTÓRICA -->
-  <div class="section-title"><span class="icon">📅</span> Histórico — Últimos 5 Dias Úteis</div>
-  <div class="table-wrap" style="margin-bottom:8px;">
+  <h2 class="section-title"><span>&#128197;</span> Hist&#243;rico &mdash; &#218;ltimos 5 Preg&#245;es</h2>
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
           <th>Data</th>
-          <th>Soja (R$/sc 60kg)</th>
-          <th>Trigo (R$/sc)</th>
-          <th>Café (R$/sc 60kg)</th>
-          <th>Açúcar (R$/sc 50kg)</th>
-          <th>Feijão (R$/sc)</th>
-          <th>Arroz (R$/sc)</th>
-          <th>Dólar (R$/USD)</th>
+          <th>Soja<br><small>R$/sc 60kg</small></th>
+          <th>Trigo<br><small>R$/sc 60kg</small></th>
+          <th>Caf&#233; Ar&#225;bica<br><small>R$/sc 60kg</small></th>
+          <th>A&#231;&#250;car<br><small>R$/sc 50kg</small></th>
+          <th>Feij&#227;o<br><small>R$/sc 60kg</small></th>
+          <th>Arroz<br><small>R$/sc 50kg</small></th>
+          <th>D&#243;lar<br><small>R$/USD</small></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Seg 15/06</strong></td>
-          <td class="td-baixa">129,24 ▼ <span style="font-size:0.65rem;color:#aaa">(-0,47%)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td>5,07 *</td>
+          <td>16/06 (Ter)</td>
+          <td>132,26</td>
+          <td class="nd-cell">N/D</td>
+          <td>1.474,18 <span class="ref-mark">1</span></td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td>5,09</td>
         </tr>
         <tr>
-          <td><strong>Ter 16/06</strong></td>
-          <td class="td-alta">132,26 ▲ <span style="font-size:0.65rem;color:#aaa">(+2,34%)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-alta">1.474,18 ✓ ▲ <span style="font-size:0.65rem;color:#aaa">(+4,38% sem.)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td>5,09 *</td>
+          <td>17/06 (Qua)</td>
+          <td>131,07</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td>5,12</td>
         </tr>
         <tr>
-          <td><strong>Qua 17/06</strong></td>
-          <td class="td-baixa">131,07 ▼ <span style="font-size:0.65rem;color:#aaa">(-0,90%)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td>5,12 *</td>
+          <td>18/06 (Qui)</td>
+          <td>133,39</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td>5,18</td>
         </tr>
         <tr>
-          <td><strong>Qui 18/06</strong></td>
-          <td class="td-alta">133,39 ▲ <span style="font-size:0.65rem;color:#aaa">(+1,77%)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td>5,18 *</td>
+          <td>19/06 (Sex)</td>
+          <td>132,84</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td>5,16</td>
         </tr>
-        <tr>
-          <td><strong>Sex 19/06</strong></td>
-          <td class="td-baixa">132,84 ▼ <span style="font-size:0.65rem;color:#aaa">(-0,41%)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-ref">1.318,67 † <span style="font-size:0.65rem">(ref.)</span></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D</td>
-          <td>5,16 *</td>
+        <tr class="hoje-row">
+          <td>22/06 (Seg) &#9733;</td>
+          <td>142,94 <span class="ref-mark">2</span></td>
+          <td>70,94 <span class="ref-mark">2</span></td>
+          <td>1.474,18 <span class="ref-mark">1</span></td>
+          <td class="nd-cell">N/D</td>
+          <td class="nd-cell">N/D</td>
+          <td>72,66 <span class="ref-mark">3</span></td>
+          <td>5,15</td>
         </tr>
       </tbody>
     </table>
-  </div>
-  <p style="font-size:0.72rem;color:#aaa;margin-bottom:32px;">
-    <strong>✓ Soja:</strong> Confirmado CEPEA/ESALQ Paranaguá (screenshot auditado em 22/06/2026) · Variações diárias da tabela CEPEA.<br>
-    <strong>✓ Café 16/06:</strong> Confirmado via Portal Mais Agro / CEPEA (R$ 1.474,18 = +4,38% vs. sem. anterior).<br>
-    <strong>† Café 19/06:</strong> R$ 1.318,67 — valor referenciado via síntese de busca (CEPEA); não confirmado diretamente. Após 16/06 houve queda intensa (artigo CEPEA: "após forte queda, indicador sobe e supera R$ 1.300").<br>
-    <strong>* Dólar:</strong> Implícito calculado dos valores R$/US$ da tabela CEPEA/Soja (confirmado indiretamente).<br>
-    <strong>N/D:</strong> Dado não disponível — CEPEA/Agrolink retornaram HTTP 403 nesta geração. Valores não confirmados foram omitidos conforme regra de auditoria.
-  </p>
-
-  <!-- GRÁFICOS -->
-  <div class="section-title"><span class="icon">📈</span> Tendências — Últimos 30 Dias</div>
-  <p style="font-size:0.78rem;color:var(--cinza-medio);margin-bottom:16px;">Histórico em formação (início: 15/06/2026). <strong>Soja:</strong> últimos 5 dias com dados reais confirmados (CEPEA); período anterior estimado. <strong>Café:</strong> 1 ponto confirmado + 1 referenciado. <strong>Açúcar e Trigo:</strong> 1 ponto referenciado cada (fonte secundária). <strong>Feijão e Arroz:</strong> indisponível.</p>
-  <div class="charts-grid">
-
-    <div class="chart-card">
-      <div class="chart-title">🌱 Soja — R$/sc 60kg · CIF Paranaguá (CEPEA ✓)</div>
-      <div class="chart-container"><canvas id="chartSoja"></canvas></div>
-      <div class="chart-nota">Dados reais CEPEA: 15–19/jun. Período anterior: estimativa de tendência.</div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-title">☕ Café Arábica — R$/sc 60kg (CEPEA)</div>
-      <div class="chart-container"><canvas id="chartCafe"></canvas></div>
-      <div class="chart-nota">Confirmado: 16/jun R$ 1.474,18 ✓. Referenciado: 19/jun R$ 1.318,67 †. Restante: estimativa.</div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-title">🍬 Açúcar Cristal — R$/sc 50kg · CEPEA SP <span style="font-size:0.7rem;color:var(--amarelo)">† referenciado</span></div>
-      <div class="chart-container"><canvas id="chartAcucar"></canvas></div>
-      <div class="chart-nota">† Ref. 05/06: R$ 93,24 (Novacana/CEPEA). Período anterior: estimativa de tendência baseada em média mai/26 (R$ 95,22).</div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-title">🌾 Trigo — R$/sc 60kg · Paraná (CEPEA) <span style="font-size:0.7rem;color:var(--amarelo)">† referenciado</span></div>
-      <div class="chart-container"><canvas id="chartTrigo"></canvas></div>
-      <div class="chart-nota">† Ref. 22/06: R$ 82,64/sc (conv. R$ 1.377,38/t — Barbacena em Tempo/CEPEA). Período anterior: estimativa de tendência.</div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-title">🫘 Feijão Carioca — R$/sc 60kg <span style="color:var(--nd-border)">[estimativa — N/D]</span></div>
-      <div class="chart-nd">
-        <span>Dado não disponível — CEPEA inacessível<br><small>Acesse: cepea.org.br/br/indicador/feijao.aspx</small></span>
-      </div>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-title">🍚 Arroz — R$/sc 50kg · RS <span style="color:var(--nd-border)">[estimativa — N/D]</span></div>
-      <div class="chart-nd">
-        <span>Dado não disponível — CEPEA/IRGA-RS inacessível<br><small>Acesse: cepea.org.br/br/indicador/arroz.aspx</small></span>
-      </div>
-    </div>
-
+    <p style="font-size:0.72rem;color:var(--texto-claro);margin-top:10px;line-height:1.6;">
+      <strong>1</strong> &#218;ltima cota&#231;&#227;o confirmada CEPEA (16/06/2026) &nbsp;|&nbsp;
+      <strong>2</strong> Referenciado Brasil61.com/CEPEA 22/06 &nbsp;|&nbsp;
+      <strong>3</strong> M&#233;dia mensal jun/26 (eBarn/CEPEA IRGA-RS) &nbsp;|&nbsp;
+      <strong>N/D</strong> = Dado n&#227;o dispon&#237;vel
+    </p>
   </div>
 
-  <!-- FATORES EXTERNOS -->
-  <div class="section-title"><span class="icon">🌍</span> Fatores Externos</div>
+  <h2 class="section-title"><span>&#128200;</span> Tend&#234;ncia de Pre&#231;os &mdash; Hist&#243;rico em Forma&#231;&#227;o (15&ndash;22/jun)</h2>
+  <div class="chart-wrap">
+    <div class="chart-container">
+      <canvas id="trendChart"></canvas>
+    </div>
+    <p class="chart-nota">
+      Hist&#243;rico em forma&#231;&#227;o &mdash; 6 dias de dados dispon&#237;veis (15/06&ndash;22/06/2026).
+      Soja em R$/sc 60kg (Paranagu&#225;). D&#243;lar escalado (&times;25) para visualiza&#231;&#227;o conjunta.
+      Ponto laranja = valor referenciado (22/06).
+    </p>
+  </div>
+
+  <h2 class="section-title"><span>&#127758;</span> Fatores Externos</h2>
   <div class="fatores-grid">
 
     <div class="fator-card">
-      <div class="fator-titulo">💵 Câmbio</div>
-      <div class="fator-valor" style="color:var(--amarelo)">R$ 5,15 / USD</div>
-      <div class="badge-impacto imp-medio">Impacto: Médio</div>
-      <div class="fator-desc">Cotação comercial 22/06/2026: faixa R$ 5,13–5,16 (ADVFN/Investing). Câmbio oscilou entre R$ 5,07 (Seg 15/06) e R$ 5,18 (Qui 18/06) na semana anterior. Implícito CEPEA/Soja: R$ 5,155 (R$ 132,84 / US$ 25,77). Nível sustenta competitividade das exportações de soja e café.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">🌦️ Clima — Geada no Centro-Sul</div>
-      <div class="fator-valor" style="color:var(--vermelho)">Alerta: Geada 20–22/jun</div>
-      <div class="badge-impacto imp-alto">Impacto: Alto</div>
-      <div class="fator-desc">Geada registrada no Centro-Sul (20–22/jun) pode ter afetado lavouras de trigo de inverno no Sul e cafeeiros de altitude em MG/SP. Danos ainda em avaliação. Possível El Niño no 2S2026 eleva incerteza climática. Monitoramento crítico nos próximos dias.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">🌐 Geopolítica</div>
-      <div class="fator-valor" style="color:var(--vermelho)">Tensão Oriente Médio</div>
-      <div class="badge-impacto imp-alto">Impacto: Alto</div>
-      <div class="fator-desc">Conflitos no Oriente Médio (Israel/Irã, Paquistão) continuam pressionando fretes marítimos. Possível acordo EUA–Irã pode reduzir preços de fertilizantes nitrogenados e aliviar custo de produção da safra 26/27 no Brasil.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">📦 Oferta Global — Soja</div>
-      <div class="fator-valor" style="color:var(--verde)">Safra EUA Projetada Recorde</div>
-      <div class="badge-impacto imp-alto">Impacto: Alto (baixista)</div>
-      <div class="fator-desc">Projeta-se safra recorde de soja nos EUA para 2026/27. Brasil: produção estimada em 176,1 mi t (+2,7% — USDA/CONAB). Ampla oferta global pressiona cotações. Relatório WASDE de julho será referência para direção dos preços.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">🇨🇳 Demanda China</div>
-      <div class="fator-valor" style="color:var(--amarelo)">Abaixo do Esperado</div>
-      <div class="badge-impacto imp-medio">Impacto: Médio</div>
-      <div class="fator-desc">Importações chinesas de soja ficaram aquém do projetado em mai/jun. Estoques elevados em Dalian e desaceleração industrial explicam o ritmo fraco. Expectativa de aceleração das compras no 3T26, o que poderia dar suporte aos preços.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">🏦 Política Monetária</div>
-      <div class="fator-valor" style="color:var(--vermelho)">Selic 15% a.a.</div>
-      <div class="badge-impacto imp-medio">Impacto: Médio</div>
-      <div class="fator-desc">Taxa Selic em 15% ao ano mantém crédito rural caro. Custo de produção da safra 26/27 supera temporada anterior pela alta de insumos (fertilizantes +). Pressão sobre margens do produtor, especialmente para quem financia capital de giro.</div>
-    </div>
-
-  </div>
-
-  <!-- LEITURA DE TENDÊNCIAS -->
-  <div class="section-title"><span class="icon">💡</span> Leitura das Tendências de Mercado</div>
-  <div class="insights-grid">
-
-    <div class="insight-card alerta">
-      <div class="insight-tipo">⚠️ Tendência de Queda — Soja (dado confirmado CEPEA)</div>
-      <div class="insight-texto">A soja CIF Paranaguá (CEPEA) oscilou entre R$ 129,24 e R$ 133,39/sc na semana de 15–19/jun, fechando em R$ 132,84 (-0,41%) na sexta. A semana registrou volatilidade intradiária com máxima em R$ 133,39 (quinta) e mínima em R$ 129,24 (segunda). O cenário de oferta recorde nos EUA e demanda chinesa moderada mantém pressão de médio prazo. O WASDE de julho será o próximo gatilho relevante. Produtores com estoque devem acompanhar de perto.</div>
-    </div>
-
-    <div class="insight-card atencao">
-      <div class="insight-tipo">🔍 Queda Intensa — Café Arábica (dado parcial)</div>
-      <div class="insight-texto">O café arábica (CEPEA) estava em R$ 1.474,18/sc na terça-feira 16/06 (+4,38% na semana). Segundo artigo CEPEA publicado após essa data, houve "forte queda" seguida de recuperação acima de R$ 1.300/sc. Valor referenciado para 19/06: R$ 1.318,67 (não confirmado diretamente via CEPEA). Queda acumulada de ~10,6% de terça a sexta caso confirmada. Chuvas que impulsionaram a alta anterior podem ter cessado, liberando oferta. Confirmar via cepea.org.br.</div>
-    </div>
-
-    <div class="insight-card atencao">
-      <div class="insight-tipo">📌 Trigo em Alta — Oferta Restrita e Geada no Sul (dado referenciado)</div>
-      <div class="insight-texto">O indicador CEPEA/ESALQ Paraná para o trigo registrou R$ 1.377,38/t (≈ R$ 82,64/sc 60kg) em 22/06, segundo Barbacena em Tempo. Preços seguem em alta com oferta restrita de cereal no mercado interno. Geada entre 20–22/jun pode ter afetado lavouras de trigo de inverno no Sul, adicionando pressão altista. Valor não confirmado diretamente na tabela CEPEA — verificar em cepea.org.br.</div>
-    </div>
-
-    <div class="insight-card atencao">
-      <div class="insight-tipo">📌 Açúcar em Mínima de 4 Anos (dado referenciado)</div>
-      <div class="insight-texto">O Indicador CEPEA/ESALQ SP (Açúcar Cristal ICUMSA 130–180) estava em R$ 93,24/sc 50kg em 05/06/2026, representando queda de 5,87% vs. abril (R$ 101,16) e mínimo histórico em 4 anos. Mercado interno opera com liquidez reduzida: safra 26/27 iniciada e usinas priorizando exportação (açúcar VHP). Valor referenciado via Novacana — verificar em cepea.org.br para confirmação.</div>
-    </div>
-
-    <div class="insight-card nd">
-      <div class="insight-tipo">— Dado Indisponível — Feijão Carioca, Arroz</div>
-      <div class="insight-texto">Feijão e arroz não puderam ser obtidos com referência suficiente nesta geração. Contexto feijão: após máximas históricas em mai/26 (R$ 415–491/sc premium), preços recuaram no início de junho com avanço da colheita no Paraná e cautela de compradores. Arroz: CEPEA/IRGA-RS indica que saca de 50kg segue acima de R$ 100 no RS (Canal Rural, data não confirmada). Acesse cepea.org.br para dados precisos.</div>
-    </div>
-
-    <div class="insight-card">
-      <div class="insight-tipo">📌 Contexto — Dólar</div>
-      <div class="insight-texto">O câmbio implícito calculado a partir da tabela CEPEA/Soja mostra oscilação entre R$ 5,07 (Seg 15/06) e R$ 5,18 (Qui 18/06), fechando em R$ 5,16 na sexta. A faixa R$ 5,07–5,18 é consistente com dados de mercado conhecidos para o período. O nível atual do câmbio sustenta a competitividade exportadora do Brasil em soja e café, mas pressiona custos de importação de insumos agrícolas.</div>
-    </div>
-
-    <div class="insight-card atencao">
-      <div class="insight-tipo">⚠️ Atenção — Geada (Impacto a confirmar)</div>
-      <div class="insight-texto">Evento de geada no Centro-Sul (20–22/jun) pode gerar volatilidade em trigo e café na abertura desta semana. Caso danos em lavouras de trigo de inverno (PR, SC, RS) sejam confirmados, espera-se pressão altista sobre o indicador CEPEA/Trigo. O café de altitude em MG/SP também pode ser afetado. Monitorar comunicados de associações estaduais e CEPEA nos próximos dias.</div>
-    </div>
-
-    <div class="insight-card">
-      <div class="insight-tipo">📋 Nota Metodológica — Dados Desta Edição</div>
-      <div class="insight-texto">Esta edição registra dados auditados: apenas valores confirmados via CEPEA são exibidos com preço. Dados de soja provêm de tabela CEPEA/ESALQ verificada diretamente. Dados não confirmados são marcados "N/D". Este padrão de rigor prevalece sobre a completude do dashboard. Na próxima edição, caso o acesso ao CEPEA seja restabelecido, as séries de trigo, açúcar, feijão e arroz serão retomadas.</div>
-    </div>
-
-  </div>
-
-  <!-- NOTÍCIAS -->
-  <div class="section-title"><span class="icon">📰</span> Notícias Relevantes — Últimas 48h</div>
-  <div class="noticias-list">
-
-    <div class="noticia-item">
-      <span class="noticia-categoria nc-clima">CLIMA</span>
-      <div class="noticia-conteudo">
-        <div class="noticia-titulo">Geada no Centro-Sul preocupa produtores de trigo e café na abertura da semana</div>
-        <div class="noticia-desc">Evento de geada registrado no final de semana (20–22/jun) atingiu regiões produtoras de trigo de inverno no Paraná e Sul de Minas Gerais. Temperaturas negativas foram registradas em municípios do Triângulo Mineiro e Alto Paranaíba. Produtores de café de altitude em MG e ES monitoram impacto. Confirmação de danos pode exercer pressão altista sobre trigo e café nas próximas sessões. Danos ainda em avaliação.</div>
-        <div class="noticia-data">🗓 22/06/2026 — Fonte: Agrolink / Canal Rural / Previsão Climática</div>
+      <div class="fator-titulo"><span>&#128181;</span> C&#226;mbio &mdash; D&#243;lar Comercial</div>
+      <div class="fator-valor-principal">R$ 5,15</div>
+      <div class="fator-desc">
+        Faixa do dia: R$ 5,13&ndash;5,16 (Investing.com, 22/06).
+        Focus/BC: previs&#227;o fim 2026 em <strong>R$ 5,20</strong>.
+        <ul>
+          <li>C&#226;mbio elevado favorece exporta&#231;&#245;es de soja e caf&#233;</li>
+          <li>Press&#227;o sobre custos de importa&#231;&#227;o (trigo, insumos)</li>
+          <li>Tens&#245;es geopo l&#237;ticas sustentam demanda por d&#243;lar</li>
+        </ul>
       </div>
     </div>
 
-    <div class="noticia-item">
-      <span class="noticia-categoria nc-cafe">CAFÉ</span>
-      <div class="noticia-conteudo">
-        <div class="noticia-titulo">Café arábica: alta de +4,38% em 16/06 seguida de queda intensa — recuperação acima de R$ 1.300/sc</div>
-        <div class="noticia-desc">O Indicador CEPEA/Esalq do arábica fechou em R$ 1.474,18/sc na terça-feira 16/06, alta de +4,38% na semana, impulsionado por chuvas que limitaram a colheita. Artigo posterior do CEPEA indica "forte queda" seguida de recuperação acima de R$ 1.300/sc. Valor referenciado para 19/06: R$ 1.318,67 (não confirmado diretamente). Robusta também acumulou alta de 3,77% desde o início de junho. Preços encerraram junho em alta, segundo CEPEA.</div>
-        <div class="noticia-data">🗓 20/06/2026 — Fonte: Portal Mais Agro / CEPEA Diárias</div>
+    <div class="fator-card">
+      <div class="fator-titulo"><span>&#127782;</span> Clima &mdash; Inverno 2026</div>
+      <div class="fator-valor-principal">El Ni&#241;o em Fortale&#231;.</div>
+      <div class="fator-desc">
+        Solst&#237;cio de inverno: 21/06. El Ni&#241;o previsto para intensificar-se, alterando distribui&#231;&#227;o de chuvas no Sul.
+        <ul>
+          <li><strong>Geadas</strong> esperadas no Sul (RS/SC) em jun&ndash;jul: risco para trigo em desenvolvimento</li>
+          <li><strong>Chuvas excessivas</strong> podem prejudicar qualidade do trigo na primavera</li>
+          <li><strong>Caf&#233;</strong>: chuvas em MG/ES atrasam colheita, reduzem oferta spot</li>
+          <li>Soja 25/26 j&#225; colhida &mdash; sem impacto direto atual</li>
+        </ul>
       </div>
     </div>
 
-    <div class="noticia-item">
-      <span class="noticia-categoria nc-soja">SOJA</span>
-      <div class="noticia-conteudo">
-        <div class="noticia-titulo">Soja oscila entre R$ 129,24 e R$ 133,39 na semana — CEPEA/ESALQ Paranaguá</div>
-        <div class="noticia-desc">A soja CIF Paranaguá (CEPEA/ESALQ) registrou oscilação de R$ 4,15/sc na semana de 15–19/jun. Segunda-feira (R$ 129,24) foi o menor valor; quinta-feira (R$ 133,39) o maior. Sexta encerrou em R$ 132,84 (-0,41%). O cenário de safra americana projetada como recorde para 2026/27 e importações chinesas abaixo do esperado mantêm o tom cauteloso. Relatório WASDE de julho será referência para a próxima direção de preços.</div>
-        <div class="noticia-data">🗓 19/06/2026 — Fonte: CEPEA/ESALQ (verificado diretamente)</div>
+    <div class="fator-card">
+      <div class="fator-titulo"><span>&#127758;</span> Geopolítica</div>
+      <div class="fator-valor-principal">Tens&#245;es Comerciais</div>
+      <div class="fator-desc">
+        <ul>
+          <li><strong>Soja</strong>: China comprometida a comprar 25 mi ton/ano de soja americana (2026&ndash;28), podendo pressionar pr&#234;mio da soja brasileira no 2&#186; sem.</li>
+          <li><strong>Caf&#233;</strong>: Tarifas EUA de 50% ao caf&#233; brasileiro reduziram exporta&#231;&#245;es ago&ndash;set/2025</li>
+          <li>Guerras comerciais e san&#231;&#245;es criam incerteza log&#237;stica global</li>
+          <li>Disputas tarifarias aumentam volatilidade cambial</li>
+        </ul>
       </div>
     </div>
 
-    <div class="noticia-item">
-      <span class="noticia-categoria nc-acucar">AÇÚCAR</span>
-      <div class="noticia-conteudo">
-        <div class="noticia-titulo">Açúcar cristal em mínima de 4 anos: R$ 93,24/sc em junho com liquidez reduzida nas usinas</div>
-        <div class="noticia-desc">O Indicador CEPEA/ESALQ SP (Açúcar Cristal ICUMSA 130–180) registrou R$ 93,24/sc 50kg em 05/06/2026 (+0,3% vs. semana anterior). Cotação média de mai/26 foi R$ 95,22/sc, queda de 5,87% vs. abr/26. SNA aponta menor preço em 4 anos. Com a safra 2026/27 em início no Centro-Sul, usinas paulistas priorizam açúcar VHP para exportação, reduzindo liquidez no mercado interno de cristal. Ampla oferta global mantém pressão baixista sobre preços.</div>
-        <div class="noticia-data">🗓 09/06/2026 — Fonte: CEPEA / Novacana / SNA</div>
-      </div>
-    </div>
-
-    <div class="noticia-item">
-      <span class="noticia-categoria" style="background:#fff3cd;color:#856404;">TRIGO</span>
-      <div class="noticia-conteudo">
-        <div class="noticia-titulo">Trigo sobe para R$ 1.377/t no Paraná com oferta restrita e geada no Sul — risco de alta nas próximas sessões</div>
-        <div class="noticia-desc">O preço do trigo no Paraná chegou a R$ 1.377,38/t (≈ R$ 82,64/sc 60kg) em 22/06/2026, segundo Barbacena em Tempo (dados CEPEA). Preços seguem em alta com oferta restrita e atenção ao clima no Sul do país. A geada registrada entre 20–22/jun nas regiões produtoras pode ter agravado perdas em lavouras de trigo de inverno (PR, SC, RS), adicionando pressão altista para a próxima semana. CEPEA relata "baixa oferta eleva preços em maio" — tendência que persiste em junho.</div>
-        <div class="noticia-data">🗓 22/06/2026 — Fonte: Barbacena em Tempo / CEPEA</div>
-      </div>
-    </div>
-
-    <div class="noticia-item">
-      <span class="noticia-categoria nc-geral">GEOPOLÍTICA</span>
-      <div class="noticia-conteudo">
-        <div class="noticia-titulo">Conflitos no Oriente Médio seguem pressionando fretes — Acordo EUA-Irã pode aliviar custos de insumos</div>
-        <div class="noticia-desc">Tensões geopolíticas no Oriente Médio (Israel/Irã, Paquistão, Mar Negro) continuam elevando seguros e fretes marítimos, impactando exportações de grãos. Um possível acordo EUA-Irã poderia reduzir preços de fertilizantes nitrogenados, aliviando o custo de produção da safra 26/27 no Brasil. O custo de produção já supera a temporada anterior. A Selic a 15% a.a. mantém crédito caro, ampliando pressão sobre margens do produtor.</div>
-        <div class="noticia-data">🗓 19/06/2026 — Fonte: Caderno Agro / CNN Brasil Agro</div>
+    <div class="fator-card">
+      <div class="fator-titulo"><span>&#9878;</span> Oferta e Demanda</div>
+      <div class="fator-valor-principal">Quadro Misto</div>
+      <div class="fator-desc">
+        <ul>
+          <li><strong>Soja BR</strong>: safra 25/26 superior a 182 mi ton; exporta&#231;&#245;es jan&ndash;mai: 59 mi ton (+9% a/a)</li>
+          <li><strong>Caf&#233;</strong>: Colheita 26/27 em andamento (39% colhida). Chuvas limitam oferta spot.</li>
+          <li><strong>Trigo</b>: Entressafra no Brasil; vendedores retra&#237;dos. El Ni&#241;o preocupa safra 26.</li>
+          <li><strong>A&#231;&#250;car</strong>: Exporta&#231;&#245;es sustentam pre&#231;o interno; nova safra amplia oferta.</li>
+          <li><strong>Arroz</strong>: RS (~70% da produ&#231;&#227;o nacional) com desafios clim&#225;ticos na safra 25/26.</li>
+        </ul>
       </div>
     </div>
 
   </div>
 
-  <!-- METODOLOGIA -->
-  <div class="section-title"><span class="icon">📋</span> Metodologia & Fontes</div>
-  <div class="metodologia">
-    <div class="alerta-cepea">
-      <strong>⚠️ Nota de auditoria (22/06/2026):</strong> Este dashboard foi corrigido após constatação de divergência entre os valores de soja exibidos na geração anterior e os dados do Indicador CEPEA/ESALQ — Paranaguá. A divergência era de aprox. R$ 4/sc em favor do valor real. A partir desta edição, nenhum valor é exibido sem confirmação na fonte primária. Commodities com acesso CEPEA bloqueado nesta geração são exibidas como "dado não disponível".
+  <h2 class="section-title"><span>&#128269;</span> Leitura de Tend&#234;ncias de Mercado</h2>
+  <div class="tendencias-wrap">
+
+    <div class="tendencia-item">
+      <div class="tendencia-nome">
+        <span class="tendencia-seta verde">&#9650;</span>
+        Soja &mdash; Alta com Press&#227;o Altista Combinada
+      </div>
+      <div class="tendencia-texto">
+        O indicador de abertura da soja em Paranagu&#225; nesta segunda-feira (22/06) aponta valoriza&#231;&#227;o (+0,30%), com o pre&#231;o referenciado em R$ 142,94/sc. A combina&#231;&#227;o de d&#243;lar elevado (R$ 5,15), ritmo intenso de exporta&#231;&#245;es (59 mi ton de jan a mai, +9% a/a) e alguma press&#227;o clim&#225;tica no Sul configura um quadro de sustenta&#231;&#227;o dos pre&#231;os na abertura da semana. A safra brasileira 25/26 &#233; considerada recorde (182+ mi ton), o que representa um fator de conten&#231;&#227;o de altas mais expressivas no m&#233;dio prazo, mas a demanda externa mantém-se firme.
+      </div>
     </div>
 
-    <strong>Coleta de dados:</strong> Dashboard gerado às 08:00 (BRT) com dados coletados via busca automatizada e acesso direto às fontes primárias. Acesso ao site CEPEA (cepea.org.br) retornou HTTP 403 nesta geração para trigo, açúcar, feijão e arroz.<br><br>
+    <div class="tendencia-item">
+      <div class="tendencia-nome">
+        <span class="tendencia-seta vermelho">&#9660;</span>
+        Trigo &mdash; Leve Recuo em Contexto de Oferta Restrita
+      </div>
+      <div class="tendencia-texto">
+        O trigo no Paran&#225; recua 0,18% nesta abertura (R$ 70,94/sc / R$ 1.182,32/t), enquanto o Rio Grande do Sul registra alta de 1,19% (R$ 62,51/sc). O per&#237;odo de entressafra restringe a oferta interna, com vendedores retra&#237;dos. O El Ni&#241;o em fortale&#231;imento cria aten&#231;&#227;o para a pr&#243;xima safra de trigo, pois chuvas excessivas no inverno/primavera podem prejudicar qualidade dos gr&#227;os. O CEPEA reportou recentemente pre&#231;os "seguindo em alta com oferta restrita e aten&#231;&#227;o ao clima no Sul".
+      </div>
+    </div>
 
-    <strong>Dados confirmados nesta edição:</strong><br>
-    — <strong>Soja</strong>: Indicador CEPEA/ESALQ — Paranaguá (verificado via tabela oficial, 15–19/jun/2026).<br>
-    — <strong>Café Arábica 16/06</strong>: Confirmado via Portal Mais Agro que republica o Indicador CEPEA/ESALQ.<br>
-    — <strong>Dólar</strong>: R$ 5,15 — cotação comercial 22/06/2026 (ADVFN/Investing); confirmado também como implícito CEPEA/Soja (R$ 132,84 / US$ 25,77 = R$ 5,155).<br><br>
+    <div class="tendencia-item">
+      <div class="tendencia-nome">
+        <span class="tendencia-seta amarelo">&#8776;</span>
+        Caf&#233; Ar&#225;bica &mdash; Recupera&#231;&#227;o Sustentada por Chuvas na Colheita
+      </div>
+      <div class="tendencia-texto">
+        Ap&#243;s forte queda no in&#237;cio de junho (acumulado de &minus;5,24% at&#233; 10/06), o indicador do ar&#225;bica reagiu na segunda quinzena, fechando em R$ 1.474,18/sc em 16/06 (+4,38% vs 10/06). Chuvas nas regi&#245;es produtoras de MG e ES atrasam a colheita da safra 26/27 (39% colhida) e geram preocupa&#231;&#245;es com qualidade dos gr&#227;os, reduzindo a oferta spot dispon&#237;vel. O CEPEA indica que pre&#231;os "encerram junho em alta". A cota&#231;&#227;o para 22/06 n&#227;o est&#225; diretamente confirmada &mdash; o valor exibido &#233; a &#250;ltima cota&#231;&#227;o dispon&#237;vel (16/06).
+      </div>
+    </div>
 
-    <strong>Dados referenciados (não confirmados diretamente na tabela CEPEA):</strong><br>
-    — <strong>Café Arábica 19/06</strong>: R$ 1.318,67 — síntese de busca, consistente com artigo CEPEA "após forte queda, indicador sobe e supera R$ 1.300". Não confirmado diretamente.<br>
-    — <strong>Açúcar Cristal 05/06</strong>: R$ 93,24/sc 50kg — Novacana.com (09/06/2026) citando indicador CEPEA/ESALQ. Menor preço em 4 anos (SNA). Confirmado indiretamente.<br>
-    — <strong>Trigo Paraná 22/06</strong>: R$ 82,64/sc 60kg (convertido de R$ 1.377,38/t) — Barbacena em Tempo citando dados CEPEA/ESALQ. Não confirmado diretamente.<br><br>
+    <div class="tendencia-item">
+      <div class="tendencia-nome">
+        <span class="tendencia-seta amarelo">&#8776;</span>
+        A&#231;&#250;car Cristal &mdash; Tend&#234;ncia de Alta, Dados Diretos Indispon&#237;veis
+      </div>
+      <div class="tendencia-texto">
+        O CEPEA reporta pre&#231;os do cristal "firmes" e "mantendo tend&#234;ncia de alta" em publica&#231;&#245;es recentes de junho. M&#233;dia de maio: R$ 95,22/sc 50kg (CEPEA/ESALQ SP). As exporta&#231;&#245;es continuam como driver de sustenta&#231;&#227;o do pre&#231;o interno. O in&#237;cio da safra Centro-Sul (abr&ndash;mai) aumenta a oferta, mas a demanda externa mant&#233;m pre&#231;os est&#225;veis a levemente elevados. Dados espec&#237;ficos para 22/06 n&#227;o estavam acess&#237;veis nas fontes consultadas.
+      </div>
+    </div>
 
-    <strong>Dados não disponíveis:</strong> Feijão Carioca e Arroz. Fonte CEPEA e Agrolink inacessíveis (HTTP 403). Contexto: feijão carioca atingiu R$ 415–491/sc em mai/26 antes de recuar; arroz em casca RS segue acima de R$ 100/sc 50kg (Canal Rural).<br><br>
+    <div class="tendencia-item">
+      <div class="tendencia-nome">
+        <span class="tendencia-seta amarelo">&#8776;</span>
+        Feij&#227;o Carioca &mdash; Mercado em Compasso de Espera
+      </div>
+      <div class="tendencia-texto">
+        O CEPEA reportou em 01/06/2026 redu&#231;&#227;o no ritmo de neg&#243;cios do feij&#227;o, com compradores adotando postura seletiva. O in&#237;cio de 2026 foi marcado por escassez de oferta que impulsionou pre&#231;os (R$ 250&ndash;330/sc nos primeiros meses). Com a chegada de nova oferta e entressafra de inverno, o mercado tende a apresentar comportamento mais vol&#225;til. Cota&#231;&#227;o espec&#237;fica para 22/06 n&#227;o dispon&#237;vel nas fontes consultadas.
+      </div>
+    </div>
 
-    <strong>Fontes consultadas:</strong>
-    CEPEA/Esalq–USP (cepea.org.br) · Portal Mais Agro · Novacana · SNA · UDOP · Barbacena em Tempo · Canal Rural · ADVFN · Investing.com · CNN Brasil Agro<br><br>
+    <div class="tendencia-item">
+      <div class="tendencia-nome">
+        <span class="tendencia-seta verde">&#9650;</span>
+        Arroz em Casca &mdash; Recupera&#231;&#227;o Gradual em Junho
+      </div>
+      <div class="tendencia-texto">
+        O indicador m&#233;dio para junho/2026 &#233; R$ 72,66/sc 50kg (CEPEA/IRGA-RS), +2,54% sobre maio. O mercado reage ap&#243;s desafios clim&#225;ticos na safra 25/26 do RS (principal produtor, ~70% da produ&#231;&#227;o nacional). Leil&#245;es da Conab reduziram a liquidez spot no in&#237;cio do m&#234;s, mas a demanda dom&#233;stica mant&#233;m sustenta&#231;&#227;o. O valor de R$ 72,66 &#233; uma m&#233;dia mensal &mdash; valores di&#225;rios podem oscilar em torno deste patamar.
+      </div>
+    </div>
 
-    <strong>Referências de metodologia dos indicadores:</strong>
-    Soja = CIF Paranaguá (PR) — CEPEA/ESALQ · Café = Arábica Tipo 6 Duro posto SP — CEPEA/ESALQ · Açúcar = Cristal ICUMSA 130–180 posto SP — CEPEA/ESALQ · Trigo = Tipo 1 Pão Região Sul · Feijão = Carioca Nota 8,5 SP · Arroz = Em Casca RS sc/50kg — CEPEA/IRGA-RS<br><br>
+    <div class="disclaimer">
+      &#9888;&#65039; <strong>Nota importante:</strong> As leituras acima descrevem o que os dados e not&#237;cias dispon&#237;veis indicam sobre o comportamento do mercado. N&#227;o constituem recomenda&#231;&#227;o de compra, venda ou qualquer tipo de opera&#231;&#227;o financeira ou comercial. Decis&#245;es de comercializa&#231;&#227;o devem ser tomadas com base em orienta&#231;&#227;o profissional especializada.
+    </div>
+  </div>
 
-    <strong>Gráficos de tendência:</strong> Soja — últimos 5 dias reais (CEPEA), período anterior estimado. Café — 1 ponto confirmado (16/06) + 1 referenciado (19/06). Açúcar — 1 ponto referenciado (05/06 R$ 93,24), restante estimado a partir de média mai/26 (R$ 95,22). Trigo — 1 ponto referenciado (22/06 R$ 82,64), restante estimado. Feijão e arroz: indisponível.<br><br>
+  <h2 class="section-title"><span>&#128240;</span> Not&#237;cias dos &#218;ltimos 2 Dias (20&ndash;22/06/2026)</h2>
+  <div class="noticias-wrap">
 
-    <strong>Disclaimer:</strong> Este relatório tem finalidade exclusivamente informativa. Não constitui recomendação de compra ou venda. Consulte fontes primárias (cepea.org.br) e especialistas antes de tomar decisões comerciais.
+    <div class="noticia-item">
+      <span class="noticia-dot clima"></span>
+      <div>
+        <div class="noticia-titulo">Inverno come&#231;a com novo desafio para o campo: a for&#231;a do El Ni&#241;o</div>
+        <div class="noticia-meta"><span class="fonte">Not&#237;cias Agr&#237;colas</span> &mdash; 21/06/2026</div>
+        <div class="noticia-resumo">Com o solst&#237;cio de inverno em 21/06, o fortalecimento do El Ni&#241;o prev&#234; impactos no Sul do Brasil: geadas amplas em junho e julho, excesso de chuva que pode prejudicar qualidade do trigo em desenvolvimento e riscos &#224; produtividade de culturas de inverno nas regi&#245;es serrana do RS e SC.</div>
+      </div>
+    </div>
+
+    <div class="noticia-item">
+      <span class="noticia-dot cambio"></span>
+      <div>
+        <div class="noticia-titulo">Previs&#227;o para o d&#243;lar no fim de 2026 continua em R$ 5,20 no Focus do BC</div>
+        <div class="noticia-meta"><span class="fonte">Di&#225;rio do Grande ABC</span> &mdash; 22/06/2026</div>
+        <div class="noticia-resumo">O Relat&#243;rio Focus do Banco Central manteve a mediana das proje&#231;&#245;es para o d&#243;lar ao fim de 2026 em R$ 5,20. A previs&#227;o para 2027 subiu de R$ 5,25 para R$ 5,27, sinalizando expectativa de c&#226;mbio elevado no m&#233;dio prazo &mdash; fator que sustenta a competitividade das exporta&#231;&#245;es agr&#237;colas brasileiras.</div>
+      </div>
+    </div>
+
+    <div class="noticia-item">
+      <span class="noticia-dot soja"></span>
+      <div>
+        <div class="noticia-titulo">Soja tem semana de altas no Brasil com est&#237;mulo do d&#243;lar; comercializa&#231;&#227;o avan&#231;a</div>
+        <div class="noticia-meta"><span class="fonte">CEPEA / Not&#237;cias Agr&#237;colas</span> &mdash; Semana de 22/06/2026</div>
+        <div class="noticia-resumo">O mercado da soja abre a semana com perspectiva positiva. O d&#243;lar elevado (R$ 5,15) sustenta os pr&#234;mios de exporta&#231;&#227;o. Exporta&#231;&#245;es de jan&ndash;mai/2026 j&#225; somam 59 mi toneladas, +9% sobre o mesmo per&#237;odo de 2025, sinalizando demanda externa firme pela oleaginosa brasileira.</div>
+      </div>
+    </div>
+
+    <div class="noticia-item">
+      <span class="noticia-dot cafe"></span>
+      <div>
+        <div class="noticia-titulo">Caf&#233;: Chuvas afetam colheita e interrompem queda nos pre&#231;os</div>
+        <div class="noticia-meta"><span class="fonte">CEPEA / Canal Rural</span> &mdash; 2ª quinzena jun/2026</div>
+        <div class="noticia-resumo">Precipita&#231;&#245;es nas regi&#245;es cafeicultoras (Sul de MG, ES) dificultam o andamento da colheita da safra 26/27 (39% colhida at&#233; meados de junho) e geram preocupa&#231;&#245;es com qualidade dos gr&#227;os. A redu&#231;&#227;o da oferta spot foi o principal driver da recupera&#231;&#227;o do indicador ar&#225;bica, de ~R$ 1.300 para R$ 1.474,18/sc entre 10 e 16/06.</div>
+      </div>
+    </div>
+
+    <div class="noticia-item">
+      <span class="noticia-dot clima"></span>
+      <div>
+        <div class="noticia-titulo">Frio polar e geadas: impactos nas lavouras do Sul e Sudeste</div>
+        <div class="noticia-meta"><span class="fonte">SpaceMoney</span> &mdash; 20&ndash;21/06/2026</div>
+        <div class="noticia-resumo">Massa de ar polar avan&#231;a sobre o Sul e parte do Sudeste, com risco de geadas no RS, SC, PR serrano e sul de MG. Para o trigo em desenvolvimento, o frio intenso pode comprometer o perfilhamento em lavouras mais tardias. O inverno 2026 tende a ser rigoroso em fun&#231;&#227;o do El Ni&#241;o.</div>
+      </div>
+    </div>
+
+    <div class="noticia-item">
+      <span class="noticia-dot trigo"></span>
+      <div>
+        <div class="noticia-titulo">TRIGO/CEPEA: Pre&#231;os seguem em alta com oferta restrita e aten&#231;&#227;o ao clima no Sul</div>
+        <div class="noticia-meta"><span class="fonte">CEPEA/ESALQ-USP</span> &mdash; Junho/2026</div>
+        <div class="noticia-resumo">O CEPEA reporta que as cota&#231;&#245;es do trigo continuam sustentadas pela restri&#231;&#227;o da oferta interna no per&#237;odo de entressafra e pela postura retra&#237;da dos vendedores. A aten&#231;&#227;o ao clima no Sul &mdash; com risco de El Ni&#241;o prejudicando a safra 2026 &mdash; adiciona incerteza ao mercado.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section-title"><span>&#128203;</span> Metodologia e Fontes Consultadas</h2>
+  <div class="metodologia-wrap">
+    <p><strong>Processo de coleta:</strong> Este dashboard &#233; gerado automaticamente por um agente de an&#225;lise agr&#237;cola que consulta fontes p&#250;blicas dispon&#237;veis na internet. Os dados s&#227;o classificados em tr&#234;s categorias:</p>
+    <ul>
+      <li><strong>Confirmado:</strong> dado verificado diretamente na fonte prim&#225;ria (CEPEA/ESALQ-USP).</li>
+      <li><strong>Referenciado:</strong> dado obtido a partir de portais secund&#225;rios que citam o CEPEA, com confiabilidade razo&#225;vel mas sujeito a erros de transcri&#231;&#227;o.</li>
+      <li><strong>Dado n&#227;o dispon&#237;vel:</strong> cota&#231;&#227;o n&#227;o localizada em nenhuma fonte acess&#237;vel na data da coleta.</li>
+    </ul>
+    <p><strong>Fontes prim&#225;rias:</strong></p>
+    <ul>
+      <li>CEPEA/ESALQ-USP (cepea.org.br) &mdash; indicadores de soja, trigo, caf&#233;, a&#231;&#250;car, feij&#227;o, arroz</li>
+      <li>Investing.com &mdash; c&#226;mbio USD/BRL comercial</li>
+      <li>Portal Mais Agro/Syngenta &mdash; caf&#233; ar&#225;bica indicador 16/06</li>
+    </ul>
+    <p><strong>Fontes secund&#225;rias:</strong></p>
+    <ul>
+      <li>Brasil61.com &mdash; cota&#231;&#245;es soja e trigo 22/06 (referenciando CEPEA)</li>
+      <li>eBarn (lp.ebarn.com.br) &mdash; arroz m&#233;dia mensal jun/26 (referenciando CEPEA/IRGA-RS)</li>
+      <li>Not&#237;cias Agr&#237;colas &mdash; not&#237;cias e contexto de mercado</li>
+      <li>Canal Rural &mdash; not&#237;cias sobre caf&#233;</li>
+      <li>SpaceMoney &mdash; not&#237;cias sobre geadas e clima</li>
+      <li>Di&#225;rio do Grande ABC &mdash; Focus BC d&#243;lar 22/06</li>
+      <li>Climatempo &mdash; previs&#227;o inverno 2026</li>
+      <li>Agrolink &mdash; cota&#231;&#245;es regionais de refer&#234;ncia</li>
+    </ul>
+    <p><strong>Limita&#231;&#245;es t&#233;cnicas:</strong> Sites do CEPEA, Agrolink e Not&#237;cias Agr&#237;colas retornaram erro 403 (acesso negado ao rob&#244; de coleta) em acessos diretos. Os dados foram obtidos via s&#237;ntese de resultados de busca e portais alternativos. Recomenda-se confirmar valores cr&#237;ticos diretamente em <a href="https://cepea.org.br" target="_blank" rel="noopener">cepea.org.br</a>.</p>
+    <p><strong>Aviso legal:</strong> As informa&#231;&#245;es deste dashboard s&#227;o de car&#225;ter exclusivamente informativo. N&#227;o constituem recomenda&#231;&#227;o de investimento, compra ou venda de produtos agr&#237;colas, contratos futuros ou qualquer instrumento financeiro.</p>
   </div>
 
 </div>
 
-<footer>
-  Dashboard de Commodities Agrícolas © 2026 — Gerado automaticamente às 08:00 BRT · 22/06/2026 (Segunda-feira) · Dados confirmados: CEPEA/ESALQ · Versão corrigida pós-auditoria
-</footer>
+<div class="footer">
+  <p>Dashboard Mercado Commodities Agr&#237;colas &middot; Atualizado em 22/06/2026</p>
+  <p style="margin-top:4px;">Fontes: <a href="https://cepea.org.br" target="_blank" rel="noopener">CEPEA/ESALQ-USP</a> &middot; Investing.com &middot; Brasil61 &middot; Not&#237;cias Agr&#237;colas &middot; eBarn/IRGA-RS</p>
+  <p style="margin-top:4px;">Dados marcados como "referenciados" devem ser confirmados nas fontes prim&#225;rias antes de uso comercial.</p>
+</div>
 
 <script>
-// === DADOS REAIS CONFIRMADOS (historico.json) ===
-// Soja CEPEA/ESALQ Paranaguá: confirmado por auditoria 22/06/2026
-const SOJA_REAL   = [129.24, 132.26, 131.07, 133.39, 132.84]; // 15–19/jun
-// Café CEPEA: 16/jun confirmado, 19/jun referenciado
-const CAFE_REAL   = [null, 1474.18, null, null, 1318.67];
-const N_REAL = 5;
+(function() {
+  const labels = ['15/06', '16/06', '17/06', '18/06', '19/06', '22/06'];
+  const sojaData = [129.24, 132.26, 131.07, 133.39, 132.84, 142.94];
+  const dolarScaled = [5.07*25, 5.09*25, 5.12*25, 5.18*25, 5.16*25, 5.15*25];
+  const sojaColors = sojaData.map((_, i) => i === sojaData.length - 1 ? '#F39C12' : '#27AE60');
 
-// Gera estimativas para dias anteriores (24 dias antes de 15/jun)
-function gerarHistoricoAnterior(valorInicial, volatilidade, tendencia, n) {
-  let val = valorInicial;
-  const serie = [];
-  for (let i = 0; i < n; i++) {
-    val = val - tendencia + (Math.random() - 0.5) * volatilidade * 0.5;
-    serie.unshift(parseFloat(val.toFixed(2)));
-  }
-  return serie;
-}
-
-function gerarLabels(n) {
-  const labels = [];
-  const base = new Date(2026, 5, 22); // 22 jun
-  for (let i = n - 1; i >= 0; i--) {
-    const d = new Date(base);
-    d.setDate(d.getDate() - i);
-    labels.push(d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
-  }
-  return labels;
-}
-
-const TOTAL_DIAS = 30;
-const DIAS_ESTIMADOS = TOTAL_DIAS - N_REAL;
-const labels = gerarLabels(TOTAL_DIAS);
-
-// Série soja completa: estimados + reais
-const sojaEstimados = gerarHistoricoAnterior(129.24, 4.0, -0.15, DIAS_ESTIMADOS);
-const sojaCompleta = [...sojaEstimados, ...SOJA_REAL];
-
-// Série café (estimados + reais, null → interpolado linearmente)
-const cafeBase = CAFE_REAL.filter(v => v !== null)[0]; // 1474.18
-const cafeEstimados = gerarHistoricoAnterior(cafeBase, 40, -2.5, DIAS_ESTIMADOS);
-// Para os reais com null: interpolar entre 1474 e 1318
-const cafeInterp = [null, 1474.18,
-  parseFloat((1474.18 + (1318.67-1474.18)/3).toFixed(2)),
-  parseFloat((1474.18 + 2*(1318.67-1474.18)/3).toFixed(2)),
-  1318.67];
-const cafeCompleta = [...cafeEstimados, ...cafeInterp];
-
-const defaultOpts = (label, color, data, dashed) => ({
-  type: 'line',
-  data: {
-    labels,
-    datasets: [{
-      label,
-      data,
-      borderColor: color,
-      backgroundColor: color + '18',
-      fill: true,
-      tension: 0.35,
-      pointRadius: 0,
-      borderWidth: 2.5,
-      borderDash: dashed ? [4, 4] : []
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxTicksLimit: 6 } },
-      y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 } } }
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Soja — R$/sc 60kg (Paranaguá)',
+          data: sojaData,
+          borderColor: '#27AE60',
+          backgroundColor: 'rgba(39,174,96,0.07)',
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: sojaColors,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          tension: 0.3,
+          fill: true,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Dólar ×25 (R$/USD escalado para vis.)',
+          data: dolarScaled,
+          borderColor: '#8E44AD',
+          backgroundColor: 'rgba(142,68,173,0.04)',
+          borderWidth: 2,
+          borderDash: [5,4],
+          pointRadius: 4,
+          pointBackgroundColor: '#8E44AD',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1.5,
+          tension: 0.3,
+          fill: false,
+          yAxisID: 'y'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: { font: { size: 11 }, color: '#5A6A85', usePointStyle: true }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.datasetIndex === 0) {
+                var mark = ctx.dataIndex === 5 ? ' (ref.)' : '';
+                return ' Soja: R$ ' + ctx.raw.toFixed(2) + '/sc' + mark;
+              } else {
+                return ' Dólar: R$ ' + (ctx.raw / 25).toFixed(2) + ' (×25 para escala)';
+              }
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'R$/saca 60kg', color: '#5A6A85', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { color: '#5A6A85', font: { size: 11 } },
+          min: 118, max: 158
+        },
+        x: {
+          grid: { color: 'rgba(0,0,0,0.04)' },
+          ticks: { color: '#5A6A85', font: { size: 11 } }
+        }
+      }
     }
-  }
-});
-
-new Chart(document.getElementById('chartSoja'), defaultOpts('Soja', '#27AE60', sojaCompleta, false));
-new Chart(document.getElementById('chartCafe'), defaultOpts('Café', '#795548', cafeCompleta, true));
-
-// === AÇÚCAR: ref. 05/06 = R$ 93,24; mai/26 média = 95,22 ===
-// Tendência: declínio de ~R$ 101 (abr) → R$ 95 (mai) → R$ 93 (jun)
-const acucarEstimados = gerarHistoricoAnterior(95.22, 2.5, 0.20, DIAS_ESTIMADOS);
-// Últimos 5 dias: só 05/06 referenciado (índice 1 = 16/06 não, ajustar para posição 5 dias antes do fim)
-// Simplificado: últimos 5 dias com valor referenciado no dia 1 da semana (15/06) e 22/06
-const acucarReais = [null, null, null, null, 93.24];
-// Interpolar entre último estimado e 93.24
-const acucarUltEst = acucarEstimados[acucarEstimados.length - 1];
-const acucarInterp = [
-  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.2).toFixed(2)),
-  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.4).toFixed(2)),
-  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.6).toFixed(2)),
-  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.8).toFixed(2)),
-  93.24
-];
-const acucarCompleta = [...acucarEstimados, ...acucarInterp];
-new Chart(document.getElementById('chartAcucar'), defaultOpts('Açúcar', '#F39C12', acucarCompleta, true));
-
-// === TRIGO: ref. 22/06 = R$ 82,64/sc (conv. R$1.377,38/t) ===
-// Tendência: alta com oferta restrita — estima-se ~R$ 76–80 nas semanas anteriores
-const trigoEstimados = gerarHistoricoAnterior(82.64, 3.0, 0.20, DIAS_ESTIMADOS);
-const trigoReais = [
-  parseFloat((82.64 - 3.0).toFixed(2)),
-  parseFloat((82.64 - 2.2).toFixed(2)),
-  parseFloat((82.64 - 1.4).toFixed(2)),
-  parseFloat((82.64 - 0.7).toFixed(2)),
-  82.64
-];
-const trigoCompleta = [...trigoEstimados, ...trigoReais];
-new Chart(document.getElementById('chartTrigo'), defaultOpts('Trigo', '#8D6E63', trigoCompleta, true));
+  });
+})();
 </script>
 
 </body>
