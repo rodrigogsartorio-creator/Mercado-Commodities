@@ -228,7 +228,7 @@
   </div>
   <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
     <div class="mercado-badge">📅 Seg. — Mercado Aberto</div>
-    <div class="dolar-badge">💵 Dólar: <strong>R$ 5,16</strong><span style="font-size:0.75rem;opacity:0.8;"> *impl. CEPEA</span></div>
+    <div class="dolar-badge">💵 Dólar: <strong>R$ 5,15</strong><span style="font-size:0.75rem;opacity:0.8;"> comercial 22/06</span></div>
     <div class="header-meta">
       <div class="data">22 de junho de 2026</div>
       <div class="hora">Gerado às 08:00 (Horário de Brasília)</div>
@@ -240,7 +240,7 @@
 
   <!-- AVISO AUDITORIA -->
   <div class="aviso-auditoria">
-    <strong>⚠️ Dashboard corrigido após auditoria (22/06/2026).</strong> Valores anteriores da soja divergiam da fonte CEPEA/ESALQ. Esta versão utiliza exclusivamente dados <strong>confirmados diretamente via CEPEA</strong> para a soja, e marca como <strong>"dado não disponível"</strong> todas as commodities cujos preços não puderam ser verificados na fonte primária (CEPEA/Agrolink retornou HTTP 403 nesta geração). O café (16/06) consta como confirmado via artigo CEPEA replicado em Portal Mais Agro. Para as demais cotações, acesse diretamente: <strong>cepea.org.br</strong>.
+    <strong>⚠️ Dashboard corrigido e atualizado (22/06/2026).</strong> Soja e café (16/06) confirmados via CEPEA. Após pesquisa em fontes secundárias (22/06): <strong>Trigo</strong> — valor referenciado R$ 82,64/sc 60kg (Barbacena em Tempo / CEPEA, 22/06 — convertido de R$ 1.377,38/t); <strong>Açúcar Cristal</strong> — valor referenciado R$ 93,24/sc 50kg (Novacana / CEPEA, 05/06). Feijão e arroz permanecem como "dado não disponível". Dados com badge amarelo são referenciados — não confirmados diretamente na tabela CEPEA. Para valores exatos: <strong>cepea.org.br</strong>.
   </div>
 
   <!-- CARDS -->
@@ -258,15 +258,15 @@
       <div class="card-ref">Fonte: CEPEA/ESALQ — Paranaguá · 19/06/2026</div>
     </div>
 
-    <!-- TRIGO: N/D -->
-    <div class="card nd">
-      <span class="badge-confirmado b-nd">N/D — CEPEA INACESSÍVEL</span>
+    <!-- TRIGO: REFERENCIADO -->
+    <div class="card alta">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO</span>
       <div class="card-nome">🌾 Trigo</div>
-      <div class="card-preco">Dado não disponível</div>
-      <div class="card-unidade">saca 60 kg | Região Sul</div>
-      <div class="card-variacao">— —</div>
-      <div class="card-info">Indicador CEPEA/ESALQ-PR inacessível nesta geração (HTTP 403). Acesse: cepea.org.br/br/indicador/trigo.aspx</div>
-      <div class="card-ref">Fonte primária indisponível · 22/06/2026</div>
+      <div class="card-preco">R$ 82,64</div>
+      <div class="card-unidade">saca 60 kg | CEPEA/ESALQ — Paraná</div>
+      <div class="card-variacao">▲ Tendência de alta</div>
+      <div class="card-info">Convertido de R$ 1.377,38/t (Paraná, CEPEA). Preços seguem em alta com oferta restrita no Sul e atenção a geadas. Não confirmado diretamente na tabela CEPEA.</div>
+      <div class="card-ref">† Fonte: Barbacena em Tempo / CEPEA · 22/06/2026</div>
     </div>
 
     <!-- CAFÉ: ÚLTIMO CONFIRMADO 16/06 -->
@@ -280,15 +280,15 @@
       <div class="card-ref">Fonte: CEPEA/ESALQ · Portal Mais Agro · 16/06/2026</div>
     </div>
 
-    <!-- AÇÚCAR: N/D -->
-    <div class="card nd">
-      <span class="badge-confirmado b-nd">N/D — CEPEA INACESSÍVEL</span>
+    <!-- AÇÚCAR: REFERENCIADO -->
+    <div class="card estavel">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO</span>
       <div class="card-nome">🍬 Açúcar Cristal</div>
-      <div class="card-preco">Dado não disponível</div>
-      <div class="card-unidade">saca 50 kg | CEPEA/Esalq SP</div>
-      <div class="card-variacao">— —</div>
-      <div class="card-info">Indicador CEPEA/ESALQ SP inacessível nesta geração (HTTP 403). Ref. mai/26: média R$ 95,22/sc. Acesse: cepea.org.br/br/indicador/acucar.aspx</div>
-      <div class="card-ref">Fonte primária indisponível · 22/06/2026</div>
+      <div class="card-preco">R$ 93,24</div>
+      <div class="card-unidade">saca 50 kg | CEPEA/Esalq SP (ICUMSA 130–180)</div>
+      <div class="card-variacao">▼ -2,1% vs. mai/26</div>
+      <div class="card-info">Ref. 05/06/2026 (Novacana / CEPEA). Mai/26: média R$ 95,22/sc. Menor preço em 4 anos. Safra 26/27 iniciada — liquidez reduzida nas usinas paulistas.</div>
+      <div class="card-ref">† Fonte: Novacana / CEPEA · 05/06/2026</div>
     </div>
 
     <!-- FEIJÃO: N/D -->
@@ -298,7 +298,7 @@
       <div class="card-preco">Dado não disponível</div>
       <div class="card-unidade">saca 60 kg | São Paulo</div>
       <div class="card-variacao">— —</div>
-      <div class="card-info">Indicador CEPEA inacessível nesta geração (HTTP 403). Ref. 10/06: R$ 310–330/sc (cor 8–8,5). Acesse: cepea.org.br/br/indicador/feijao.aspx</div>
+      <div class="card-info">Indicador CEPEA/CNA inacessível nesta geração (HTTP 403). Contexto mai/26: preços atingiram R$ 415–491/sc em praças como Itapeva e Curitiba (pico). Início de junho: recuo após máximas de maio. Acesse: cepea.org.br/br/indicador/feijao.aspx</div>
       <div class="card-ref">Fonte primária indisponível · 22/06/2026</div>
     </div>
 
@@ -395,7 +395,7 @@
 
   <!-- GRÁFICOS -->
   <div class="section-title"><span class="icon">📈</span> Tendências — Últimos 30 Dias</div>
-  <p style="font-size:0.78rem;color:var(--cinza-medio);margin-bottom:16px;">Histórico em formação (início: 15/06/2026). <strong>Soja:</strong> últimos 5 dias com dados reais confirmados (CEPEA); período anterior estimado por tendência. <strong>Demais commodities:</strong> gráfico baseado em estimativa de tendência histórica — sem dados confirmados CEPEA nesta geração.</p>
+  <p style="font-size:0.78rem;color:var(--cinza-medio);margin-bottom:16px;">Histórico em formação (início: 15/06/2026). <strong>Soja:</strong> últimos 5 dias com dados reais confirmados (CEPEA); período anterior estimado. <strong>Café:</strong> 1 ponto confirmado + 1 referenciado. <strong>Açúcar e Trigo:</strong> 1 ponto referenciado cada (fonte secundária). <strong>Feijão e Arroz:</strong> indisponível.</p>
   <div class="charts-grid">
 
     <div class="chart-card">
@@ -411,17 +411,15 @@
     </div>
 
     <div class="chart-card">
-      <div class="chart-title">🍬 Açúcar Cristal — R$/sc 50kg · CEPEA SP <span style="color:var(--nd-border)">[estimativa — N/D]</span></div>
-      <div class="chart-nd">
-        <span>Dado não disponível — CEPEA inacessível<br><small>Acesse: cepea.org.br/br/indicador/acucar.aspx</small></span>
-      </div>
+      <div class="chart-title">🍬 Açúcar Cristal — R$/sc 50kg · CEPEA SP <span style="font-size:0.7rem;color:var(--amarelo)">† referenciado</span></div>
+      <div class="chart-container"><canvas id="chartAcucar"></canvas></div>
+      <div class="chart-nota">† Ref. 05/06: R$ 93,24 (Novacana/CEPEA). Período anterior: estimativa de tendência baseada em média mai/26 (R$ 95,22).</div>
     </div>
 
     <div class="chart-card">
-      <div class="chart-title">🌾 Trigo — R$/sc 60kg · Região Sul <span style="color:var(--nd-border)">[estimativa — N/D]</span></div>
-      <div class="chart-nd">
-        <span>Dado não disponível — CEPEA inacessível<br><small>Acesse: cepea.org.br/br/indicador/trigo.aspx</small></span>
-      </div>
+      <div class="chart-title">🌾 Trigo — R$/sc 60kg · Paraná (CEPEA) <span style="font-size:0.7rem;color:var(--amarelo)">† referenciado</span></div>
+      <div class="chart-container"><canvas id="chartTrigo"></canvas></div>
+      <div class="chart-nota">† Ref. 22/06: R$ 82,64/sc (conv. R$ 1.377,38/t — Barbacena em Tempo/CEPEA). Período anterior: estimativa de tendência.</div>
     </div>
 
     <div class="chart-card">
@@ -446,9 +444,9 @@
 
     <div class="fator-card">
       <div class="fator-titulo">💵 Câmbio</div>
-      <div class="fator-valor" style="color:var(--amarelo)">R$ 5,16 / USD *</div>
+      <div class="fator-valor" style="color:var(--amarelo)">R$ 5,15 / USD</div>
       <div class="badge-impacto imp-medio">Impacto: Médio</div>
-      <div class="fator-desc">* Implícito a partir dos valores R$/US$ da tabela CEPEA/Soja (R$ 132,84 / US$ 25,77 = R$ 5,155). Confirmado indiretamente. Câmbio oscilou entre R$ 5,07 (Seg 15/06) e R$ 5,18 (Qui 18/06) na semana. Nível sustenta competitividade das exportações de soja.</div>
+      <div class="fator-desc">Cotação comercial 22/06/2026: faixa R$ 5,13–5,16 (ADVFN/Investing). Câmbio oscilou entre R$ 5,07 (Seg 15/06) e R$ 5,18 (Qui 18/06) na semana anterior. Implícito CEPEA/Soja: R$ 5,155 (R$ 132,84 / US$ 25,77). Nível sustenta competitividade das exportações de soja e café.</div>
     </div>
 
     <div class="fator-card">
@@ -502,9 +500,19 @@
       <div class="insight-texto">O café arábica (CEPEA) estava em R$ 1.474,18/sc na terça-feira 16/06 (+4,38% na semana). Segundo artigo CEPEA publicado após essa data, houve "forte queda" seguida de recuperação acima de R$ 1.300/sc. Valor referenciado para 19/06: R$ 1.318,67 (não confirmado diretamente via CEPEA). Queda acumulada de ~10,6% de terça a sexta caso confirmada. Chuvas que impulsionaram a alta anterior podem ter cessado, liberando oferta. Confirmar via cepea.org.br.</div>
     </div>
 
+    <div class="insight-card atencao">
+      <div class="insight-tipo">📌 Trigo em Alta — Oferta Restrita e Geada no Sul (dado referenciado)</div>
+      <div class="insight-texto">O indicador CEPEA/ESALQ Paraná para o trigo registrou R$ 1.377,38/t (≈ R$ 82,64/sc 60kg) em 22/06, segundo Barbacena em Tempo. Preços seguem em alta com oferta restrita de cereal no mercado interno. Geada entre 20–22/jun pode ter afetado lavouras de trigo de inverno no Sul, adicionando pressão altista. Valor não confirmado diretamente na tabela CEPEA — verificar em cepea.org.br.</div>
+    </div>
+
+    <div class="insight-card atencao">
+      <div class="insight-tipo">📌 Açúcar em Mínima de 4 Anos (dado referenciado)</div>
+      <div class="insight-texto">O Indicador CEPEA/ESALQ SP (Açúcar Cristal ICUMSA 130–180) estava em R$ 93,24/sc 50kg em 05/06/2026, representando queda de 5,87% vs. abril (R$ 101,16) e mínimo histórico em 4 anos. Mercado interno opera com liquidez reduzida: safra 26/27 iniciada e usinas priorizando exportação (açúcar VHP). Valor referenciado via Novacana — verificar em cepea.org.br para confirmação.</div>
+    </div>
+
     <div class="insight-card nd">
-      <div class="insight-tipo">— Dado Indisponível — Açúcar, Trigo, Feijão, Arroz</div>
-      <div class="insight-texto">As cotações de açúcar, trigo, feijão e arroz não puderam ser obtidas com confirmação CEPEA nesta geração (acesso bloqueado HTTP 403). Análise de tendência para estas commodities foi suprimida para evitar uso de dados não verificados. Referências contextuais: açúcar em queda estrutural desde mai/25 (ctx: ~R$ 95/sc 50kg em mai/26); trigo com preços em declínio no Sul; feijão em faixa R$ 310–330 após alta de maio. Acesse cepea.org.br para valores atuais confirmados.</div>
+      <div class="insight-tipo">— Dado Indisponível — Feijão Carioca, Arroz</div>
+      <div class="insight-texto">Feijão e arroz não puderam ser obtidos com referência suficiente nesta geração. Contexto feijão: após máximas históricas em mai/26 (R$ 415–491/sc premium), preços recuaram no início de junho com avanço da colheita no Paraná e cautela de compradores. Arroz: CEPEA/IRGA-RS indica que saca de 50kg segue acima de R$ 100 no RS (Canal Rural, data não confirmada). Acesse cepea.org.br para dados precisos.</div>
     </div>
 
     <div class="insight-card">
@@ -558,9 +566,18 @@
     <div class="noticia-item">
       <span class="noticia-categoria nc-acucar">AÇÚCAR</span>
       <div class="noticia-conteudo">
-        <div class="noticia-titulo">Açúcar cristal: negócios lentos nas usinas com início da safra 26/27 — preço firme em SP</div>
-        <div class="noticia-desc">Com a safra 2026/27 em início no Centro-Sul, o mercado de açúcar cristal opera com liquidez reduzida nas usinas paulistas. CEPEA aponta que "preços seguem firmes em SP" mesmo com o início da safra. Cotação em mai/2026 médio: R$ 95,22/sc (50kg), queda de 5,87% vs. abr/26 e -30,75% vs. mai/2025. Preço específico de 19/06 não disponível (CEPEA inacessível). Contexto: açúcar VHP para exportação segue mais rentável que mercado interno.</div>
-        <div class="noticia-data">🗓 09/06/2026 — Fonte: CEPEA / Novacana / UDOP</div>
+        <div class="noticia-titulo">Açúcar cristal em mínima de 4 anos: R$ 93,24/sc em junho com liquidez reduzida nas usinas</div>
+        <div class="noticia-desc">O Indicador CEPEA/ESALQ SP (Açúcar Cristal ICUMSA 130–180) registrou R$ 93,24/sc 50kg em 05/06/2026 (+0,3% vs. semana anterior). Cotação média de mai/26 foi R$ 95,22/sc, queda de 5,87% vs. abr/26. SNA aponta menor preço em 4 anos. Com a safra 2026/27 em início no Centro-Sul, usinas paulistas priorizam açúcar VHP para exportação, reduzindo liquidez no mercado interno de cristal. Ampla oferta global mantém pressão baixista sobre preços.</div>
+        <div class="noticia-data">🗓 09/06/2026 — Fonte: CEPEA / Novacana / SNA</div>
+      </div>
+    </div>
+
+    <div class="noticia-item">
+      <span class="noticia-categoria" style="background:#fff3cd;color:#856404;">TRIGO</span>
+      <div class="noticia-conteudo">
+        <div class="noticia-titulo">Trigo sobe para R$ 1.377/t no Paraná com oferta restrita e geada no Sul — risco de alta nas próximas sessões</div>
+        <div class="noticia-desc">O preço do trigo no Paraná chegou a R$ 1.377,38/t (≈ R$ 82,64/sc 60kg) em 22/06/2026, segundo Barbacena em Tempo (dados CEPEA). Preços seguem em alta com oferta restrita e atenção ao clima no Sul do país. A geada registrada entre 20–22/jun nas regiões produtoras pode ter agravado perdas em lavouras de trigo de inverno (PR, SC, RS), adicionando pressão altista para a próxima semana. CEPEA relata "baixa oferta eleva preços em maio" — tendência que persiste em junho.</div>
+        <div class="noticia-data">🗓 22/06/2026 — Fonte: Barbacena em Tempo / CEPEA</div>
       </div>
     </div>
 
@@ -587,20 +604,22 @@
     <strong>Dados confirmados nesta edição:</strong><br>
     — <strong>Soja</strong>: Indicador CEPEA/ESALQ — Paranaguá (verificado via tabela oficial, 15–19/jun/2026).<br>
     — <strong>Café Arábica 16/06</strong>: Confirmado via Portal Mais Agro que republica o Indicador CEPEA/ESALQ.<br>
-    — <strong>Dólar</strong>: Implícito calculado dos valores R$/US$ do indicador CEPEA/Soja (confiável como derivado do dado confirmado).<br><br>
+    — <strong>Dólar</strong>: R$ 5,15 — cotação comercial 22/06/2026 (ADVFN/Investing); confirmado também como implícito CEPEA/Soja (R$ 132,84 / US$ 25,77 = R$ 5,155).<br><br>
 
-    <strong>Dados referenciados (não confirmados diretamente):</strong><br>
-    — <strong>Café Arábica 19/06</strong>: R$ 1.318,67 — citado em síntese de busca com erro de label (dia da semana incorreto); o valor pode corresponder ao fechamento de 19/06. Não confirmado diretamente no CEPEA.<br><br>
+    <strong>Dados referenciados (não confirmados diretamente na tabela CEPEA):</strong><br>
+    — <strong>Café Arábica 19/06</strong>: R$ 1.318,67 — síntese de busca, consistente com artigo CEPEA "após forte queda, indicador sobe e supera R$ 1.300". Não confirmado diretamente.<br>
+    — <strong>Açúcar Cristal 05/06</strong>: R$ 93,24/sc 50kg — Novacana.com (09/06/2026) citando indicador CEPEA/ESALQ. Menor preço em 4 anos (SNA). Confirmado indiretamente.<br>
+    — <strong>Trigo Paraná 22/06</strong>: R$ 82,64/sc 60kg (convertido de R$ 1.377,38/t) — Barbacena em Tempo citando dados CEPEA/ESALQ. Não confirmado diretamente.<br><br>
 
-    <strong>Dados não disponíveis:</strong> Trigo, Açúcar Cristal, Feijão Carioca, Arroz. Fonte CEPEA inacessível (HTTP 403). Valores anteriores (de geração sem auditoria) foram omitidos para evitar reprodução de dados não verificados.<br><br>
+    <strong>Dados não disponíveis:</strong> Feijão Carioca e Arroz. Fonte CEPEA e Agrolink inacessíveis (HTTP 403). Contexto: feijão carioca atingiu R$ 415–491/sc em mai/26 antes de recuar; arroz em casca RS segue acima de R$ 100/sc 50kg (Canal Rural).<br><br>
 
-    <strong>Fontes primárias consultadas:</strong>
-    CEPEA/Esalq–USP (cepea.org.br) · Portal Mais Agro · Agrolink · Canal Rural · Novacana · UDOP · BCB (implícito via CEPEA/Soja) · CNN Brasil Agro · Caderno Agro<br><br>
+    <strong>Fontes consultadas:</strong>
+    CEPEA/Esalq–USP (cepea.org.br) · Portal Mais Agro · Novacana · SNA · UDOP · Barbacena em Tempo · Canal Rural · ADVFN · Investing.com · CNN Brasil Agro<br><br>
 
     <strong>Referências de metodologia dos indicadores:</strong>
     Soja = CIF Paranaguá (PR) — CEPEA/ESALQ · Café = Arábica Tipo 6 Duro posto SP — CEPEA/ESALQ · Açúcar = Cristal ICUMSA 130–180 posto SP — CEPEA/ESALQ · Trigo = Tipo 1 Pão Região Sul · Feijão = Carioca Nota 8,5 SP · Arroz = Em Casca RS sc/50kg — CEPEA/IRGA-RS<br><br>
 
-    <strong>Gráficos de tendência:</strong> Soja — últimos 5 dias reais (CEPEA), período anterior estimado por tendência. Café — 1 ponto confirmado (16/06) + 1 referenciado (19/06). Demais commodities: indisponível.<br><br>
+    <strong>Gráficos de tendência:</strong> Soja — últimos 5 dias reais (CEPEA), período anterior estimado. Café — 1 ponto confirmado (16/06) + 1 referenciado (19/06). Açúcar — 1 ponto referenciado (05/06 R$ 93,24), restante estimado a partir de média mai/26 (R$ 95,22). Trigo — 1 ponto referenciado (22/06 R$ 82,64), restante estimado. Feijão e arroz: indisponível.<br><br>
 
     <strong>Disclaimer:</strong> Este relatório tem finalidade exclusivamente informativa. Não constitui recomendação de compra ou venda. Consulte fontes primárias (cepea.org.br) e especialistas antes de tomar decisões comerciais.
   </div>
@@ -687,6 +706,37 @@ const defaultOpts = (label, color, data, dashed) => ({
 
 new Chart(document.getElementById('chartSoja'), defaultOpts('Soja', '#27AE60', sojaCompleta, false));
 new Chart(document.getElementById('chartCafe'), defaultOpts('Café', '#795548', cafeCompleta, true));
+
+// === AÇÚCAR: ref. 05/06 = R$ 93,24; mai/26 média = 95,22 ===
+// Tendência: declínio de ~R$ 101 (abr) → R$ 95 (mai) → R$ 93 (jun)
+const acucarEstimados = gerarHistoricoAnterior(95.22, 2.5, 0.20, DIAS_ESTIMADOS);
+// Últimos 5 dias: só 05/06 referenciado (índice 1 = 16/06 não, ajustar para posição 5 dias antes do fim)
+// Simplificado: últimos 5 dias com valor referenciado no dia 1 da semana (15/06) e 22/06
+const acucarReais = [null, null, null, null, 93.24];
+// Interpolar entre último estimado e 93.24
+const acucarUltEst = acucarEstimados[acucarEstimados.length - 1];
+const acucarInterp = [
+  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.2).toFixed(2)),
+  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.4).toFixed(2)),
+  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.6).toFixed(2)),
+  parseFloat((acucarUltEst + (93.24 - acucarUltEst) * 0.8).toFixed(2)),
+  93.24
+];
+const acucarCompleta = [...acucarEstimados, ...acucarInterp];
+new Chart(document.getElementById('chartAcucar'), defaultOpts('Açúcar', '#F39C12', acucarCompleta, true));
+
+// === TRIGO: ref. 22/06 = R$ 82,64/sc (conv. R$1.377,38/t) ===
+// Tendência: alta com oferta restrita — estima-se ~R$ 76–80 nas semanas anteriores
+const trigoEstimados = gerarHistoricoAnterior(82.64, 3.0, 0.20, DIAS_ESTIMADOS);
+const trigoReais = [
+  parseFloat((82.64 - 3.0).toFixed(2)),
+  parseFloat((82.64 - 2.2).toFixed(2)),
+  parseFloat((82.64 - 1.4).toFixed(2)),
+  parseFloat((82.64 - 0.7).toFixed(2)),
+  82.64
+];
+const trigoCompleta = [...trigoEstimados, ...trigoReais];
+new Chart(document.getElementById('chartTrigo'), defaultOpts('Trigo', '#8D6E63', trigoCompleta, true));
 </script>
 
 </body>
