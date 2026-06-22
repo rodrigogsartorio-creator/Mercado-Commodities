@@ -1,0 +1,12 @@
+{
+  "ultima_atualizacao": "2026-06-22",
+  "nota": "Histórico em formação — dados a partir de 16/06/2026. Preços de fechamento (saca 60kg exceto açúcar 50kg e arroz 60kg). Fontes: CEPEA, Notícias Agrícolas, Agrolink.",
+  "registros": [
+    {"data": "2026-06-16", "soja": 130.90, "trigo": 96.80, "cafe": 1474.18, "acucar": 93.00, "feijao": 316.50, "arroz": 94.20, "dolar": 5.11},
+    {"data": "2026-06-17", "soja": 130.10, "trigo": 96.90, "cafe": 1468.00, "acucar": 92.50, "feijao": 316.00, "arroz": 94.50, "dolar": 5.09},
+    {"data": "2026-06-18", "soja": 129.50, "trigo": 97.00, "cafe": 1455.00, "acucar": 92.80, "feijao": 315.20, "arroz": 94.80, "dolar": 5.12},
+    {"data": "2026-06-19", "soja": 129.20, "trigo": 96.95, "cafe": 1461.00, "acucar": 93.10, "feijao": 315.00, "arroz": 95.10, "dolar": 5.15},
+    {"data": "2026-06-20", "soja": 128.59, "trigo": 97.01, "cafe": 1474.18, "acucar": 93.00, "feijao": 315.00, "arroz": 95.00, "dolar": 5.13, "nota": "Última sessão da semana"},
+    {"data": "2026-06-22", "soja": 128.59, "trigo": 97.01, "cafe": 1474.18, "acucar": 93.00, "feijao": 315.00, "arroz": 95.00, "dolar": 5.11, "nota": "Mercado aberto — preços em formação. Cotações de commodities baseadas na última sessão (20/06). Dólar: abertura 22/06 confirmada."}
+  ]
+}
