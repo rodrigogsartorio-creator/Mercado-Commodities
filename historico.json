@@ -1,7 +1,7 @@
 {
   "descricao": "Histórico de cotações de commodities agrícolas — Dashboard Mercado Commodities",
-  "atualizacao": "2026-06-25",
-  "nota_historico": "Histórico em formação (início 15/06/2026). Soja: valores 15–19/06 confirmados CEPEA/ESALQ Paranaguá; 24/06 confirmado Brasil61.com (R$ 126,90/sc, -0,42%). Trigo: R$ 82,64/sc referenciado Brasil61.com/CEPEA (R$ 1.377,38/t PR), dado 24/06. Café: 16/06 confirmado CEPEA (R$ 1.474,18/sc); NY ICE em alta 24/06 (chuvas). Açúcar: 19/06 CEPEA (R$ 91,46/sc, -1,5%/sem). Feijão jun/26: referência CEPEA/CNA. Arroz: média mensal junho CEPEA/IRGA-RS. Dólar 25/06: Investing.com.",
+  "atualizacao": "2026-06-26",
+  "nota_historico": "Histórico em formação (início 15/06/2026). Soja: valores 15–19/06 confirmados CEPEA/ESALQ Paranaguá; 24/06 confirmado Brasil61.com (R$ 126,90/sc, -0,42%). Trigo: R$ 82,64/sc referenciado Brasil61.com/CEPEA (R$ 1.377,38/t PR), dado 24/06. Café: 16/06 confirmado CEPEA (R$ 1.474,18/sc); recuperação após forte queda — 'preços encerram junho em alta' (CEPEA). Açúcar: 19/06 CEPEA (R$ 91,46/sc, -1,5%/sem); oferta elevada mantém tendência baixista. Feijão jun/26: referência CEPEA/CNA (R$ 330/sc cor 8,5 SP); compradores retraídos. Arroz: média mensal junho CEPEA/IRGA-RS; 'oferta restrita sustenta preços' (CEPEA 24/06). Dólar 26/06: abertura R$ 5,1801, -0,47% vs 25/06.",
   "unidades": {
     "soja": "R$/saca 60kg (CIF Paranaguá — CEPEA/ESALQ)",
     "trigo": "R$/saca 60kg (Região Sul — CEPEA/ESALQ, convertido de R$/t)",
@@ -170,6 +170,7 @@
       "feijao_var_mes": 3.94,
       "arroz": 72.66,
       "arroz_var_mes": 3.76,
+      "arroz_nota": "'Oferta restrita sustenta preços' (CEPEA 24/06).",
       "dolar": 5.18,
       "dolar_fonte": "Investing.com 24/06/2026.",
       "status": {
@@ -207,6 +208,34 @@
         "feijao_carioca": "referenciado_jun26",
         "arroz": "media_mensal_jun26",
         "dolar": "confirmado_25jun_investing"
+      }
+    },
+    {
+      "data": "2026-06-26",
+      "soja": 126.90,
+      "soja_var_dia": null,
+      "soja_nota": "Último disponível: Porto Paranaguá R$ 126,90/sc (ref. 24/06, Brasil61/CEPEA). Chicago estável com leves altas; dólar mantém equilíbrio. Dado 26/06 não disponível no momento da coleta.",
+      "trigo": 82.64,
+      "trigo_var_dia": null,
+      "trigo_nota": "Último disponível: Paraná R$ 82,64/sc = R$ 1.377,38/t (ref. 24/06, Brasil61/CEPEA). 'Preços seguem em alta com oferta restrita e atenção ao clima no Sul' (CEPEA 23/06). Safra 2026: 6,38 Mt (-18,9% CONAB). Geada Sul 24-26/06. Dado 26/06 não disponível.",
+      "cafe_arabica": 1474.18,
+      "cafe_arabica_nota": "Último CEPEA doméstico: R$ 1.474,18/sc (16/06, +4,38%). 'Após forte queda, indicador do arábica sobe e volta a superar os R$ 1.300/sc' (CEPEA). 'Preços encerram junho em alta' (CEPEA). 12 meses consecutivos de alta. Robusta CEPEA 24/06: R$ 1.250,67/sc (recorde histórico). Dado 26/06 não disponível.",
+      "acucar_cristal": 91.46,
+      "acucar_nota": "Último CEPEA: R$ 91,46/sc 50kg (19/06, ICUMSA 130-180, SP). 'Oferta elevada mantém preços em baixa' (CEPEA 23/06). 'Vendas continuam fracas' (CEPEA). Nova safra 2026/27. NOTA: Cristal branco (produto distinto) retornou a R$ 126/sc SP. Dado 26/06 não disponível.",
+      "feijao_carioca": 330.00,
+      "feijao_nota": "Referência jun/26: R$ 330/sc (cor 8,5 SP, CEPEA/CNA). 'Repasses das altas ao consumidor seguem graduais' (CEPEA 22/06). Mercado com pouca liquidez. Acumula +57,6% em 2026. Dado 26/06 não disponível.",
+      "arroz": 72.66,
+      "arroz_nota": "Referência CEPEA/IRGA-RS jun/26: R$ 72,66/sc 50kg (irrigado em casca). 'Oferta restrita sustenta preços' (CEPEA 24/06). Colheita ~80% concluída no RS. Dado 26/06 não disponível.",
+      "dolar": 5.18,
+      "dolar_nota": "Abertura: R$ 5,1801. Range do dia: R$ 5,1398–5,2173. Variação: -0,47% vs 25/06 (R$ 5,1955). Investing.com 26/06/2026.",
+      "status": {
+        "soja": "ultimo_disponivel_24jun",
+        "trigo": "ultimo_disponivel_24jun",
+        "cafe_arabica": "ultima_cepea_16jun_recuperacao",
+        "acucar_cristal": "ultima_cepea_19jun",
+        "feijao_carioca": "referenciado_jun26",
+        "arroz": "referenciado_jun26_oferta_restrita",
+        "dolar": "confirmado_26jun_investing"
       }
     }
   ]
