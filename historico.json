@@ -298,25 +298,26 @@
     },
     {
       "data": "2026-07-01",
-      "soja": 133.9,
-      "soja_var_dia": 0.02,
-      "trigo": 82.08,
-      "trigo_var_dia": -0.1,
-      "cafe_arabica": 1517.04,
-      "cafe_arabica_var_dia": 0.0,
-      "acucar_cristal": null,
+      "soja": null,
+      "trigo": 1329.48,
+      "trigo_var_dia": -2.86,
+      "cafe_arabica": 1578.69,
+      "cafe_arabica_var_dia": 4.26,
+      "acucar_cristal": 91.27,
+      "acucar_cristal_var_dia": -1.53,
       "feijao_carioca": null,
-      "arroz": null,
-      "dolar": 5.1702,
-      "dolar_fonte": "Investing.com USD/BRL — cotação intradiária 01/07/2026 07h BRT (abertura R$ 5,1747; mín-máx do dia R$ 5,1547-5,1966). Fechamento de 30/06 relatado entre R$ 5,1626 (InfoMoney, -0,19%) e R$ 5,1745 (Investing.com), conforme a fonte",
+      "arroz": 60.23,
+      "arroz_var_dia": 0.48,
+      "dolar": 5.1766,
+      "dolar_fonte": "BCB PTAX venda (2026-06-30)",
       "status": {
-        "soja": "confirmado_cepea",
-        "trigo": "confirmado_cepea",
-        "cafe_arabica": "confirmado_cepea",
-        "acucar_cristal": "nao_disponivel",
+        "soja": "nao_disponivel",
+        "trigo": "referenciado_noticias_agricolas",
+        "cafe_arabica": "referenciado_noticias_agricolas",
+        "acucar_cristal": "referenciado_noticias_agricolas",
         "feijao_carioca": "nao_disponivel",
-        "arroz": "nao_disponivel",
-        "dolar": "fonte_alternativa"
+        "arroz": "referenciado_noticias_agricolas",
+        "dolar": "bcb_ptax"
       }
     }
   ]
