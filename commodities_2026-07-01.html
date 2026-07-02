@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Commodities Agrícolas — 02/07/2026</title>
+<title>Dashboard de Commodities Agrícolas — 01/07/2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
@@ -103,10 +103,10 @@
   </div>
   <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
     <div class="mercado-badge">📅 Mercado Aberto</div>
-    <div class="dolar-badge">💵 Dólar: <strong>R$ 5,2102</strong><span style="font-size:0.75rem;opacity:0.8;"> Forbes Brasil, fechamento 02/07 (+0,92%)</span></div>
+    <div class="dolar-badge">💵 Dólar: <strong>R$ 5,18</strong><span style="font-size:0.75rem;opacity:0.8;"> BCB PTAX venda (2026-06-30)</span></div>
     <div class="header-meta">
-      <div class="data">02 de julho de 2026</div>
-      <div class="hora">Gerado às 08:33 (Horário de Brasília) · Enriquecido às 10:30</div>
+      <div class="data">01 de julho de 2026</div>
+      <div class="hora">Gerado às 12:52 (Horário de Brasília)</div>
     </div>
   </div>
 </header>
@@ -114,19 +114,15 @@
 <div class="container">
 
   <div class="aviso-auditoria">
-    <strong>📊 Dashboard gerado automaticamente em 02/07/2026 às 08:33 BRT (pipeline agrobr/CEPEA)</strong>
-    e enriquecido com pesquisa web adicional (fatores externos e notícias) às 10:30 BRT. Quinta-feira, mercado aberto.
-    Confirmados: <strong>Café, Açúcar, Arroz</strong> (via CEPEA/ESALQ, fallback Notícias Agrícolas).
-    Indisponível (N/D): <strong>Soja, Feijão</strong> (falha/limitação da coleta automatizada).
-    <strong>Trigo</strong> também está marcado N/D nesta publicação: o valor bruto retornado pela coleta
-    (R$ 1.316,87) apresentou salto de ~16× incompatível com a série histórica (R$ 82,16/sc em 30/06),
-    padrão consistente com R$/tonelada não convertido para R$/saca — por precaução, não foi exibido como
-    confirmado. Dólar: R$ 5,2102 confirmado para hoje (Forbes Brasil); BCB PTAX oficial mais recente
-    publicada é de 01/07 (R$ 5,1950). Para dados exatos e em tempo real:
-    <a href="https://www.cepea.org.br" target="_blank" style="color:#b07a00">cepea.org.br</a>.
+    <strong>📊 Dashboard gerado automaticamente em 01/07/2026 às 12:52 BRT.</strong>
+    Cotações buscadas via <strong>agrobr</strong> (CEPEA/ESALQ). Quarta-feira.
+    Confirmados: <strong>Trigo, Café, Açúcar, Arroz</strong>.
+    Indisponível (N/D): <strong>Soja, Feijão</strong>.
+    Para dados exatos e em tempo real: <a href="https://www.cepea.org.br" target="_blank" style="color:#b07a00">cepea.org.br</a>.
+    Feijão carioca não é suportado pelo agrobr — acesse CEPEA diretamente.
   </div>
 
-  <div class="section-title"><span class="icon">🍊</span> Cotações — Última Referência Disponível (ref. Qui. 02/07/2026)</div>
+  <div class="section-title"><span class="icon">🍊</span> Cotações — Última Referência Disponível (ref. Qua. 01/07/2026)</div>
   <div class="cards-grid">
     
     <div class="card nd">
@@ -136,37 +132,37 @@
       <div class="card-unidade">saca 60 kg | CIF Paranaguá</div>
       <div class="card-variacao">— —</div>
       <div class="card-info">Indicador CEPEA inacessível nesta geração. Acesse: cepea.org.br</div>
-      <div class="card-ref">Fonte primária indisponível · 02/07/2026</div>
+      <div class="card-ref">Fonte primária indisponível · 01/07/2026</div>
     </div>
     
-    <div class="card nd">
-      <span class="badge-confirmado b-nd">N/D — VALOR SUSPEITO DESCARTADO</span>
+    <div class="card baixa">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
       <div class="card-nome">🌾 Trigo</div>
-      <div class="card-preco">Dado não disponível</div>
+      <div class="card-preco">R$ 1.329,48</div>
       <div class="card-unidade">saca 60 kg | Paraná</div>
-      <div class="card-variacao">— —</div>
-      <div class="card-info">Valor bruto da coleta (R$ 1.316,87) apresentou salto de ~16× incompatível com a série histórica — possível R$/tonelada não convertido. Descartado por precaução.</div>
-      <div class="card-ref">Última referência confiável: R$ 82,16/sc (30/06/2026)</div>
+      <div class="card-variacao baixa">▼ -2,86%</div>
+      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-07-01</div>
     </div>
     
     <div class="card alta">
       <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
       <div class="card-nome">☕ Café Arábica</div>
-      <div class="card-preco">R$ 1.665,59</div>
+      <div class="card-preco">R$ 1.578,69</div>
       <div class="card-unidade">saca 60 kg | Arábica Tipo 6</div>
-      <div class="card-variacao alta">▲ +5,50%</div>
+      <div class="card-variacao alta">▲ +4,26%</div>
       <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
-      <div class="card-ref">CEPEA/ESALQ · 2026-07-02</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-07-01</div>
     </div>
     
-    <div class="card estavel">
+    <div class="card baixa">
       <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
       <div class="card-nome">🍬 Açúcar Cristal</div>
-      <div class="card-preco">R$ 91,29</div>
+      <div class="card-preco">R$ 91,27</div>
       <div class="card-unidade">saca 50 kg | ICUMSA 130–180 SP</div>
-      <div class="card-variacao estavel">≈ 0,02%</div>
+      <div class="card-variacao baixa">▼ -1,53%</div>
       <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
-      <div class="card-ref">CEPEA/ESALQ · 2026-07-02</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-07-01</div>
     </div>
     
     <div class="card nd">
@@ -176,17 +172,17 @@
       <div class="card-unidade">saca 60 kg | São Paulo</div>
       <div class="card-variacao">— —</div>
       <div class="card-info">Feijão carioca não está disponível no agrobr. Acesse: cepea.org.br/br/indicador/feijao.aspx</div>
-      <div class="card-ref">Fonte primária indisponível · 02/07/2026</div>
+      <div class="card-ref">Fonte primária indisponível · 01/07/2026</div>
     </div>
     
     <div class="card alta">
       <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
       <div class="card-nome">🍚 Arroz</div>
-      <div class="card-preco">R$ 60,33</div>
+      <div class="card-preco">R$ 60,23</div>
       <div class="card-unidade">saca 50 kg | RS (CEPEA/IRGA-RS)</div>
-      <div class="card-variacao alta">▲ +0,17%</div>
+      <div class="card-variacao alta">▲ +0,48%</div>
       <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
-      <div class="card-ref">CEPEA/ESALQ · 2026-07-02</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-07-01</div>
     </div>
   </div>
 
@@ -207,19 +203,9 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong>Qui 02/07</strong></td>
-          <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D (²)</td>
-          <td class="td-ref">1.665,59 †</td>
-          <td>91,29</td>
-          <td class="td-nd">N/D</td>
-          <td>60,33</td>
-          <td>5,21 *</td>
-        </tr>
-        <tr>
           <td><strong>Qua 01/07</strong></td>
           <td class="td-nd">N/D</td>
-          <td class="td-nd">N/D (²)</td>
+          <td>1.329,48</td>
           <td class="td-ref">1.578,69 †</td>
           <td>91,27</td>
           <td class="td-nd">N/D</td>
@@ -256,12 +242,21 @@
           <td>72,66</td>
           <td>5,18 *</td>
         </tr>
+        <tr>
+          <td><strong>Qui 25/06</strong></td>
+          <td>126,90</td>
+          <td>82,64</td>
+          <td>1.474,18</td>
+          <td>91,46</td>
+          <td class="td-nd">N/D</td>
+          <td>72,66</td>
+          <td>5,20 *</td>
+        </tr>
       </tbody>
     </table>
   </div>
   <p style="font-size:0.72rem;color:#aaa;margin-bottom:32px;">
-    ✓ Confirmado CEPEA/ESALQ via agrobr · † Referenciado (Notícias Agrícolas/fallback) · * Dólar: BCB PTAX até 01/07, Forbes Brasil em 02/07 · N/D = não disponível ·
-    (²) Trigo em 01–02/07 descartado por inconsistência de unidade na coleta automatizada.
+    ✓ Confirmado CEPEA/ESALQ via agrobr · † Referenciado (Notícias Agrícolas/fallback) · * BCB PTAX · N/D = não disponível
   </p>
 
   <div class="section-title"><span class="icon">📈</span> Tendências — Série Histórica</div>
@@ -306,49 +301,11 @@
 
   <div class="section-title"><span class="icon">🌐</span> Fatores Externos</div>
   <div class="fatores-grid">
-
-    <div class="fator-card">
-      <div class="fator-titulo">💵 Dólar Comercial</div>
-      <div class="fator-texto">Fechamento de 02/07/2026: <strong>R$ 5,2102</strong> (+0,92%), segundo a Forbes Brasil —
-        mínima R$ 5,1664 (9h01), máxima R$ 5,2187 (12h21). Segundo dia consecutivo de alta cambial
-        (01/07: R$ 5,2093, +0,89%). Referência oficial BCB PTAX venda mais recente disponível: R$ 5,1950 (01/07/2026).
-        O câmbio acima de R$ 5,20 segue dando suporte ao valor em reais recebido por exportadores de soja e café.</div>
+    
+    <div class="fator-card nd">
+      <div class="fator-titulo">— Sem dados —</div>
+      <div class="fator-texto">Nenhum fator externo fornecido nesta geração (contexto_manual.json ausente ou vazio).</div>
     </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">🌦️ Clima &amp; Safra</div>
-      <div class="fator-texto">INMET previu chuva volumosa entre 29/06 e 06/07 no Sul (podendo superar 90 mm no sul do PR
-        e centro-norte de SC), com queda de temperatura a partir de 03/07 e risco de geada nas serras do RS
-        (mínimas abaixo de 4°C). INMET/INPE e NOAA/CPC apontam chance elevada de El Niño forte no trimestre
-        jul-ago-set/2026: Norte/Nordeste/parte do Centro-Oeste com pouca chuva e calor acima do normal
-        (risco para milho safrinha, soja tardia, feijão); Sul com chuva acima da média, elevando risco de
-        doenças em lavouras de inverno (trigo). Chuvas fora de época atrasam a colheita de café 2026/27 no
-        Sul de MG e em SP (região de Marília), com risco de queda de qualidade dos grãos.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">🌍 Geopolítica &amp; Macro</div>
-      <div class="fator-texto">A tarifa chinesa de 20% sobre a soja americana segue beneficiando o Brasil, com a China
-        ampliando compras de soja brasileira; cerca de 22% das exportações do Brasil aos EUA seguem sujeitas às
-        tarifas impostas em jul/2025. Governo federal lançou em 30/06/2026 o <strong>Plano Safra 2026/2027 de
-        R$ 525,1 bilhões</strong> (R$ 384,9 bi custeio, R$ 140,2 bi investimento), com redução de juros no
-        Pronamp (10% → 9% a.a.). Limites à exportação da Índia (~1,5–2 milhões de toneladas no ano comercial
-        até setembro) seguem pressionando o açúcar globalmente para cima. Não foram encontradas notícias
-        específicas e recentes sobre o conflito Rússia-Ucrânia afetando diretamente o trigo no período —
-        <strong>dado não disponível</strong> para este item.</div>
-    </div>
-
-    <div class="fator-card">
-      <div class="fator-titulo">⚖️ Oferta &amp; Demanda</div>
-      <div class="fator-texto">CONAB projeta safra de grãos 2025/26 em 358 milhões de toneladas (+1,6%), com soja em
-        recorde histórico de 180,1 milhões t (+5%) e exportação estimada em 116 milhões t. A colheita de café
-        2026/27 está atrasada (Cooxupé em 24,9% da área até 28/06, pior ritmo desde 2018), reduzindo a oferta
-        de curto prazo e sustentando preços — consistente com a alta de +5,50% no indicador de hoje. O 1º
-        levantamento CONAB da safra de arroz 2026/27 aponta oferta abundante, fator associado à queda do
-        indicador de R$ 72,66 (29/06) para a faixa de R$ 60/sc (30/06–02/07). O feijão carioca segue com
-        quebras de safra em cascata sustentando alta de até 90% ao produtor em 2026.</div>
-    </div>
-
   </div>
 
   <div class="section-title"><span class="icon">💡</span> Leitura das Tendências</div>
@@ -365,27 +322,26 @@
     </div>
     <div class="insight-card">
       <div class="insight-tipo">▲ Alta — ☕ Café Arábica</div>
-      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 1.665,59</strong>
-        (▲ +5,50% vs. dia anterior).
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 1.578,69</strong>
+        (▲ +4,26% vs. dia anterior).
         Fonte: Notícias Agrícolas (agrobr/fallback).</div>
     </div>
-    <div class="insight-card nd">
-      <div class="insight-tipo">— Dado Indisponível — 🌾 Trigo</div>
-      <div class="insight-texto">O valor bruto retornado pela coleta automatizada de hoje (R$ 1.316,87) apresentou
-        salto de ~16× incompatível com a série histórica (R$ 82,16/sc em 30/06/2026) — padrão consistente com
-        R$/tonelada não convertido para R$/saca. Descartado por precaução; não foi exibido como confirmado.
-        Última referência confiável: R$ 82,16/sc (30/06/2026, CEPEA/ESALQ Paraná).</div>
+    <div class="insight-card alerta">
+      <div class="insight-tipo">▼ Baixa — 🌾 Trigo</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 1.329,48</strong>
+        (▼ -2,86% vs. dia anterior).
+        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
     </div>
-    <div class="insight-card atencao">
-      <div class="insight-tipo">≈ Estável — 🍬 Açúcar Cristal</div>
-      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 91,29</strong>
-        (≈ 0,02% vs. dia anterior).
+    <div class="insight-card alerta">
+      <div class="insight-tipo">▼ Baixa — 🍬 Açúcar Cristal</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 91,27</strong>
+        (▼ -1,53% vs. dia anterior).
         Fonte: Notícias Agrícolas (agrobr/fallback).</div>
     </div>
     <div class="insight-card">
       <div class="insight-tipo">▲ Alta — 🍚 Arroz</div>
-      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 60,33</strong>
-        (▲ +0,17% vs. dia anterior).
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 60,23</strong>
+        (▲ +0,48% vs. dia anterior).
         Fonte: Notícias Agrícolas (agrobr/fallback).</div>
     </div>
     <div class="insight-card nd">
@@ -404,97 +360,34 @@
     </div>
   </div>
 
-  <div class="section-title"><span class="icon">📰</span> Notícias Relevantes (29/06 a 02/07/2026)</div>
+  <div class="section-title"><span class="icon">📰</span> Notícias Relevantes (Últimos 2 Dias)</div>
   <div class="noticias-grid">
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Governo federal lança Plano Safra 2026/2027 de R$ 525,1 bilhões</div>
-      <div class="noticia-texto">Anúncio oficial em Brasília: R$ 384,9 bilhões para custeio e R$ 140,2 bilhões para
-        investimento, R$ 9 bilhões a mais que o ciclo 2025/26. Inclui redução de juros no Pronamp (10% → 9% a.a.)
-        e exigência de regularização no CAR para acesso ao crédito rural.</div>
-      <div class="noticia-fonte">Fonte: <a href="https://agenciabrasil.ebc.com.br/economia/noticia/2026-06/governo-federal-lanca-plano-safra-20262027-de-r-5251-bilhoes" target="_blank" rel="noopener">Agência Brasil</a> · 30/06/2026</div>
-    </div>
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Milho sobe 2,6% em Chicago após relatório trimestral de estoques do USDA</div>
-      <div class="noticia-texto">Estoques dos EUA em 01/06/2026 totalizaram 5,295 bilhões de bushels, abaixo do
-        esperado (5,392 bi), provocando alta pontual em Chicago. Ainda assim, o milho acumulava queda de até
-        8,5% no mês de junho — referência relevante para o complexo de grãos que também influencia soja e trigo.</div>
-      <div class="noticia-fonte">Fonte: <a href="https://www.noticiasagricolas.com.br/noticias/milho/423893-milho-sobe-2-6-em-chicago-apos-relatorio-do-usda-desta-terca-feira-mas-ainda-acumula-desvalorizacao-de-ate-8-5-em-junho.html" target="_blank" rel="noopener">Notícias Agrícolas</a> · 30/06/2026</div>
-    </div>
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Açúcar em Londres atinge maior nível em 9 meses</div>
-      <div class="noticia-texto">Alta ligada a preocupações com a safra da Índia e ao clima adverso na região
-        produtora, somadas aos limites à exportação impostos pelo governo indiano. Movimento do mercado
-        internacional, ainda sem reflexo totalmente confirmado no indicador doméstico CEPEA/ESALQ.</div>
-      <div class="noticia-fonte">Fonte: Notícias Agrícolas / Investing.com · 29/06/2026</div>
-    </div>
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Colheita de café da Cooxupé atinge 24,9% da área — maior atraso desde 2018</div>
-      <div class="noticia-texto">A maior cooperativa de café do Brasil registrou 24,9% de área colhida até
-        28/06/2026, índice 6,5 pontos percentuais abaixo do mesmo período de 2025. Chuvas fora de época no
-        Sul de Minas Gerais atrasaram a colheita 2026/27, com risco de queda de qualidade e aumento de custos.</div>
-      <div class="noticia-fonte">Fonte: <a href="https://forbes.com.br/forbes-agro/2026/07/colheita-de-cafe-da-cooxupe-atinge-249-e-registra-maior-atraso-desde-2018/" target="_blank" rel="noopener">Forbes Agro</a> · 28/06/2026</div>
-    </div>
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Soja fecha em alta em Chicago e no Brasil na virada do mês</div>
-      <div class="noticia-texto">Dólar em alta (+0,89%) e contratos futuros em Chicago (agosto +0,80% a
-        US$ 11,33 1/4/bu; novembro +0,48% a US$ 11,49 1/4/bu) sustentaram os preços. Bom volume de negócios
-        no porto de Paranaguá. Em Passo Fundo (RS), o preço regional subiu de R$ 129,00 para R$ 131,00/saca.</div>
-      <div class="noticia-fonte">Fonte: <a href="https://www.canalrural.com.br/agricultura/projeto-soja-brasil/soja-ganha-forca-em-1o-de-julho-com-alta-do-dolar-veja-como-ficaram-os-precos-na-virada-do-mes/" target="_blank" rel="noopener">Canal Rural</a> · 01/07/2026</div>
-    </div>
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Chuvas travam colheita no Brasil e café dispara mais de 1.700 pontos em Nova York</div>
-      <div class="noticia-texto">Contrato setembro/2026 na ICE Nova York fechou a 309,90 centavos de dólar/libra-peso
-        (+4,5%); contrato dezembro/2026 fechou a 294,85 centavos (+4,5%). Alta puxada pelas chuvas que
-        atrapalham a colheita no Brasil — consistente com a alta de +5,50% registrada no indicador doméstico
-        CEPEA/ESALQ em 02/07.</div>
-      <div class="noticia-fonte">Fonte: <a href="https://www.noticiasagricolas.com.br/noticias/cafe/423855-chuvas-travam-colheita-no-brasil-e-cafe-dispara-mais-de-1-700-pontos-em-nova-york.html" target="_blank" rel="noopener">Notícias Agrícolas</a> · 01/07/2026</div>
-    </div>
-
-    <div class="noticia-card">
-      <div class="noticia-titulo">Dólar volta a superar R$ 5,20, puxado pelo exterior</div>
-      <div class="noticia-texto">Fechamento a R$ 5,2102 (+0,92%). Mínima do dia em R$ 5,1664 (9h01) e máxima em
-        R$ 5,2187 (12h21). Segundo dia consecutivo de alta cambial, com reflexo direto no valor em reais
-        recebido pelos exportadores de commodities agrícolas.</div>
-      <div class="noticia-fonte">Fonte: <a href="https://forbes.com.br/forbes-money/2026/07/dolar-volta-a-superar-os-r-520-puxado-pelo-exterior/" target="_blank" rel="noopener">Forbes Brasil</a> · 02/07/2026</div>
+    
+    <div class="noticia-card nd">
+      <div class="noticia-titulo">— Sem notícias —</div>
+      <div class="noticia-texto">Nenhuma notícia fornecida nesta geração (contexto_manual.json ausente ou vazio).</div>
     </div>
   </div>
 
   <div class="section-title"><span class="icon">📋</span> Metodologia & Fontes</div>
   <div class="metodologia">
-    <strong>Geração automática:</strong> Dashboard gerado via script Python (agrobr) em 02/07/2026 às 08:33 BRT
-    e enriquecido com pesquisa web adicional (fatores externos e notícias, via <code>contexto_manual.json</code>)
-    às 10:30 BRT. O agrobr busca dados em CEPEA/ESALQ (fonte primária) com fallback para Notícias Agrícolas
-    quando CEPEA retorna erro.<br><br>
+    <strong>Geração automática:</strong> Dashboard gerado via script Python (agrobr) em 01/07/2026 às 12:52 BRT.
+    O agrobr busca dados em CEPEA/ESALQ (fonte primária) com fallback para Notícias Agrícolas quando CEPEA retorna erro.<br><br>
 
-    <strong>Confirmados (Café, Açúcar, Arroz):</strong>
-    Indicadores CEPEA/ESALQ obtidos via tabela oficial e/ou fallback Notícias Agrícolas via agrobr.<br><br>
+    <strong>Confirmados (Trigo, Café, Açúcar, Arroz):</strong>
+    Indicadores CEPEA/ESALQ obtidos via tabela oficial e parsing via agrobr.<br><br>
 
-    <strong>Não disponíveis (Soja, Trigo, Feijão):</strong>
-    Feijão carioca não está na lista de produtos suportados pelo agrobr. Soja: CEPEA retornou erro na coleta.
-    Trigo: o valor bruto retornado (R$ 1.316,87) apresentou salto de ~16× incompatível com a série histórica
-    (R$ 82,16/sc em 30/06/2026), padrão consistente com R$/tonelada não convertido para R$/saca pela fonte de
-    fallback — descartado por precaução e marcado como não disponível nesta publicação.<br><br>
+    <strong>Não disponíveis (Soja, Feijão):</strong>
+    Feijão carioca não está na lista de produtos suportados pelo agrobr.
+    Demais N/D: CEPEA retornou erro na coleta.<br><br>
 
-    <strong>Câmbio:</strong> R$ 5,2102 — Forbes Brasil, fechamento 02/07/2026 (+0,92%). Referência oficial
-    BCB PTAX venda mais recente publicada: R$ 5,1950 (01/07/2026, com defasagem de um dia útil).<br><br>
+    <strong>Câmbio:</strong> R$ 5,18 — BCB PTAX venda (2026-06-30).<br><br>
 
     <strong>Referências de metodologia dos indicadores:</strong>
     Soja = CIF Paranaguá (PR) · Café = Arábica Tipo 6 posto SP · Açúcar = Cristal ICUMSA 130–180 posto SP ·
     Trigo = Tipo 1 Pão Região Sul · Feijão = Carioca Nota 8,5 SP · Arroz = Em Casca RS sc/50kg — CEPEA/IRGA-RS<br><br>
 
-    <strong>Fontes:</strong> CEPEA/Esalq–USP (cepea.org.br) · Notícias Agrícolas · BCB PTAX · Forbes Brasil ·
-    Forbes Agro · Agência Brasil · Canal Rural · CONAB · INMET/INPE · agrobr (github.com/bruno-portfolio/agrobr)<br><br>
-
-    <strong>Notas importantes:</strong> Dados marcados como "não disponível" refletem indisponibilidade de fonte
-    confirmável nesta coleta — nenhum número foi estimado ou inventado. Este dashboard é informativo e
-    <strong>não constitui recomendação de investimento</strong>; a seção "Leitura das Tendências" descreve o
-    que os dados indicam, sem instruir compra ou venda.<br><br>
+    <strong>Fontes:</strong> CEPEA/Esalq–USP (cepea.org.br) · Notícias Agrícolas · BCB PTAX · agrobr (github.com/bruno-portfolio/agrobr)<br><br>
 
     <strong>Disclaimer:</strong> Relatório com finalidade exclusivamente informativa.
     Não constitui recomendação de compra ou venda.
@@ -504,16 +397,16 @@
 </div>
 
 <footer>
-  Dashboard de Commodities Agrícolas © 2026 — Gerado automaticamente às 08:33 BRT · 02/07/2026 (Quinta-feira) · Dados: CEPEA/ESALQ via agrobr
+  Dashboard de Commodities Agrícolas © 2026 — Gerado automaticamente às 12:52 BRT · 01/07/2026 (Quarta-feira) · Dados: CEPEA/ESALQ via agrobr
 </footer>
 
 <script>
-const LABELS = ["15/06", "16/06", "17/06", "18/06", "19/06", "22/06", "23/06", "24/06", "25/06", "26/06", "29/06", "30/06", "01/07", "02/07"];
-const SOJA   = [129.24, 132.26, 131.07, 133.39, 132.84, 142.94, 142.94, 126.9, 126.9, 134.15, 134.15, 134.15, null, null];
-const CAFE   = [null, 1474.18, null, null, null, 1474.18, 1474.18, 1474.18, 1474.18, 1474.18, 1474.18, 1517.04, 1578.69, 1665.59];
-const ACUCAR = [null, null, null, null, 91.46, 93.24, 93.24, 91.46, 91.46, 91.46, 91.46, 91.46, 91.27, 91.29];
-const TRIGO  = [null, null, null, null, null, 70.94, 70.94, 82.64, 82.64, 82.16, 82.16, 82.16, null, null]; // 01–02/07 descartados: inconsistência de unidade na coleta automatizada
-const ARROZ  = [null, null, null, null, null, 72.66, 72.66, 72.66, 72.66, 72.66, 72.66, 63.0, 60.23, 60.33];
+const LABELS = ["15/06", "16/06", "17/06", "18/06", "19/06", "22/06", "23/06", "24/06", "25/06", "26/06", "29/06", "30/06", "01/07"];
+const SOJA   = [129.24, 132.26, 131.07, 133.39, 132.84, 142.94, 142.94, 126.9, 126.9, 134.15, 134.15, 134.15, null];
+const CAFE   = [null, 1474.18, null, null, null, 1474.18, 1474.18, 1474.18, 1474.18, 1474.18, 1474.18, 1517.04, 1578.69];
+const ACUCAR = [null, null, null, null, 91.46, 93.24, 93.24, 91.46, 91.46, 91.46, 91.46, 91.46, 91.27];
+const TRIGO  = [null, null, null, null, null, 70.94, 70.94, 82.64, 82.64, 82.16, 82.16, 82.16, 1329.48];
+const ARROZ  = [null, null, null, null, null, 72.66, 72.66, 72.66, 72.66, 72.66, 72.66, 63.0, 60.23];
 
 function makeChart(id, label, color, data) {
   const canvas = document.getElementById(id);

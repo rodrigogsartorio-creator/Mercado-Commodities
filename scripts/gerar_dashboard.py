@@ -26,6 +26,7 @@ log = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent.parent
 HISTORICO_PATH = BASE_DIR / "historico.json"
 MANUAL_PATH = BASE_DIR / "cotacoes_manual.json"
+CONTEXTO_PATH = BASE_DIR / "contexto_manual.json"
 
 # Mapeamento produto → (agrobr_produto, agrobr_praca, unidade_display)
 PRODUTOS = {
@@ -159,6 +160,18 @@ def apply_manual_overrides(cotacoes: dict) -> dict:
     return cotacoes
 
 
+def load_contexto() -> dict:
+    """Lê contexto_manual.json (fatores externos + notícias), se existir."""
+    if not CONTEXTO_PATH.exists():
+        return {"fatores_externos": [], "noticias": []}
+    try:
+        with CONTEXTO_PATH.open(encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as exc:
+        log.warning("Erro ao ler contexto_manual.json: %s", exc)
+        return {"fatores_externos": [], "noticias": []}
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # 2. HISTÓRICO JSON
 # ──────────────────────────────────────────────────────────────────────────────
@@ -200,7 +213,13 @@ def build_entry(data_hoje: str, cotacoes: dict) -> dict:
     }
     if "dolar" in entry["status"]:
         dolar_val = cotacoes.get("dolar", {}).get("valor")
-        entry["status"]["dolar"] = "bcb_ptax" if dolar_val else "nao_disponivel"
+        dolar_fonte_raw = (cotacoes.get("dolar", {}).get("fonte") or "").lower()
+        if not dolar_val:
+            entry["status"]["dolar"] = "nao_disponivel"
+        elif "bcb" in dolar_fonte_raw or "ptax" in dolar_fonte_raw:
+            entry["status"]["dolar"] = "bcb_ptax"
+        else:
+            entry["status"]["dolar"] = "fonte_alternativa"
     return entry
 
 
@@ -208,7 +227,7 @@ def update_historico(historico: dict, data_hoje: str, entry: dict) -> dict:
     registros = historico.get("registros", [])
     registros = [r for r in registros if r.get("data") != data_hoje]
     registros.append(entry)
-    registros = sorted(registros, key=lambda r: r["data"])[-DIAS_HISTORICO]
+    registros = sorted(registros, key=lambda r: r["data"])[-DIAS_HISTORICO:]
     historico["registros"] = registros
     historico["atualizacao"] = data_hoje
     return historico
@@ -360,7 +379,47 @@ def _mercado_status(dt: date) -> str:
     return "📅 Mercado Aberto"
 
 
-def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str) -> str:
+def _fatores_externos_html(fatores: list) -> str:
+    if not fatores:
+        return """
+    <div class="fator-card nd">
+      <div class="fator-titulo">— Sem dados —</div>
+      <div class="fator-texto">Nenhum fator externo fornecido nesta geração (contexto_manual.json ausente ou vazio).</div>
+    </div>"""
+    blocos = []
+    for f in fatores:
+        blocos.append(f"""
+    <div class="fator-card">
+      <div class="fator-titulo">{f.get('emoji','')} {f.get('titulo','')}</div>
+      <div class="fator-texto">{f.get('texto','')}</div>
+    </div>""")
+    return "".join(blocos)
+
+
+def _noticias_html(noticias: list) -> str:
+    if not noticias:
+        return """
+    <div class="noticia-card nd">
+      <div class="noticia-titulo">— Sem notícias —</div>
+      <div class="noticia-texto">Nenhuma notícia fornecida nesta geração (contexto_manual.json ausente ou vazio).</div>
+    </div>"""
+    blocos = []
+    for n in noticias:
+        url = n.get("url", "")
+        fonte = n.get("fonte", "")
+        data_n = n.get("data", "")
+        link = f'<a href="{url}" target="_blank" rel="noopener">{fonte}</a>' if url else fonte
+        blocos.append(f"""
+    <div class="noticia-card">
+      <div class="noticia-titulo">{n.get('titulo','')}</div>
+      <div class="noticia-texto">{n.get('resumo','')}</div>
+      <div class="noticia-fonte">Fonte: {link} · {data_n}</div>
+    </div>""")
+    return "".join(blocos)
+
+
+def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str, contexto: dict | None = None) -> str:
+    contexto = contexto or {"fatores_externos": [], "noticias": []}
     dt = datetime.strptime(data_hoje_str, "%Y-%m-%d")
     data_fmt = f"{dt.day:02d} de {['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'][dt.month-1]} de {dt.year}"
     hora_geracao = datetime.now().strftime("%H:%M")
@@ -580,6 +639,18 @@ def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str) -> str:
   .insight-texto {{ font-size: 0.85rem; line-height: 1.55; }}
   .metodologia {{ background: var(--branco); border-radius: 12px; padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 24px; font-size: 0.8rem; line-height: 1.7; color: var(--cinza-medio); }}
   .metodologia strong {{ color: var(--cinza-escuro); }}
+  .fatores-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 32px; }}
+  .fator-card {{ background: var(--branco); border-radius: 12px; padding: 18px; box-shadow: var(--card-shadow); border-left: 5px solid #3498DB; }}
+  .fator-card.nd {{ border-left-color: var(--nd-border); background: var(--nd-bg); }}
+  .fator-titulo {{ font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--cinza-escuro); }}
+  .fator-texto {{ font-size: 0.82rem; line-height: 1.6; color: var(--cinza-medio); }}
+  .noticias-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }}
+  .noticia-card {{ background: var(--branco); border-radius: 12px; padding: 18px; box-shadow: var(--card-shadow); border-left: 5px solid var(--cinza-medio); }}
+  .noticia-card.nd {{ border-left-color: var(--nd-border); background: var(--nd-bg); }}
+  .noticia-titulo {{ font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--cinza-escuro); }}
+  .noticia-texto {{ font-size: 0.82rem; line-height: 1.6; margin-bottom: 8px; }}
+  .noticia-fonte {{ font-size: 0.7rem; color: #b0b8c1; }}
+  .noticia-fonte a {{ color: #3498DB; }}
   footer {{ background: var(--cinza-escuro); color: rgba(255,255,255,0.6); text-align: center; padding: 16px; font-size: 0.78rem; }}
   @media (max-width: 600px) {{ header {{ flex-direction: column; }} .header-meta {{ text-align: left; }} .cards-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
 </style>
@@ -660,7 +731,16 @@ def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str) -> str:
     </div>
   </div>
 
+  <div class="section-title"><span class="icon">🌐</span> Fatores Externos</div>
+  <div class="fatores-grid">
+    {_fatores_externos_html(contexto.get("fatores_externos", []))}
+  </div>
+
   <div class="section-title"><span class="icon">💡</span> Leitura das Tendências</div>
+  <p style="font-size:0.75rem;color:var(--cinza-medio);margin-bottom:14px;">
+    Esta seção descreve o que os dados indicam sobre o comportamento recente de cada mercado.
+    Não constitui recomendação de compra, venda ou qualquer decisão de investimento.
+  </p>
   <div class="insights-grid">
     {insights}
     <div class="insight-card nd">
@@ -677,6 +757,11 @@ def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str) -> str:
         Badge amarelo = fallback Notícias Agrícolas. N/D = fonte inacessível.
         Nunca invente números — marque N/D se não confirmado.</div>
     </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📰</span> Notícias Relevantes (Últimos 2 Dias)</div>
+  <div class="noticias-grid">
+    {_noticias_html(contexto.get("noticias", []))}
   </div>
 
   <div class="section-title"><span class="icon">📋</span> Metodologia & Fontes</div>
@@ -775,7 +860,8 @@ async def _main_async():
     log.info("historico.json atualizado.")
 
     # 4. HTML
-    html = generate_html(cotacoes, historico, data_hoje)
+    contexto = load_contexto()
+    html = generate_html(cotacoes, historico, data_hoje, contexto)
     html_path = BASE_DIR / f"commodities_{data_hoje}.html"
     index_path = BASE_DIR / "index.html"
     html_path.write_text(html, encoding="utf-8")
