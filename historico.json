@@ -1,7 +1,7 @@
 {
   "descricao": "Histórico de cotações de commodities agrícolas — Dashboard Mercado Commodities",
   "atualizacao": "2026-07-02",
-  "nota_historico": "Histórico em formação (início 15/06/2026). Soja: valores 15–19/06 confirmados CEPEA/ESALQ Paranaguá; 24/06 confirmado Brasil61.com (R$ 126,90/sc); 26/06 estimativa CEPEA R$ 134,15/sc; RS 30/06 Agrolink R$ 128,99/sc. Trigo: R$ 82,16/sc (R$ 1.369,30/t PR, 26/06 CEPEA) — tendência de alta; safra 2026 CONAB 6,38 Mt (-18,9%). Café: CEPEA 26/06 CONFIRMADO R$ 1.517,04/sc (corrigido — anterior registrado como R$ 1.474,18 era de 16/06); 'preços encerram junho em alta' (CEPEA); Robusta 24/06 R$ 1.250,67/sc (recorde); 12 meses consecutivos de alta. Açúcar: 19/06 CEPEA (R$ 91,46/sc, -1,5%/sem); oferta elevada pressiona. Feijão: estimativa jun/26 ~R$ 420/sc nota 8,5 SP (-9-11% vs mai/26 que atingiu R$ 491/sc nota 9); acumula +90% no ano. Arroz: estimativa ~R$ 63/sc (CEPEA/IRGA-RS jun/26); baixa liquidez RS. Dólar 30/06: R$ 5,1730 (confirmado Investing.com).",
+  "nota_historico": "Histórico em formação (início 15/06/2026; 14 registros até 02/07/2026). Pipeline automatizado (GitHub Actions + agrobr) fornece soja/trigo/café/açúcar/arroz via CEPEA/ESALQ com fallback Notícias Agrícolas; feijão carioca não é suportado pelo agrobr (sempre N/D). Soja: sem cotação confirmada em 01–02/07/2026 (falha na coleta automatizada); última confirmada R$ 134,15/sc (30/06/2026). Trigo: valores brutos de 01–02/07/2026 (R$ 1.329,48 e R$ 1.316,87) apresentaram inconsistência de unidade (~16x acima da série histórica, compatível com R$/tonelada não convertido) e foram marcados como não disponíveis por precaução; última referência confiável R$ 82,16/sc (30/06/2026). Café: alta consistente confirmada pela coleta automatizada (R$ 1.517,04 em 30/06 → R$ 1.578,69 em 01/07 → R$ 1.665,59 em 02/07, +5,50% no dia), corroborada por pesquisa externa: ICE Nova York (contrato set/26) +4,5% em 01/07/2026, puxado por chuvas atrasando a colheita no Brasil (Cooxupé em 24,9% da área até 28/06, maior atraso desde 2018). Açúcar: R$ 91,29/sc 50kg (02/07), estável; açúcar em Londres no maior nível em 9 meses (29/06) por safra da Índia mais restrita, ainda sem repasse pleno ao indicador doméstico. Arroz: queda de R$ 72,66 (29/06) para ~R$ 60/sc 50kg (30/06–02/07), consistente com 1º levantamento CONAB da safra 2026/27 apontando oferta abundante. Dólar 02/07: BCB PTAX R$ 5,1950 (ref. 01/07, oficial) e Forbes Brasil R$ 5,2102 (+0,92%, fechamento 02/07) — ambos registrados. Plano Safra 2026/2027 (R$ 525,1 bi) lançado em 30/06/2026. Fatores externos e notícias detalhados em contexto_manual.json.",
   "unidades": {
     "soja": "R$/saca 60kg (CIF Paranaguá — CEPEA/ESALQ)",
     "trigo": "R$/saca 60kg (Região Sul — CEPEA/ESALQ, convertido de R$/t)",
@@ -299,8 +299,8 @@
     {
       "data": "2026-07-01",
       "soja": null,
-      "trigo": 1329.48,
-      "trigo_var_dia": -2.86,
+      "trigo": null,
+      "trigo_var_dia": null,
       "cafe_arabica": 1578.69,
       "cafe_arabica_var_dia": 4.26,
       "acucar_cristal": 91.27,
@@ -312,19 +312,20 @@
       "dolar_fonte": "BCB PTAX venda (2026-06-30)",
       "status": {
         "soja": "nao_disponivel",
-        "trigo": "referenciado_noticias_agricolas",
+        "trigo": "suspeita_erro_unidade_nao_disponivel",
         "cafe_arabica": "referenciado_noticias_agricolas",
         "acucar_cristal": "referenciado_noticias_agricolas",
         "feijao_carioca": "nao_disponivel",
         "arroz": "referenciado_noticias_agricolas",
         "dolar": "bcb_ptax"
-      }
+      },
+      "trigo_nota": "Dado não disponível: valor bruto retornado pela coleta automatizada (R$ 1329.48) apresenta salto de ~16x incompatível com a série histórica (R$ 82,16/sc em 30/06/2026) — padrão consistente com valor em R$/tonelada não convertido para R$/saca 60kg pela fonte de fallback (Notícias Agrícolas). Tratado como não disponível nesta publicação por precaução, para não exibir número não confiável. Última referência confiável: R$ 82,16/sc (30/06/2026, CEPEA/ESALQ Paraná)."
     },
     {
       "data": "2026-07-02",
       "soja": null,
-      "trigo": 1316.87,
-      "trigo_var_dia": -3.68,
+      "trigo": null,
+      "trigo_var_dia": null,
       "cafe_arabica": 1665.59,
       "cafe_arabica_var_dia": 5.5,
       "acucar_cristal": 91.29,
@@ -336,13 +337,16 @@
       "dolar_fonte": "BCB PTAX venda (2026-07-01)",
       "status": {
         "soja": "nao_disponivel",
-        "trigo": "referenciado_noticias_agricolas",
+        "trigo": "suspeita_erro_unidade_nao_disponivel",
         "cafe_arabica": "referenciado_noticias_agricolas",
         "acucar_cristal": "referenciado_noticias_agricolas",
         "feijao_carioca": "nao_disponivel",
         "arroz": "referenciado_noticias_agricolas",
         "dolar": "bcb_ptax"
-      }
+      },
+      "trigo_nota": "Dado não disponível: valor bruto retornado pela coleta automatizada (R$ 1316.87) apresenta salto de ~16x incompatível com a série histórica (R$ 82,16/sc em 30/06/2026) — padrão consistente com valor em R$/tonelada não convertido para R$/saca 60kg pela fonte de fallback (Notícias Agrícolas). Tratado como não disponível nesta publicação por precaução, para não exibir número não confiável. Última referência confiável: R$ 82,16/sc (30/06/2026, CEPEA/ESALQ Paraná).",
+      "dolar_forbes_02jul": 5.2102,
+      "dolar_nota": "BCB PTAX venda oficial mais recente publicada: R$ 5,1950 (ref. 01/07/2026, com defasagem de publicação de um dia útil). Fechamento de mercado de 02/07/2026 segundo a Forbes Brasil: R$ 5,2102 (+0,92%), mínima R$ 5,1664 (9h01), máxima R$ 5,2187 (12h21)."
     }
   ]
 }
