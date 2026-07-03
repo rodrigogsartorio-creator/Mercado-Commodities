@@ -106,7 +106,7 @@
     <div class="dolar-badge">💵 Dólar: <strong>R$ 5,19</strong><span style="font-size:0.75rem;opacity:0.8;"> BCB PTAX venda (2026-07-02)</span></div>
     <div class="header-meta">
       <div class="data">03 de julho de 2026</div>
-      <div class="hora">Gerado às 08:41 (Horário de Brasília)</div>
+      <div class="hora">Gerado às 10:15 (Horário de Brasília)</div>
     </div>
   </div>
 </header>
@@ -114,10 +114,10 @@
 <div class="container">
 
   <div class="aviso-auditoria">
-    <strong>📊 Dashboard gerado automaticamente em 03/07/2026 às 08:41 BRT.</strong>
+    <strong>📊 Dashboard gerado automaticamente em 03/07/2026 às 10:15 BRT.</strong>
     Cotações buscadas via <strong>agrobr</strong> (CEPEA/ESALQ). Sexta-feira.
-    Confirmados: <strong>Trigo, Café, Açúcar, Arroz</strong>.
-    Indisponível (N/D): <strong>Soja, Feijão</strong>.
+    Confirmados: <strong>Soja, Café, Açúcar, Arroz</strong>.
+    Indisponível (N/D): <strong>Trigo, Feijão</strong>.
     Para dados exatos e em tempo real: <a href="https://www.cepea.org.br" target="_blank" style="color:#b07a00">cepea.org.br</a>.
     Feijão carioca não é suportado pelo agrobr — acesse CEPEA diretamente.
   </div>
@@ -125,24 +125,24 @@
   <div class="section-title"><span class="icon">🍊</span> Cotações — Última Referência Disponível (ref. Sex. 03/07/2026)</div>
   <div class="cards-grid">
     
-    <div class="card nd">
-      <span class="badge-confirmado b-nd">N/D — CEPEA INACESSÍVEL</span>
+    <div class="card estavel">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO</span>
       <div class="card-nome">🌱 Soja</div>
-      <div class="card-preco">Dado não disponível</div>
+      <div class="card-preco">R$ 134,32</div>
       <div class="card-unidade">saca 60 kg | CIF Paranaguá</div>
-      <div class="card-variacao">— —</div>
-      <div class="card-info">Indicador CEPEA inacessível nesta geração. Acesse: cepea.org.br</div>
-      <div class="card-ref">Fonte primária indisponível · 03/07/2026</div>
+      <div class="card-variacao estavel">— —</div>
+      <div class="card-info">Fonte: Última cotação confirmada: CEPEA/ESALQ Paranaguá, 01/07/2026 — R$ 134,32/sc (+0,55% no dia, fonte: Canal Rural/Notícias Agrícolas). Coleta automatizada não obteve atualização confirmada para 02/07 e 03/07/2026; valor de 01/07 mantido como última referência disponível.</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-07-03</div>
     </div>
     
-    <div class="card baixa">
-      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
+    <div class="card nd">
+      <span class="badge-confirmado b-nd">N/D — CEPEA INACESSÍVEL</span>
       <div class="card-nome">🌾 Trigo</div>
-      <div class="card-preco">R$ 1.324,66</div>
+      <div class="card-preco">Dado não disponível</div>
       <div class="card-unidade">saca 60 kg | Paraná</div>
-      <div class="card-variacao baixa">▼ -2,90%</div>
-      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
-      <div class="card-ref">CEPEA/ESALQ · 2026-07-03</div>
+      <div class="card-variacao">— —</div>
+      <div class="card-info">Dado não disponível (3º dia consecutivo): a coleta automatizada retornou R$ 1.324,66, um salto de ~16x incompatível com a série CEPEA/ESALQ Paraná em R$/saca (R$ 82,16/sc em 26/06). Confirmado via CEPEA (cepea.org.br, matéria "Preços seguem em alta com oferta restrita e atenção ao clima no Sul") e reportagens setoriais que o indicador de trigo no Paraná é divulgado pela própria CEPEA em R$/tonelada (~R$ 1.350-1.361/t nesta semana) — o valor bruto da coleta corresponde a essa métrica, não a R$/saca 60kg. Tratado como não disponível por precaução, sem conversão não auditada. Última referência confiável em R$/sc: R$ 82,16 (26/06/2026, CEPEA/ESALQ Paraná).</div>
+      <div class="card-ref">Fonte primária indisponível · 03/07/2026</div>
     </div>
     
     <div class="card baixa">
@@ -204,8 +204,8 @@
       <tbody>
         <tr>
           <td><strong>Sex 03/07</strong></td>
+          <td>134,32</td>
           <td class="td-nd">N/D</td>
-          <td>1.324,66</td>
           <td class="td-ref">1.656,79 †</td>
           <td>92,23</td>
           <td class="td-nd">N/D</td>
@@ -302,9 +302,21 @@
   <div class="section-title"><span class="icon">🌐</span> Fatores Externos</div>
   <div class="fatores-grid">
     
-    <div class="fator-card nd">
-      <div class="fator-titulo">— Sem dados —</div>
-      <div class="fator-texto">Nenhum fator externo fornecido nesta geração (contexto_manual.json ausente ou vazio).</div>
+    <div class="fator-card">
+      <div class="fator-titulo">💵 Dólar</div>
+      <div class="fator-texto">PTAX de venda do BCB em R$ 5,1945 (referência 02/07/2026, com defasagem de publicação de 1 dia útil). Mercado à vista negociava entre R$ 5,1591 e R$ 5,2148 em 03/07/2026, segundo dados de mercado (Investing.com). Dólar em alta recente tem dado sustentação aos preços internos de soja e milho.</div>
+    </div>
+    <div class="fator-card">
+      <div class="fator-titulo">🌦️ Clima</div>
+      <div class="fator-texto">INMET eleva para 79–82% a probabilidade de formação de El Niño entre jun-jul-ago/2026, em transição da neutralidade atual no Pacífico. Previsão de julho: chuvas acima da média no Sul (favorecem trigo e demais culturas de inverno, mas elevam risco de doenças fúngicas por excesso de umidade) e também acima da média em Sudeste/Centro-Oeste, com temperaturas elevadas. Chuvas fora de época no cinturão cafeeiro seguem atrasando a colheita 2026/27 e comprometendo a secagem/qualidade dos grãos.</div>
+    </div>
+    <div class="fator-card">
+      <div class="fator-titulo">🌐 Geopolítica</div>
+      <div class="fator-texto">Trégua no 'tarifaço' EUA-China (assinada em outubro/2025) prevê compras chinesas de 25 milhões de t/ano de soja americana entre 2026-2028, o que pode pressionar o prêmio da soja brasileira no 2º semestre de 2026. Brasil importa ~85% dos fertilizantes que consome (22% dos nitrogenados vindos da Rússia em 2025) — qualquer escalada do conflito na Ucrânia afeta diretamente o custo de produção da soja. Regulamento europeu antidesmatamento (EUDR) mantém calendário de exigências para soja, café e carne bovina exportados ao bloco.</div>
+    </div>
+    <div class="fator-card">
+      <div class="fator-titulo">⚖️ Oferta e Demanda</div>
+      <div class="fator-texto">Açúcar: monções na Índia (2º maior produtor mundial) com chuvas 42% abaixo da média até 29/06, sustentando altas nas bolsas de Nova York e Londres por 4 pregões seguidos. Café: chuvas atrasando colheita/beneficiamento no Brasil elevaram o arábica para acima de US$ 3,00/lb em Nova York (01/07), com recuo técnico em seguida. Trigo: CEPEA reporta preço em baixa desestimulando produtor brasileiro, com dependência de importações. Feijão: índice CEPEA/CNA mostra preços do carioca em queda generalizada nas praças acompanhadas em julho, após forte valorização no 1º semestre por quebras de safra.</div>
     </div>
   </div>
 
@@ -315,10 +327,11 @@
   </p>
   <div class="insights-grid">
     
-    <div class="insight-card nd">
-      <div class="insight-tipo">— Dado Indisponível — 🌱 Soja</div>
-      <div class="insight-texto">Não foi possível obter cotação do Soja nesta geração.
-        Acesse cepea.org.br para dados atualizados.</div>
+    <div class="insight-card atencao">
+      <div class="insight-tipo">≈ Estável — 🌱 Soja</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 134,32</strong>
+        (variação não disponível).
+        Fonte: Última cotação confirmada: CEPEA/ESALQ Paranaguá, 01/07/2026 — R$ 134,32/sc (+0,55% no dia, fonte: Canal Rural/Notícias Agrícolas). Coleta automatizada não obteve atualização confirmada para 02/07 e 03/07/2026; valor de 01/07 mantido como última referência disponível..</div>
     </div>
     <div class="insight-card alerta">
       <div class="insight-tipo">▼ Baixa — ☕ Café Arábica</div>
@@ -326,11 +339,9 @@
         (▼ -0,53% vs. dia anterior).
         Fonte: Notícias Agrícolas (agrobr/fallback).</div>
     </div>
-    <div class="insight-card alerta">
-      <div class="insight-tipo">▼ Baixa — 🌾 Trigo</div>
-      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 1.324,66</strong>
-        (▼ -2,90% vs. dia anterior).
-        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
+    <div class="insight-card nd">
+      <div class="insight-tipo">— Dado Indisponível — 🌾 Trigo</div>
+      <div class="insight-texto">Dado não disponível (3º dia consecutivo): a coleta automatizada retornou R$ 1.324,66, um salto de ~16x incompatível com a série CEPEA/ESALQ Paraná em R$/saca (R$ 82,16/sc em 26/06). Confirmado via CEPEA (cepea.org.br, matéria "Preços seguem em alta com oferta restrita e atenção ao clima no Sul") e reportagens setoriais que o indicador de trigo no Paraná é divulgado pela própria CEPEA em R$/tonelada (~R$ 1.350-1.361/t nesta semana) — o valor bruto da coleta corresponde a essa métrica, não a R$/saca 60kg. Tratado como não disponível por precaução, sem conversão não auditada. Última referência confiável em R$/sc: R$ 82,16 (26/06/2026, CEPEA/ESALQ Paraná).</div>
     </div>
     <div class="insight-card">
       <div class="insight-tipo">▲ Alta — 🍬 Açúcar Cristal</div>
@@ -363,21 +374,47 @@
   <div class="section-title"><span class="icon">📰</span> Notícias Relevantes (Últimos 2 Dias)</div>
   <div class="noticias-grid">
     
-    <div class="noticia-card nd">
-      <div class="noticia-titulo">— Sem notícias —</div>
-      <div class="noticia-texto">Nenhuma notícia fornecida nesta geração (contexto_manual.json ausente ou vazio).</div>
+    <div class="noticia-card">
+      <div class="noticia-titulo">Chuvas travam colheita no Brasil e café dispara mais de 1.700 pontos em Nova York</div>
+      <div class="noticia-texto">Contratos de café arábica para setembro/2026 fecharam a 309,90 centavos de dólar/libra-peso (+4,5%) em 01/07/2026, superando a marca de US$ 3,00/lb pela primeira vez no período, com chuvas sobre o cinturão cafeeiro comprometendo colheita e qualidade dos grãos.</div>
+      <div class="noticia-fonte">Fonte: <a href="https://www.noticiasagricolas.com.br/noticias/cafe/423855-chuvas-travam-colheita-no-brasil-e-cafe-dispara-mais-de-1-700-pontos-em-nova-york.html" target="_blank" rel="noopener">Notícias Agrícolas</a> · 01/07/2026</div>
+    </div>
+    <div class="noticia-card">
+      <div class="noticia-titulo">Após sequência de altas, café arábica recua em Nova York</div>
+      <div class="noticia-texto">Depois da forte valorização do início da semana, o arábica em Nova York cedeu em pregão seguinte, movimento técnico após recorde recente; robusta encerrou a sessão em alta.</div>
+      <div class="noticia-fonte">Fonte: <a href="https://www.noticiasagricolas.com.br/noticias/cafe/424079-apos-sequencia-de-altas-cafe-arabica-recua-em-nova-york-e-robusta-encerra-sessao-em-alta.html" target="_blank" rel="noopener">Notícias Agrícolas</a> · 02/07/2026</div>
+    </div>
+    <div class="noticia-card">
+      <div class="noticia-titulo">Açúcar fecha em alta pelo quarto pregão seguido; Nova Iorque atinge maior nível em seis semanas</div>
+      <div class="noticia-texto">Contrato julho do açúcar bruto fechou a 14,34 cents/lb em Nova York e o contrato agosto do açúcar branco avançou 100 pontos em Londres (US$ 474,60/t), sustentados pelo déficit de chuvas de monção na Índia (-42% até 29/06) e produção 2% menor no Centro-Sul do Brasil até maio, segundo a Unica.</div>
+      <div class="noticia-fonte">Fonte: <a href="https://www.noticiasagricolas.com.br/noticias/sucroenergetico/423888-acucar-fecha-em-alta-pelo-quarto-pregao-seguido-nova-iorque-atinge-maior-nivel-em-seis-semanas.html" target="_blank" rel="noopener">Notícias Agrícolas</a> · 30/06/2026</div>
+    </div>
+    <div class="noticia-card">
+      <div class="noticia-titulo">Açúcar fecha sem direção única após forte valorização; petróleo limita avanço em Nova Iorque</div>
+      <div class="noticia-texto">Após a sequência de altas, o açúcar operou sem direção única, com queda do petróleo reduzindo o apelo do etanol como alternativa e limitando o avanço adicional dos preços.</div>
+      <div class="noticia-fonte">Fonte: <a href="https://www.noticiasagricolas.com.br/noticias/sucroenergetico/424074-acucar-fecha-sem-direcao-unica-apos-forte-valorizacao-petroleo-limita-avanco-em-nova-iorque.html" target="_blank" rel="noopener">Notícias Agrícolas</a> · 02/07/2026</div>
+    </div>
+    <div class="noticia-card">
+      <div class="noticia-titulo">Soja ganha força em 1º de julho com alta do dólar</div>
+      <div class="noticia-texto">Valorização do dólar e alta dos futuros de Chicago (agosto +0,80%) deram sustentação aos preços da soja no Brasil na virada do mês; mercado atento à expectativa de retomada das compras chinesas nos EUA e a dados do USDA sobre área plantada (85,4 milhões de acres, +5% ante 2025).</div>
+      <div class="noticia-fonte">Fonte: <a href="https://www.canalrural.com.br/agricultura/projeto-soja-brasil/soja-ganha-forca-em-1o-de-julho-com-alta-do-dolar-veja-como-ficaram-os-precos-na-virada-do-mes/" target="_blank" rel="noopener">Canal Rural</a> · 01/07/2026</div>
+    </div>
+    <div class="noticia-card">
+      <div class="noticia-titulo">TRIGO/CEPEA: Preços seguem em alta com oferta restrita e atenção ao clima no Sul</div>
+      <div class="noticia-texto">Indicador do trigo no Paraná (medido pela CEPEA em R$/tonelada) superou R$ 1.350/t, com produtores retendo o cereal em meio à expectativa de safra menor e incerteza climática associada à confirmação de tendência de El Niño no 2º semestre.</div>
+      <div class="noticia-fonte">Fonte: <a href="https://cepea.org.br/br/diarias-de-mercado/trigo-cepea-precos-seguem-em-alta-com-oferta-restrita-e-atencao-ao-clima-no-sul.aspx" target="_blank" rel="noopener">CEPEA/ESALQ</a> · julho/2026</div>
     </div>
   </div>
 
   <div class="section-title"><span class="icon">📋</span> Metodologia & Fontes</div>
   <div class="metodologia">
-    <strong>Geração automática:</strong> Dashboard gerado via script Python (agrobr) em 03/07/2026 às 08:41 BRT.
+    <strong>Geração automática:</strong> Dashboard gerado via script Python (agrobr) em 03/07/2026 às 10:15 BRT.
     O agrobr busca dados em CEPEA/ESALQ (fonte primária) com fallback para Notícias Agrícolas quando CEPEA retorna erro.<br><br>
 
-    <strong>Confirmados (Trigo, Café, Açúcar, Arroz):</strong>
+    <strong>Confirmados (Soja, Café, Açúcar, Arroz):</strong>
     Indicadores CEPEA/ESALQ obtidos via tabela oficial e parsing via agrobr.<br><br>
 
-    <strong>Não disponíveis (Soja, Feijão):</strong>
+    <strong>Não disponíveis (Trigo, Feijão):</strong>
     Feijão carioca não está na lista de produtos suportados pelo agrobr.
     Demais N/D: CEPEA retornou erro na coleta.<br><br>
 
@@ -397,15 +434,15 @@
 </div>
 
 <footer>
-  Dashboard de Commodities Agrícolas © 2026 — Gerado automaticamente às 08:41 BRT · 03/07/2026 (Sexta-feira) · Dados: CEPEA/ESALQ via agrobr
+  Dashboard de Commodities Agrícolas © 2026 — Gerado automaticamente às 10:15 BRT · 03/07/2026 (Sexta-feira) · Dados: CEPEA/ESALQ via agrobr
 </footer>
 
 <script>
 const LABELS = ["15/06", "16/06", "17/06", "18/06", "19/06", "22/06", "23/06", "24/06", "25/06", "26/06", "29/06", "30/06", "01/07", "02/07", "03/07"];
-const SOJA   = [129.24, 132.26, 131.07, 133.39, 132.84, 142.94, 142.94, 126.9, 126.9, 134.15, 134.15, 134.15, null, null, null];
+const SOJA   = [129.24, 132.26, 131.07, 133.39, 132.84, 142.94, 142.94, 126.9, 126.9, 134.15, 134.15, 134.15, null, null, 134.32];
 const CAFE   = [null, 1474.18, null, null, null, 1474.18, 1474.18, 1474.18, 1474.18, 1474.18, 1474.18, 1517.04, 1578.69, 1665.59, 1656.79];
 const ACUCAR = [null, null, null, null, 91.46, 93.24, 93.24, 91.46, 91.46, 91.46, 91.46, 91.46, 91.27, 91.29, 92.23];
-const TRIGO  = [null, null, null, null, null, 70.94, 70.94, 82.64, 82.64, 82.16, 82.16, 82.16, null, null, 1324.66];
+const TRIGO  = [null, null, null, null, null, 70.94, 70.94, 82.64, 82.64, 82.16, 82.16, 82.16, null, null, null];
 const ARROZ  = [null, null, null, null, null, 72.66, 72.66, 72.66, 72.66, 72.66, 72.66, 63.0, 60.23, 60.33, 60.31];
 
 function makeChart(id, label, color, data) {

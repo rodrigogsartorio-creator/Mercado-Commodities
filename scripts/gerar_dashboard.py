@@ -451,8 +451,10 @@ def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str, contexto:
         fonte = c.get("fonte", "")
         badge = _status_badge(status)
         if val is None:
+            motivo = fonte if fonte and fonte not in ("agrobr/cepea", "") else \
+                "Indicador CEPEA inacessível nesta geração. Acesse: cepea.org.br"
             return _card(nome, emoji, "—", unidade_short, "nd", "nd", "— —", badge,
-                         f"Indicador CEPEA inacessível nesta geração. Acesse: cepea.org.br",
+                         motivo,
                          f"Fonte primária indisponível · {dt.strftime('%d/%m/%Y')}", nd=True)
         cls, txt_var = _fmt_var(var)
         return _card(nome, emoji, f"R$ {_fmt_brl(val)}", unidade_short,
@@ -513,11 +515,13 @@ def generate_html(cotacoes: dict, historico: dict, data_hoje_str: str, contexto:
         val = c.get("valor")
         var = c.get("var_pct")
         if val is None:
+            fonte = c.get("fonte", "")
+            motivo = fonte if fonte and fonte not in ("agrobr/cepea", "") else \
+                f"Não foi possível obter cotação do {nome} nesta geração. Acesse cepea.org.br para dados atualizados."
             return f"""
     <div class="insight-card nd">
       <div class="insight-tipo">— Dado Indisponível — {emoji} {nome}</div>
-      <div class="insight-texto">Não foi possível obter cotação do {nome} nesta geração.
-        Acesse cepea.org.br para dados atualizados.</div>
+      <div class="insight-texto">{motivo}</div>
     </div>"""
         cls_map = {"alta": "insight-card", "baixa": "insight-card alerta", "estavel": "insight-card atencao"}
         cls_card, txt_var = _fmt_var(var)
