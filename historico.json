@@ -350,9 +350,8 @@
     },
     {
       "data": "2026-07-03",
-      "soja": null,
-      "trigo": 1324.66,
-      "trigo_var_dia": -2.9,
+      "soja": 134.32,
+      "trigo": null,
       "cafe_arabica": 1656.79,
       "cafe_arabica_var_dia": -0.53,
       "acucar_cristal": 92.23,
@@ -363,14 +362,16 @@
       "dolar": 5.1945,
       "dolar_fonte": "BCB PTAX venda (2026-07-02)",
       "status": {
-        "soja": "nao_disponivel",
-        "trigo": "referenciado_noticias_agricolas",
+        "soja": "ultimo_disponivel_01jul_cepea",
+        "trigo": "nao_disponivel_3dias_erro_unidade",
         "cafe_arabica": "referenciado_noticias_agricolas",
         "acucar_cristal": "referenciado_noticias_agricolas",
         "feijao_carioca": "nao_disponivel",
         "arroz": "referenciado_noticias_agricolas",
         "dolar": "bcb_ptax"
-      }
+      },
+      "trigo_nota": "Dado não disponível (3º dia consecutivo): a coleta automatizada retornou R$ 1.324,66, um salto de ~16x incompatível com a série CEPEA/ESALQ Paraná em R$/saca (R$ 82,16/sc em 26/06). Confirmado via CEPEA (cepea.org.br, matéria \"Preços seguem em alta com oferta restrita e atenção ao clima no Sul\") e reportagens setoriais que o indicador de trigo no Paraná é divulgado pela própria CEPEA em R$/tonelada (~R$ 1.350-1.361/t nesta semana) — o valor bruto da coleta corresponde a essa métrica, não a R$/saca 60kg. Tratado como não disponível por precaução, sem conversão não auditada. Última referência confiável em R$/sc: R$ 82,16 (26/06/2026, CEPEA/ESALQ Paraná).",
+      "soja_nota": "Última cotação confirmada: CEPEA/ESALQ Paranaguá, 01/07/2026 — R$ 134,32/sc (+0,55% no dia, fonte: Canal Rural/Notícias Agrícolas). Coleta automatizada não obteve atualização confirmada para 02/07 e 03/07/2026; valor de 01/07 mantido como última referência disponível."
     }
   ]
 }
