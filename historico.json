@@ -1,6 +1,6 @@
 {
   "descricao": "Histórico de cotações de commodities agrícolas — Dashboard Mercado Commodities",
-  "atualizacao": "2026-07-08",
+  "atualizacao": "2026-07-09",
   "nota_historico": "Histórico em formação (início 15/06/2026; 14 registros até 02/07/2026). Pipeline automatizado (GitHub Actions + agrobr) fornece soja/trigo/café/açúcar/arroz via CEPEA/ESALQ com fallback Notícias Agrícolas; feijão carioca não é suportado pelo agrobr (sempre N/D). Soja: sem cotação confirmada em 01–02/07/2026 (falha na coleta automatizada); última confirmada R$ 134,15/sc (30/06/2026). Trigo: valores brutos de 01–02/07/2026 (R$ 1.329,48 e R$ 1.316,87) apresentaram inconsistência de unidade (~16x acima da série histórica, compatível com R$/tonelada não convertido) e foram marcados como não disponíveis por precaução; última referência confiável R$ 82,16/sc (30/06/2026). Café: alta consistente confirmada pela coleta automatizada (R$ 1.517,04 em 30/06 → R$ 1.578,69 em 01/07 → R$ 1.665,59 em 02/07, +5,50% no dia), corroborada por pesquisa externa: ICE Nova York (contrato set/26) +4,5% em 01/07/2026, puxado por chuvas atrasando a colheita no Brasil (Cooxupé em 24,9% da área até 28/06, maior atraso desde 2018). Açúcar: R$ 91,29/sc 50kg (02/07), estável; açúcar em Londres no maior nível em 9 meses (29/06) por safra da Índia mais restrita, ainda sem repasse pleno ao indicador doméstico. Arroz: queda de R$ 72,66 (29/06) para ~R$ 60/sc 50kg (30/06–02/07), consistente com 1º levantamento CONAB da safra 2026/27 apontando oferta abundante. Dólar 02/07: BCB PTAX R$ 5,1950 (ref. 01/07, oficial) e Forbes Brasil R$ 5,2102 (+0,92%, fechamento 02/07) — ambos registrados. Plano Safra 2026/2027 (R$ 525,1 bi) lançado em 30/06/2026. Fatores externos e notícias detalhados em contexto_manual.json.",
   "unidades": {
     "soja": "R$/saca 60kg (CIF Paranaguá — CEPEA/ESALQ)",
@@ -435,6 +435,30 @@
       "arroz_var_dia": 1.53,
       "dolar": 5.1458,
       "dolar_fonte": "BCB PTAX venda (2026-07-07)",
+      "status": {
+        "soja": "nao_disponivel",
+        "trigo": "referenciado_noticias_agricolas",
+        "cafe_arabica": "referenciado_noticias_agricolas",
+        "acucar_cristal": "referenciado_noticias_agricolas",
+        "feijao_carioca": "nao_disponivel",
+        "arroz": "referenciado_noticias_agricolas",
+        "dolar": "bcb_ptax"
+      }
+    },
+    {
+      "data": "2026-07-09",
+      "soja": null,
+      "trigo": 1312.48,
+      "trigo_var_dia": -4.46,
+      "cafe_arabica": 1712.39,
+      "cafe_arabica_var_dia": -1.46,
+      "acucar_cristal": 92.21,
+      "acucar_cristal_var_dia": -1.77,
+      "feijao_carioca": null,
+      "arroz": 61.76,
+      "arroz_var_dia": 0.28,
+      "dolar": 5.1552,
+      "dolar_fonte": "BCB PTAX venda (2026-07-08)",
       "status": {
         "soja": "nao_disponivel",
         "trigo": "referenciado_noticias_agricolas",
