@@ -712,19 +712,19 @@
     },
     {
       "data": "2026-10-15",
-      "soja": 154.29,
-      "soja_var_dia": 0.09,
-      "trigo": 1465.74,
-      "trigo_var_dia": -6.66,
-      "cafe_arabica": 1571.19,
-      "cafe_arabica_var_dia": 1.55,
-      "acucar_cristal": 123.94,
-      "acucar_cristal_var_dia": 0.13,
+      "soja": 154.7,
+      "soja_var_dia": 0.27,
+      "trigo": 1459.99,
+      "trigo_var_dia": -7.25,
+      "cafe_arabica": 1577.21,
+      "cafe_arabica_var_dia": 0.38,
+      "acucar_cristal": 124.68,
+      "acucar_cristal_var_dia": 0.6,
       "feijao_carioca": null,
-      "arroz": 81.85,
-      "arroz_var_dia": -0.44,
-      "dolar": null,
-      "dolar_fonte": "indisponível",
+      "arroz": 81.91,
+      "arroz_var_dia": 0.07,
+      "dolar": 5.0521,
+      "dolar_fonte": "BCB PTAX venda (2026-10-15 00:00:00)",
       "status": {
         "soja": "referenciado_noticias_agricolas",
         "trigo": "referenciado_noticias_agricolas",
@@ -732,7 +732,7 @@
         "acucar_cristal": "referenciado_noticias_agricolas",
         "feijao_carioca": "nao_disponivel",
         "arroz": "referenciado_noticias_agricolas",
-        "dolar": "nao_disponivel"
+        "dolar": "bcb_ptax"
       }
     }
   ]
