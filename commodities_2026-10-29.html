@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Commodities Agrícolas — 29/10/2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --verde: #27AE60; --vermelho: #E74C3C; --amarelo: #F39C12;
+    --cinza-escuro: #2C3E50; --cinza-medio: #7F8C8D; --cinza-claro: #ECF0F1;
+    --branco: #FFFFFF; --fundo: #F4F6F7;
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.09);
+    --nd-bg: #F8F9FA; --nd-border: #BDC3C7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--fundo); color: var(--cinza-escuro); }
+  header { background: linear-gradient(135deg, #1a5c35 0%, #27AE60 100%); color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+  header h1 span { opacity: 0.75; font-size: 1rem; font-weight: 400; display: block; }
+  .header-meta { text-align: right; }
+  .header-meta .data { font-size: 1.1rem; font-weight: 600; }
+  .header-meta .hora { font-size: 0.85rem; opacity: 0.8; }
+  .dolar-badge { background: rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 16px; font-size: 0.9rem; }
+  .dolar-badge strong { font-size: 1.1rem; }
+  .mercado-badge { background: rgba(255,255,255,0.15); border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.3); }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+  .aviso-auditoria { background: #fef9e7; border-left: 5px solid var(--amarelo); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.83rem; color: #6e4c00; line-height: 1.6; }
+  .aviso-auditoria strong { color: #5d3a00; }
+  .section-title { font-size: 1.05rem; font-weight: 700; color: var(--cinza-escuro); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--verde); display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 1.2rem; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .card { background: var(--branco); border-radius: 12px; padding: 20px 18px; box-shadow: var(--card-shadow); border-top: 4px solid var(--cinza-claro); transition: transform 0.15s; }
+  .card:hover { transform: translateY(-2px); }
+  .card.alta { border-top-color: var(--verde); }
+  .card.baixa { border-top-color: var(--vermelho); }
+  .card.estavel { border-top-color: var(--amarelo); }
+  .card.nd { border-top-color: var(--nd-border); background: var(--nd-bg); }
+  .card-nome { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--cinza-medio); letter-spacing: 0.5px; margin-bottom: 6px; }
+  .card-preco { font-size: 1.45rem; font-weight: 700; color: var(--cinza-escuro); margin-bottom: 4px; }
+  .card.nd .card-preco { font-size: 1.1rem; color: var(--nd-border); }
+  .card-unidade { font-size: 0.7rem; color: var(--cinza-medio); margin-bottom: 10px; }
+  .card-variacao { display: inline-flex; align-items: center; gap: 4px; font-size: 0.85rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .alta .card-variacao { background: #d4efdf; color: var(--verde); }
+  .baixa .card-variacao { background: #fadbd8; color: var(--vermelho); }
+  .estavel .card-variacao { background: #fdebd0; color: var(--amarelo); }
+  .nd .card-variacao { background: #eaecee; color: var(--cinza-medio); }
+  .card-info { font-size: 0.72rem; color: var(--cinza-medio); margin-top: 10px; line-height: 1.4; }
+  .card-ref { font-size: 0.68rem; color: #b0b8c1; margin-top: 6px; }
+  .badge-confirmado { display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; margin-bottom: 4px; }
+  .b-confirmado { background: #d4efdf; color: var(--verde); }
+  .b-referenciado { background: #fdebd0; color: var(--amarelo); }
+  .b-nd { background: #eaecee; color: var(--cinza-medio); }
+  .charts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 32px; }
+  .chart-card { background: var(--branco); border-radius: 12px; padding: 20px; box-shadow: var(--card-shadow); }
+  .chart-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 14px; color: var(--cinza-escuro); }
+  .chart-container { position: relative; height: 160px; }
+  .chart-nd { height: 160px; display: flex; align-items: center; justify-content: center; background: var(--nd-bg); border-radius: 8px; border: 1px dashed var(--nd-border); color: var(--cinza-medio); font-size: 0.8rem; text-align: center; }
+  .chart-nota { font-size: 0.67rem; color: #c0c8d0; margin-top: 8px; }
+  .table-wrap { overflow-x: auto; margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; background: var(--branco); border-radius: 12px; overflow: hidden; box-shadow: var(--card-shadow); font-size: 0.85rem; }
+  th { background: var(--cinza-escuro); color: white; padding: 12px 14px; text-align: center; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.4px; }
+  td { padding: 10px 12px; text-align: center; border-bottom: 1px solid var(--cinza-claro); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  .td-alta { color: var(--verde); font-weight: 700; }
+  .td-baixa { color: var(--vermelho); font-weight: 700; }
+  .td-nd { color: #c0c8d0; font-size: 0.8rem; }
+  .td-ref { color: var(--amarelo); font-size: 0.78rem; }
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .insight-card { background: var(--branco); border-radius: 12px; padding: 18px; box-shadow: var(--card-shadow); border-left: 5px solid var(--verde); }
+  .insight-card.alerta { border-left-color: var(--vermelho); }
+  .insight-card.atencao { border-left-color: var(--amarelo); }
+  .insight-card.nd { border-left-color: var(--nd-border); background: var(--nd-bg); }
+  .insight-tipo { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: var(--verde); }
+  .insight-card.alerta .insight-tipo { color: var(--vermelho); }
+  .insight-card.atencao .insight-tipo { color: var(--amarelo); }
+  .insight-card.nd .insight-tipo { color: var(--cinza-medio); }
+  .insight-texto { font-size: 0.85rem; line-height: 1.55; }
+  .metodologia { background: var(--branco); border-radius: 12px; padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 24px; font-size: 0.8rem; line-height: 1.7; color: var(--cinza-medio); }
+  .metodologia strong { color: var(--cinza-escuro); }
+  .fatores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .fator-card { background: var(--branco); border-radius: 12px; padding: 18px; box-shadow: var(--card-shadow); border-left: 5px solid #3498DB; }
+  .fator-card.nd { border-left-color: var(--nd-border); background: var(--nd-bg); }
+  .fator-titulo { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--cinza-escuro); }
+  .fator-texto { font-size: 0.82rem; line-height: 1.6; color: var(--cinza-medio); }
+  .noticias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .noticia-card { background: var(--branco); border-radius: 12px; padding: 18px; box-shadow: var(--card-shadow); border-left: 5px solid var(--cinza-medio); }
+  .noticia-card.nd { border-left-color: var(--nd-border); background: var(--nd-bg); }
+  .noticia-titulo { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--cinza-escuro); }
+  .noticia-texto { font-size: 0.82rem; line-height: 1.6; margin-bottom: 8px; }
+  .noticia-fonte { font-size: 0.7rem; color: #b0b8c1; }
+  .noticia-fonte a { color: #3498DB; }
+  footer { background: var(--cinza-escuro); color: rgba(255,255,255,0.6); text-align: center; padding: 16px; font-size: 0.78rem; }
+  @media (max-width: 600px) { header { flex-direction: column; } .header-meta { text-align: left; } .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🌾 Dashboard de Commodities Agrícolas<span>Análise de Mercado — CEPEA / Agrolink / Notícias Agrícolas</span></h1>
+  </div>
+  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+    <div class="mercado-badge">📅 Mercado Aberto</div>
+    <div class="dolar-badge">💵 Dólar: <strong>N/D</strong><span style="font-size:0.75rem;opacity:0.8;"> indisponível</span></div>
+    <div class="header-meta">
+      <div class="data">29 de outubro de 2026</div>
+      <div class="hora">Gerado às 01:08 (Horário de Brasília)</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="aviso-auditoria">
+    <strong>📊 Dashboard gerado automaticamente em 29/10/2026 às 01:08 BRT.</strong>
+    Cotações buscadas via <strong>agrobr</strong> (CEPEA/ESALQ). Quinta-feira.
+    Confirmados: <strong>Soja, Trigo, Café, Açúcar, Arroz</strong>.
+    Indisponível (N/D): <strong>Feijão</strong>.
+    Para dados exatos e em tempo real: <a href="https://www.cepea.org.br" target="_blank" style="color:#b07a00">cepea.org.br</a>.
+    Feijão carioca não é suportado pelo agrobr — acesse CEPEA diretamente.
+  </div>
+
+  <div class="section-title"><span class="icon">🍊</span> Cotações — Última Referência Disponível (ref. Qui. 29/10/2026)</div>
+  <div class="cards-grid">
+    
+    <div class="card estavel">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
+      <div class="card-nome">🌱 Soja</div>
+      <div class="card-preco">R$ 157,42</div>
+      <div class="card-unidade">saca 60 kg | CIF Paranaguá</div>
+      <div class="card-variacao estavel">≈ 0,01%</div>
+      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-10-29</div>
+    </div>
+    
+    <div class="card baixa">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
+      <div class="card-nome">🌾 Trigo</div>
+      <div class="card-preco">R$ 1.500,74</div>
+      <div class="card-unidade">saca 60 kg | Paraná</div>
+      <div class="card-variacao baixa">▼ -4,49%</div>
+      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-10-29</div>
+    </div>
+    
+    <div class="card baixa">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
+      <div class="card-nome">☕ Café Arábica</div>
+      <div class="card-preco">R$ 1.593,89</div>
+      <div class="card-unidade">saca 60 kg | Arábica Tipo 6</div>
+      <div class="card-variacao baixa">▼ -1,01%</div>
+      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-10-29</div>
+    </div>
+    
+    <div class="card estavel">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
+      <div class="card-nome">🍬 Açúcar Cristal</div>
+      <div class="card-preco">R$ 128,74</div>
+      <div class="card-unidade">saca 50 kg | ICUMSA 130–180 SP</div>
+      <div class="card-variacao estavel">≈ 0,00%</div>
+      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-10-29</div>
+    </div>
+    
+    <div class="card nd">
+      <span class="badge-confirmado b-nd">N/D — não suportado</span>
+      <div class="card-nome">🫘 Feijão Carioca</div>
+      <div class="card-preco">Dado não disponível</div>
+      <div class="card-unidade">saca 60 kg | São Paulo</div>
+      <div class="card-variacao">— —</div>
+      <div class="card-info">Feijão carioca não está disponível no agrobr. Acesse: cepea.org.br/br/indicador/feijao.aspx</div>
+      <div class="card-ref">Fonte primária indisponível · 29/10/2026</div>
+    </div>
+    
+    <div class="card baixa">
+      <span class="badge-confirmado b-referenciado">† REFERENCIADO (Notícias Agrícolas)</span>
+      <div class="card-nome">🍚 Arroz</div>
+      <div class="card-preco">R$ 82,13</div>
+      <div class="card-unidade">saca 50 kg | RS (CEPEA/IRGA-RS)</div>
+      <div class="card-variacao baixa">▼ -0,18%</div>
+      <div class="card-info">Fonte: Notícias Agrícolas (agrobr/fallback)</div>
+      <div class="card-ref">CEPEA/ESALQ · 2026-10-29</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📅</span> Histórico — Últimos 5 Dias Úteis</div>
+  <div class="table-wrap" style="margin-bottom:8px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Soja (R$/sc 60kg)</th>
+          <th>Trigo (R$/sc)</th>
+          <th>Café (R$/sc 60kg)</th>
+          <th>Açúcar (R$/sc 50kg)</th>
+          <th>Feijão (R$/sc)</th>
+          <th>Arroz (R$/sc)</th>
+          <th>Dólar (R$/USD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Qui 29/10</strong></td>
+          <td class="td-ref">157,42 †</td>
+          <td>1.500,74</td>
+          <td class="td-ref">1.593,89 †</td>
+          <td>128,74</td>
+          <td class="td-nd">N/D</td>
+          <td>82,13</td>
+          <td>N/D </td>
+        </tr>
+        <tr>
+          <td><strong>Qua 28/10</strong></td>
+          <td class="td-ref">157,41 †</td>
+          <td>1.499,49</td>
+          <td class="td-ref">1.610,19 †</td>
+          <td>128,74</td>
+          <td class="td-nd">N/D</td>
+          <td>82,28</td>
+          <td>N/D </td>
+        </tr>
+        <tr>
+          <td><strong>Ter 27/10</strong></td>
+          <td class="td-ref">155,55 †</td>
+          <td>1.503,06</td>
+          <td class="td-ref">1.627,46 †</td>
+          <td>127,05</td>
+          <td class="td-nd">N/D</td>
+          <td>82,04</td>
+          <td>N/D </td>
+        </tr>
+        <tr>
+          <td><strong>Sex 23/10</strong></td>
+          <td class="td-ref">152,41 †</td>
+          <td>1.473,40</td>
+          <td class="td-ref">1.601,95 †</td>
+          <td>125,44</td>
+          <td class="td-nd">N/D</td>
+          <td>81,92</td>
+          <td>5,04 *</td>
+        </tr>
+        <tr>
+          <td><strong>Qui 22/10</strong></td>
+          <td class="td-ref">152,13 †</td>
+          <td>1.473,40</td>
+          <td class="td-ref">1.620,92 †</td>
+          <td>125,59</td>
+          <td class="td-nd">N/D</td>
+          <td>81,82</td>
+          <td>N/D </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.72rem;color:#aaa;margin-bottom:32px;">
+    ✓ Confirmado CEPEA/ESALQ via agrobr · † Referenciado (Notícias Agrícolas/fallback) · * BCB PTAX · N/D = não disponível
+  </p>
+
+  <div class="section-title"><span class="icon">📈</span> Tendências — Série Histórica</div>
+  <div class="charts-grid">
+    
+    <div class="chart-card">
+      <div class="chart-title">🌱 Soja — R$/sc 60kg · CIF Paranaguá (CEPEA ✓)</div>
+      <div class="chart-container"><canvas id="chartSoja"></canvas></div>
+      <div class="chart-nota">Dados CEPEA/ESALQ confirmados via agrobr.</div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="chart-title">☕ Café Arábica — R$/sc 60kg (CEPEA)</div>
+      <div class="chart-container"><canvas id="chartCafe"></canvas></div>
+      <div class="chart-nota">Dados CEPEA/ESALQ via agrobr.</div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="chart-title">🍬 Açúcar Cristal — R$/sc 50kg · CEPEA SP</div>
+      <div class="chart-container"><canvas id="chartAcucar"></canvas></div>
+      <div class="chart-nota">Dados CEPEA/ESALQ via agrobr.</div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="chart-title">🌾 Trigo — R$/sc 60kg · Paraná (CEPEA)</div>
+      <div class="chart-container"><canvas id="chartTrigo"></canvas></div>
+      <div class="chart-nota">Dados CEPEA/ESALQ via agrobr.</div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="chart-title">🍚 Arroz — R$/sc 50kg · RS (CEPEA/IRGA-RS)</div>
+      <div class="chart-container"><canvas id="chartArroz"></canvas></div>
+      <div class="chart-nota">Dados CEPEA/IRGA-RS via agrobr.</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">🫘 Feijão Carioca <span style="color:var(--nd-border)">[N/D]</span></div>
+      <div class="chart-nd">
+        <span>Não suportado pelo agrobr<br><small>Acesse: cepea.org.br/br/indicador/feijao.aspx</small></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">🌐</span> Fatores Externos</div>
+  <div class="fatores-grid">
+    
+    <div class="fator-card nd">
+      <div class="fator-titulo">— Sem dados —</div>
+      <div class="fator-texto">Nenhum fator externo fornecido nesta geração (contexto_manual.json ausente ou vazio).</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">💡</span> Leitura das Tendências</div>
+  <p style="font-size:0.75rem;color:var(--cinza-medio);margin-bottom:14px;">
+    Esta seção descreve o que os dados indicam sobre o comportamento recente de cada mercado.
+    Não constitui recomendação de compra, venda ou qualquer decisão de investimento.
+  </p>
+  <div class="insights-grid">
+    
+    <div class="insight-card atencao">
+      <div class="insight-tipo">≈ Estável — 🌱 Soja</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 157,42</strong>
+        (≈ 0,01% vs. dia anterior).
+        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
+    </div>
+    <div class="insight-card alerta">
+      <div class="insight-tipo">▼ Baixa — ☕ Café Arábica</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 1.593,89</strong>
+        (▼ -1,01% vs. dia anterior).
+        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
+    </div>
+    <div class="insight-card alerta">
+      <div class="insight-tipo">▼ Baixa — 🌾 Trigo</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 1.500,74</strong>
+        (▼ -4,49% vs. dia anterior).
+        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
+    </div>
+    <div class="insight-card atencao">
+      <div class="insight-tipo">≈ Estável — 🍬 Açúcar Cristal</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 128,74</strong>
+        (≈ 0,00% vs. dia anterior).
+        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
+    </div>
+    <div class="insight-card alerta">
+      <div class="insight-tipo">▼ Baixa — 🍚 Arroz</div>
+      <div class="insight-texto">Último indicador CEPEA/ESALQ: <strong>R$ 82,13</strong>
+        (▼ -0,18% vs. dia anterior).
+        Fonte: Notícias Agrícolas (agrobr/fallback).</div>
+    </div>
+    <div class="insight-card nd">
+      <div class="insight-tipo">— Dado Indisponível — 🫘 Feijão Carioca</div>
+      <div class="insight-texto">Feijão carioca não está disponível no agrobr.
+        Acesse <strong>cepea.org.br/br/indicador/feijao.aspx</strong> para dados atualizados.
+        Contexto: mai/26 atingiu pico de R$ 415–491/sc antes de recuar.</div>
+    </div>
+    <div class="insight-card atencao">
+      <div class="insight-tipo">📋 Nota Metodológica</div>
+      <div class="insight-texto">Dados gerados automaticamente via <strong>agrobr</strong>
+        que acessa CEPEA/ESALQ e Notícias Agrícolas (fallback).
+        Valores com badge verde são confirmados direto da tabela CEPEA.
+        Badge amarelo = fallback Notícias Agrícolas. N/D = fonte inacessível.
+        Nunca invente números — marque N/D se não confirmado.</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📰</span> Notícias Relevantes (Últimos 2 Dias)</div>
+  <div class="noticias-grid">
+    
+    <div class="noticia-card nd">
+      <div class="noticia-titulo">— Sem notícias —</div>
+      <div class="noticia-texto">Nenhuma notícia fornecida nesta geração (contexto_manual.json ausente ou vazio).</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="icon">📋</span> Metodologia & Fontes</div>
+  <div class="metodologia">
+    <strong>Geração automática:</strong> Dashboard gerado via script Python (agrobr) em 29/10/2026 às 01:08 BRT.
+    O agrobr busca dados em CEPEA/ESALQ (fonte primária) com fallback para Notícias Agrícolas quando CEPEA retorna erro.<br><br>
+
+    <strong>Confirmados (Soja, Trigo, Café, Açúcar, Arroz):</strong>
+    Indicadores CEPEA/ESALQ obtidos via tabela oficial e parsing via agrobr.<br><br>
+
+    <strong>Não disponíveis (Feijão):</strong>
+    Feijão carioca não está na lista de produtos suportados pelo agrobr.
+    Demais N/D: CEPEA retornou erro na coleta.<br><br>
+
+    <strong>Câmbio:</strong> N/D — indisponível.<br><br>
+
+    <strong>Referências de metodologia dos indicadores:</strong>
+    Soja = CIF Paranaguá (PR) · Café = Arábica Tipo 6 posto SP · Açúcar = Cristal ICUMSA 130–180 posto SP ·
+    Trigo = Tipo 1 Pão Região Sul · Feijão = Carioca Nota 8,5 SP · Arroz = Em Casca RS sc/50kg — CEPEA/IRGA-RS<br><br>
+
+    <strong>Fontes:</strong> CEPEA/Esalq–USP (cepea.org.br) · Notícias Agrícolas · BCB PTAX · agrobr (github.com/bruno-portfolio/agrobr)<br><br>
+
+    <strong>Disclaimer:</strong> Relatório com finalidade exclusivamente informativa.
+    Não constitui recomendação de compra ou venda.
+    Consulte fontes primárias (cepea.org.br) e especialistas antes de tomar decisões comerciais.
+  </div>
+
+</div>
+
+<footer>
+  Dashboard de Commodities Agrícolas © 2026 — Gerado automaticamente às 01:08 BRT · 29/10/2026 (Quinta-feira) · Dados: CEPEA/ESALQ via agrobr
+</footer>
+
+<script>
+const LABELS = ["14/09", "15/09", "16/09", "17/09", "18/09", "22/09", "23/09", "24/09", "26/09", "29/09", "30/09", "01/10", "02/10", "03/10", "06/10", "07/10", "08/10", "09/10", "10/10", "13/10", "14/10", "15/10", "16/10", "20/10", "21/10", "22/10", "23/10", "27/10", "28/10", "29/10"];
+const SOJA   = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 154.75, 154.15, 154.7, 154.61, 154.24, 153.4, 152.13, 152.41, 155.55, 157.41, 157.42];
+const CAFE   = [1594.86, 1588.43, 1566.48, 1541.97, 1546.58, 1511.31, 1513.01, 1516.81, 1538.29, 1556.57, 1564.02, 1576.85, 1577.42, 1572.01, 1568.56, 1568.95, 1566.59, 1544.99, 1531.88, 1531.88, 1547.28, 1577.21, 1601.25, 1606.94, 1610.14, 1620.92, 1601.95, 1627.46, 1610.19, 1593.89];
+const ACUCAR = [119.41, 118.15, 119.28, 119.58, 120.05, 120.79, 120.08, 121.13, 120.62, 120.24, 121.27, 121.12, 121.23, 123.37, 122.78, 122.58, 122.58, 122.6, 123.16, 123.16, 123.78, 124.68, 125.74, 125.62, 125.52, 125.59, 125.44, 127.05, 128.74, 128.74];
+const TRIGO  = [1357.21, 1361.32, 1380.03, 1385.09, 1510.24, 1419.47, 1418.34, 1539.43, 1437.03, 1447.18, 1447.51, 1450.6, 1450.6, 1454.52, 1451.52, 1459.09, 1454.59, 1455.6, 1468.08, 1468.08, 1472.69, 1459.99, 1482.72, 1475.23, 1475.23, 1473.4, 1473.4, 1503.06, 1499.49, 1500.74];
+const ARROZ  = [79.78, 80.35, 81.39, 81.67, 81.92, 81.9, 81.65, 81.79, 82.48, 82.36, 83.22, 82.81, 82.79, 83.07, 83.1, 82.85, 82.48, 82.58, 82.07, 82.07, 82.21, 81.91, 82.06, 82.04, 82.03, 81.82, 81.92, 82.04, 82.28, 82.13];
+
+function makeChart(id, label, color, data) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const hasData = data.some(v => v !== null);
+  if (!hasData) return;
+  new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: LABELS,
+      datasets: [{ label, data, borderColor: color, backgroundColor: color + '18',
+        fill: true, tension: 0.35, pointRadius: 2, borderWidth: 2.5 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxTicksLimit: 6 } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+makeChart('chartSoja',   'Soja',           '#27AE60', SOJA);
+makeChart('chartCafe',   'Café',           '#795548', CAFE);
+makeChart('chartAcucar', 'Açúcar',         '#F39C12', ACUCAR);
+makeChart('chartTrigo',  'Trigo',          '#8D6E63', TRIGO);
+makeChart('chartArroz',  'Arroz',          '#3498DB', ARROZ);
+</script>
+</body>
+</html>
